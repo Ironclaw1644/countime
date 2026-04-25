@@ -1,0 +1,26 @@
+[
+  {
+    "id": "diesel-therapy",
+    "title": "Diesel Therapy",
+    "category": "Movement & Transfers",
+    "shortDefinition": "Being moved between facilities for days, weeks, or months — sometimes through a chain of buses, planes, and county jail layovers — when a one-day trip would do.",
+    "body": [
+      "Diesel therapy is the slang for a long, drawn-out federal transfer. On paper, the Bureau of Prisons is moving someone from point A to point B. In practice, that move can mean a week or two riding chained on a bus, a stop at the federal transfer hub in Oklahoma City, a layover in a contract county jail, and a flight on the Justice Prisoner and Alien Transportation System — what people inside call \"Con Air.\" A trip that could be done in a single day is stretched into a journey of days or weeks.",
+      "It happens for several reasons. Some are routine: an initial designation to a home institution, a court writ to bring someone back to a sentencing district, a redesignation closer to family, a medical transfer, or a security reclassification. Some aren't routine — extended transit can also be a quieter way to move someone who's been a problem at a facility, without a formal disciplinary referral.",
+      "While in transit, you're effectively offline. Property gets shipped separately and sometimes lost along the way. Commissary access stops. Mail is delayed for weeks because nothing forwards until the new institution receives you. Phone and email accounts are frozen at the old facility and can't be re-established until you arrive somewhere with a permanent bed. Visitors don't know where you are. Lawyers don't know where you are. You don't always know where you are.",
+      "If a transfer is on the horizon, the practical preparation is simple and unglamorous: keep a current power of attorney with someone outside, leave a small reserve of money with that person rather than entirely on the books, photocopy critical legal documents and important addresses, and tell loved ones that a silent stretch of two to six weeks is normal, not alarming."
+    ],
+    "purpose": "Officially: a logistics tool. The federal system has to move tens of thousands of people every year — for sentencing, designation, court appearances, medical care, family-proximity transfers, and security reclassifications — and it does it through a hub-and-spoke network of buses, planes, and contracted county jails. Unofficially: extended transit is also recognized as a soft control measure. The experience is disorienting and disruptive enough to discourage certain behavior on its own, even when nothing is formally classified as discipline.",
+    "related": [],
+    "sources": [
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      },
+      {
+        "label": "U.S. Marshals — Justice Prisoner & Alien Transportation System (JPATS)",
+        "url": "https://www.usmarshals.gov/what-we-do/prisoner-operations/jpats"
+      }
+    ]
+  }
+]

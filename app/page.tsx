@@ -11,14 +11,17 @@ import {
   faShieldHeart,
   faArrowRight,
   faBook,
+  faPalette,
 } from '@fortawesome/free-solid-svg-icons';
-import { getAllFacilities } from '@/lib/facilities';
+import { getAllFacilities, isHoldingFacility } from '@/lib/facilities';
 
 export default function HomePage() {
   const facilities = getAllFacilities();
-  const fpcCount = facilities.length;
+  const totalCount = facilities.length;
   const rdapCount = facilities.filter((f) => f.hasRDAP).length;
   const medCount = facilities.filter((f) => f.isMedical).length;
+  const womensCount = facilities.filter((f) => f.gender === 'FEMALE').length;
+  const holdingCount = facilities.filter(isHoldingFacility).length;
 
   return (
     <>
@@ -44,10 +47,11 @@ export default function HomePage() {
                 data-reveal="3"
                 className="mt-7 max-w-xl text-pretty text-[17px] leading-relaxed text-ink-soft sm:text-lg"
               >
-                Countime is a quiet companion for white-collar offenders and the
-                people who love them. Find every Federal Prison Camp on a map,
-                see which one is likely closest to home, and download the
-                handbook for the facility you need.
+                Countime is a quiet companion for white-collar offenders and
+                the people who love them. Find every federal camp, medical
+                center, and pre-trial holding facility on one map; see which
+                is closest to home; download the handbook for the place you
+                need.
               </p>
 
               <div data-reveal="4" className="mt-9 flex flex-wrap items-center gap-3">
@@ -67,16 +71,24 @@ export default function HomePage() {
               className="rounded-3xl border border-ink/10 bg-cream-50/70 p-6 shadow-paper backdrop-blur"
             >
               <p className="small-caps text-[10px] text-ink-muted">By the numbers</p>
-              <dl className="mt-3 grid grid-cols-3 gap-4 text-center">
-                <Stat value={fpcCount} label="Camps mapped" />
+              <dl className="mt-3 grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
+                <Stat value={totalCount} label="Facilities mapped" />
                 <Stat value={rdapCount} label="Offer RDAP" />
-                <Stat value={medCount} label="Medical" />
+                <Stat value={womensCount} label="Women's" />
+                <Stat value={holdingCount} label="Holding" />
               </dl>
               <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
                 The Bureau of Prisons aims to place inmates within{' '}
                 <strong className="text-ink">500 miles</strong> of home when
-                possible. Enter your ZIP on the map to see who that puts in
-                reach.
+                possible — though almost everyone passes through a holding
+                facility first. Enter your ZIP on the map to see what&rsquo;s
+                in reach.
+              </p>
+              <p className="mt-3 text-[12px] leading-relaxed text-ink-muted">
+                {medCount} medical center{medCount === 1 ? '' : 's'} and{' '}
+                {holdingCount} federal holding facilit
+                {holdingCount === 1 ? 'y' : 'ies'} are mapped alongside the
+                camps.
               </p>
             </aside>
           </div>
@@ -106,20 +118,20 @@ export default function HomePage() {
             <Explainer
               icon={faLocationDot}
               tone="clay"
-              title="Every Federal Prison Camp"
-              body="Marker by marker — standalone camps, satellite camps, and the medical centers that house minimum-custody inmates. Click any of them for the address, phone, and a&nbsp;handbook."
+              title="Every camp, plus where the system holds people in transit"
+              body="Standalone camps, satellite camps, federal medical centers, and the detention centers people pass through pre-trial or on the way to designation. Click any marker for the address, phone, and the handbook."
             />
             <Explainer
               icon={faShieldHeart}
               tone="gold"
               title="A 500-mile reach for each"
-              body="The BOP&rsquo;s designation guideline is to keep families within 500 miles when they can. Hover a camp to see its reach, or enter your ZIP to see which camps are in yours."
+              body="The BOP&rsquo;s designation guideline is to keep families within 500 miles when they can. Hover a camp to see its reach, or enter your ZIP to see which facilities are in&nbsp;yours."
             />
             <Explainer
-              icon={faStethoscope}
+              icon={faPalette}
               tone="teal"
-              title="Medical &amp; RDAP marked clearly"
-              body="Teal markers are Federal Medical Centers and the Medical Center for Federal Prisoners. A gold ring means RDAP — the residential drug program — is offered there."
+              title="Each color tells you what kind"
+              body="<span class='text-clay-deep font-medium'>Clay</span> for camps, <span class='text-pink-deep font-medium'>pink</span> for women&rsquo;s facilities, <span class='text-teal-deep font-medium'>teal</span> for medical centers, <span class='text-slate-deep font-medium'>slate</span> for federal holding. A gold ring marks RDAP — the residential drug program."
             />
           </div>
         </Container>

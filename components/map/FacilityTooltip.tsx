@@ -1,6 +1,7 @@
 'use client';
 
 import { Popup } from 'react-map-gl/maplibre';
+import Link from 'next/link';
 import { Icon } from '@/components/ui/Icon';
 import {
   faPhone,
@@ -9,9 +10,12 @@ import {
   faShieldHeart,
   faStethoscope,
   faArrowUpRightFromSquare,
+  faArrowRight,
   faRoad,
+  faVenus,
+  faBuildingShield,
 } from '@fortawesome/free-solid-svg-icons';
-import type { Facility } from '@/types/facility';
+import { HOLDING_TYPES, type Facility } from '@/types/facility';
 
 interface Props {
   facility: Facility;
@@ -27,9 +31,15 @@ const TYPE_LABEL: Record<Facility['type'], string> = {
   MCFP: 'Medical Center for Federal Prisoners',
   'FCI-CAMP': 'FCI Camp',
   'MIN-OTHER': 'Minimum-security Facility',
+  FDC: 'Federal Detention Center',
+  MCC: 'Metropolitan Correctional Center',
+  MDC: 'Metropolitan Detention Center',
+  FTC: 'Federal Transfer Center',
 };
 
 export function FacilityTooltip({ facility, distanceMiles, onClose }: Props) {
+  const isHolding = HOLDING_TYPES.includes(facility.type);
+
   return (
     <Popup
       longitude={facility.lng}
@@ -104,6 +114,17 @@ export function FacilityTooltip({ facility, distanceMiles, onClose }: Props) {
         </div>
 
         <div className="flex flex-wrap gap-1.5">
+          {facility.gender === 'FEMALE' && (
+            <Chip icon={faVenus} tone="pink">
+              Women&rsquo;s
+            </Chip>
+          )}
+          {facility.gender === 'COED' && <Chip>Coed</Chip>}
+          {isHolding && (
+            <Chip icon={faBuildingShield} tone="slate">
+              Holding
+            </Chip>
+          )}
           {facility.isMedical && (
             <Chip icon={faStethoscope} tone="teal">
               Medical
@@ -119,15 +140,22 @@ export function FacilityTooltip({ facility, distanceMiles, onClose }: Props) {
           )}
         </div>
 
-        <div className="flex items-center gap-2 pt-1">
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <Link
+            href={`/facilities/${facility.id}`}
+            className="inline-flex items-center gap-2 rounded-full bg-clay px-4 py-2 text-[13px] font-medium text-cream-50 transition-colors hover:bg-clay-deep"
+          >
+            View full profile
+            <Icon icon={faArrowRight} className="text-[11px]" />
+          </Link>
           <a
             href={facility.handbookUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-clay px-4 py-2 text-[13px] font-medium text-cream-50 transition-colors hover:bg-clay-deep"
+            className="inline-flex items-center gap-1.5 px-2 py-2 text-[12px] text-ink-soft hover:text-clay-deep"
           >
             <Icon icon={faDownload} />
-            A&amp;O Handbook
+            Handbook
           </a>
           <a
             href={facility.bopUrl}
@@ -151,12 +179,14 @@ function Chip({
 }: {
   children: React.ReactNode;
   icon?: import('@fortawesome/fontawesome-svg-core').IconDefinition;
-  tone?: 'sage' | 'gold' | 'teal';
+  tone?: 'sage' | 'gold' | 'teal' | 'pink' | 'slate';
 }) {
   const tones = {
     sage: 'bg-sage/15 text-sage-deep',
     gold: 'bg-gold/20 text-gold-deep',
     teal: 'bg-teal/15 text-teal-deep',
+    pink: 'bg-pink/20 text-pink-deep',
+    slate: 'bg-slate/15 text-slate-deep',
   };
   return (
     <span

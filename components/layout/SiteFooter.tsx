@@ -23,6 +23,7 @@ export function SiteFooter() {
             items={[
               { href: '/#map', label: 'Camp map' },
               { href: '/handbooks', label: 'Handbook library' },
+              { href: '/the-inside', label: 'The Inside' },
               { href: '/resources', label: 'Resources' },
             ]}
           />

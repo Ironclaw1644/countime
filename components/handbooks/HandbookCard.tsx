@@ -15,6 +15,10 @@ const TYPE_LABEL: Record<Facility['type'], string> = {
   MCFP: 'Medical Center for Federal Prisoners',
   'FCI-CAMP': 'FCI Camp',
   'MIN-OTHER': 'Minimum-security Facility',
+  FDC: 'Federal Detention Center',
+  MCC: 'Metropolitan Correctional Center',
+  MDC: 'Metropolitan Detention Center',
+  FTC: 'Federal Transfer Center',
 };
 
 export function HandbookCard({ facility }: { facility: Facility }) {

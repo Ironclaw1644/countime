@@ -9,6 +9,9 @@ import {
   faStethoscope,
   faSliders,
   faLocationCrosshairs,
+  faVenus,
+  faMars,
+  faBuildingShield,
 } from '@fortawesome/free-solid-svg-icons';
 import { cn } from '@/lib/cn';
 import { resolveZip } from '@/lib/geo';
@@ -57,6 +60,8 @@ export function MapFilters({ filters, onChange, allStates }: Props) {
     if (filters.states.length) n++;
     if (filters.rdapOnly) n++;
     if (filters.medicalOnly) n++;
+    if (filters.gender !== 'ALL') n++;
+    if (!filters.showHolding) n++;
     if (filters.userZip) n++;
     return n;
   }, [filters]);
@@ -146,6 +151,30 @@ export function MapFilters({ filters, onChange, allStates }: Props) {
       {expanded && (
         <div className="space-y-4 border-t border-ink/10 px-4 py-4">
           <div>
+            <p className="small-caps text-[10px] text-ink-muted">Who&rsquo;s housed</p>
+            <div className="mt-2 inline-flex rounded-full border border-ink/15 bg-cream p-0.5">
+              <SegmentButton
+                active={filters.gender === 'ALL'}
+                onClick={() => onChange({ gender: 'ALL' })}
+                label="All"
+              />
+              <SegmentButton
+                active={filters.gender === 'FEMALE'}
+                onClick={() => onChange({ gender: 'FEMALE' })}
+                icon={faVenus}
+                label="Women"
+                tone="pink"
+              />
+              <SegmentButton
+                active={filters.gender === 'MALE'}
+                onClick={() => onChange({ gender: 'MALE' })}
+                icon={faMars}
+                label="Men"
+              />
+            </div>
+          </div>
+
+          <div>
             <p className="small-caps text-[10px] text-ink-muted">Programs</p>
             <div className="mt-2 flex flex-wrap gap-2">
               <ToggleChip
@@ -159,6 +188,12 @@ export function MapFilters({ filters, onChange, allStates }: Props) {
                 onToggle={() => onChange({ medicalOnly: !filters.medicalOnly })}
                 icon={faStethoscope}
                 label="Medical"
+              />
+              <ToggleChip
+                active={!filters.showHolding}
+                onToggle={() => onChange({ showHolding: !filters.showHolding })}
+                icon={faBuildingShield}
+                label="Hide holding"
               />
             </div>
           </div>
@@ -204,6 +239,8 @@ export function MapFilters({ filters, onChange, allStates }: Props) {
                   states: [],
                   rdapOnly: false,
                   medicalOnly: false,
+                  gender: 'ALL',
+                  showHolding: true,
                   userZip: null,
                   userCoords: null,
                   withinMilesOfUser: null,
@@ -244,6 +281,39 @@ function ToggleChip({
       )}
     >
       <Icon icon={icon} />
+      {label}
+    </button>
+  );
+}
+
+function SegmentButton({
+  active,
+  onClick,
+  label,
+  icon,
+  tone,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  icon?: import('@fortawesome/fontawesome-svg-core').IconDefinition;
+  tone?: 'pink';
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium transition-colors',
+        active
+          ? tone === 'pink'
+            ? 'bg-pink text-cream-50'
+            : 'bg-ink text-cream-50'
+          : 'text-ink-soft hover:bg-cream-100',
+      )}
+    >
+      {icon && <Icon icon={icon} className="text-[11px]" />}
       {label}
     </button>
   );

@@ -2,7 +2,7 @@
 
 import { Marker } from 'react-map-gl/maplibre';
 import { cn } from '@/lib/cn';
-import type { Facility } from '@/types/facility';
+import { HOLDING_TYPES, type Facility } from '@/types/facility';
 
 interface Props {
   facility: Facility;
@@ -13,6 +13,36 @@ interface Props {
   onHoverEnd?: () => void;
 }
 
+type Variant = 'pink' | 'slate' | 'teal' | 'clay';
+
+function variantFor(facility: Facility): Variant {
+  if (facility.gender === 'FEMALE') return 'pink';
+  if (HOLDING_TYPES.includes(facility.type)) return 'slate';
+  if (facility.type === 'FMC' || facility.type === 'MCFP' || facility.isMedical) return 'teal';
+  return 'clay';
+}
+
+const HALO: Record<Variant, string> = {
+  pink: 'bg-pink/40',
+  slate: 'bg-slate/40',
+  teal: 'bg-teal/40',
+  clay: 'bg-clay/40',
+};
+
+const DOT: Record<Variant, string> = {
+  pink: 'bg-pink',
+  slate: 'bg-slate',
+  teal: 'bg-teal',
+  clay: 'bg-clay',
+};
+
+const DOT_SELECTED: Record<Variant, string> = {
+  pink: 'bg-pink-deep',
+  slate: 'bg-slate-deep',
+  teal: 'bg-teal-deep',
+  clay: 'bg-clay-deep',
+};
+
 export function FacilityMarker({
   facility,
   isSelected,
@@ -21,10 +51,7 @@ export function FacilityMarker({
   onHoverStart,
   onHoverEnd,
 }: Props) {
-  const variant =
-    facility.type === 'FMC' || facility.type === 'MCFP' || facility.isMedical
-      ? 'medical'
-      : 'fpc';
+  const variant = variantFor(facility);
 
   return (
     <Marker
@@ -57,7 +84,7 @@ export function FacilityMarker({
           aria-hidden
           className={cn(
             'absolute inset-0 rounded-full',
-            variant === 'medical' ? 'bg-teal/40' : 'bg-clay/40',
+            HALO[variant],
             'animate-pulse-soft',
             !isSelected && 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100',
           )}
@@ -76,8 +103,7 @@ export function FacilityMarker({
           aria-hidden
           className={cn(
             'block h-3.5 w-3.5 rounded-full border-[2px] border-cream-50 shadow-paper',
-            variant === 'medical' ? 'bg-teal' : 'bg-clay',
-            isSelected && (variant === 'medical' ? 'bg-teal-deep' : 'bg-clay-deep'),
+            isSelected ? DOT_SELECTED[variant] : DOT[variant],
           )}
         />
       </button>

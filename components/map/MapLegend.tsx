@@ -8,6 +8,8 @@ import {
   faCircle,
   faChevronUp,
   faChevronDown,
+  faVenus,
+  faBuildingShield,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
@@ -43,9 +45,19 @@ export function MapLegend({
         <div className="space-y-2.5 px-4 pb-4 text-[12px] text-ink-soft">
           <Row swatch={<Dot color="bg-clay" />} label="Federal Prison Camp" />
           <Row
+            swatch={<Dot color="bg-pink" />}
+            label="Women's facility"
+            icon={faVenus}
+          />
+          <Row
             swatch={<Dot color="bg-teal" />}
             label="Medical facility (FMC / MCFP)"
             icon={faStethoscope}
+          />
+          <Row
+            swatch={<Dot color="bg-slate" />}
+            label="Holding / detention center"
+            icon={faBuildingShield}
           />
           <Row
             swatch={

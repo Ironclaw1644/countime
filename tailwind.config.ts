@@ -34,6 +34,16 @@ const config: Config = {
           DEFAULT: '#C8A24A',
           deep: '#A28236',
         },
+        pink: {
+          DEFAULT: '#D88BA1',
+          deep: '#B86A82',
+          soft: '#EFC2D0',
+        },
+        slate: {
+          DEFAULT: '#5F6F84',
+          deep: '#42526A',
+          soft: '#A6B1BF',
+        },
       },
       fontFamily: {
         display: ['var(--font-fraunces)', 'Georgia', 'serif'],

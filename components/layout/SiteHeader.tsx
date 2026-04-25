@@ -6,6 +6,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 const NAV = [
   { href: '/#map', label: 'Map' },
   { href: '/handbooks', label: 'Handbooks' },
+  { href: '/the-inside', label: 'The Inside' },
   { href: '/resources', label: 'Resources' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
