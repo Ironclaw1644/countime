@@ -1,0 +1,134 @@
+/* MapLibre stylesheet — sets popup, marker, control defaults */
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  @apply bg-cream text-ink font-sans;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, #f5f0e6 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, #ebe4d4 0%, transparent 50%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Subtle paper-grain noise via inline SVG (no extra HTTP request) */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.15  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  mix-blend-mode: multiply;
+}
+
+main, header, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Headline rule under display headings */
+.rule-under {
+  position: relative;
+  padding-bottom: 0.4em;
+}
+.rule-under::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+/* Drop-cap-friendly small caps via Fraunces */
+.small-caps {
+  font-feature-settings: 'smcp' 1, 'c2sc' 1;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+/* MapLibre overrides — match the editorial aesthetic */
+.maplibregl-popup-content {
+  @apply bg-cream-50 text-ink shadow-paper;
+  font-family: var(--font-public-sans), system-ui, sans-serif;
+  border-radius: 12px;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid theme('colors.cream.200');
+  max-width: 320px;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: theme('colors.cream.50') !important;
+  border-bottom-color: theme('colors.cream.50') !important;
+}
+
+.maplibregl-popup-close-button {
+  @apply text-ink-muted text-lg pr-2 pt-1;
+}
+
+.maplibregl-ctrl-group {
+  @apply bg-cream-50/95 backdrop-blur shadow-paper;
+  border: 1px solid theme('colors.cream.200') !important;
+  border-radius: 10px !important;
+}
+
+.maplibregl-ctrl-group button {
+  @apply text-ink;
+}
+
+.maplibregl-ctrl-attrib {
+  @apply bg-cream-50/80 backdrop-blur text-ink-muted;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  @apply text-ink-soft;
+}
+
+/* Page-load reveal — used by [data-reveal] elements */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: revealUp 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+[data-reveal='1'] { animation-delay: 60ms; }
+[data-reveal='2'] { animation-delay: 160ms; }
+[data-reveal='3'] { animation-delay: 280ms; }
+[data-reveal='4'] { animation-delay: 400ms; }
+[data-reveal='5'] { animation-delay: 540ms; }
+
+@keyframes revealUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Focus ring — sage, generous, accessible */
+:focus-visible {
+  outline: 2px solid theme('colors.sage.deep');
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: theme('colors.sage.soft');
+  color: theme('colors.ink.DEFAULT');
+}
