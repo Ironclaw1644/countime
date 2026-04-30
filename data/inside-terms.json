@@ -22,5 +22,94 @@
         "url": "https://www.usmarshals.gov/what-we-do/prisoner-operations/jpats"
       }
     ]
+  },
+  {
+    "id": "counts",
+    "title": "Counts",
+    "category": "Daily Routine",
+    "shortDefinition": "Scheduled head counts that pause the entire institution several times a day so staff can verify, in person, that every person on the roster is present and accounted for.",
+    "body": [
+      "A count is exactly what it sounds like: officers physically count every person in the institution and reconcile the numbers against the roster. It is the single most important operational ritual of the federal prison day. Everything else — meals, work, programming, visits, recreation, phone calls — is scheduled around it. When a count is called, movement stops, talking stops, and people stand or sit in their assigned cell, cube, or bunk until the count clears.",
+      "Most institutions run roughly five official counts in a 24-hour cycle. Exact times vary by facility, but a common pattern is midnight, three a.m., and five a.m. while everyone is in their bunk, then a stand-up count in the late afternoon — often around four p.m. — where people have to be on their feet and visible, and a final count in the late evening before lights out. Weekends and holidays usually add a mid-morning or mid-day stand-up count as well.",
+      "The count has to clear before normal operations resume. Officers count their unit, the numbers go up to the control center, and the totals from every unit have to add up to the institution's official population. If the numbers don't match — what's called a \"bad count\" — the count is run again, sometimes several times. A sustained bad count can lock the whole institution down for hours while staff figure out whether someone is in the wrong place, in the medical unit, in segregation, in transit, or actually missing.",
+      "For families on the outside, counts are the most common reason a phone call gets cut off, an email goes unanswered for a few hours, or a visit is paused. If you're on a call and your person says \"count time\" and hangs up quickly, nothing is wrong — they have to be back in their housing area before the count is called, and being late is a disciplinary matter. The same is true if mail, commissary pickups, or callouts seem to bunch up at odd hours: the day is built around count, not the other way around."
+    ],
+    "purpose": "Officially: counts are the BOP's primary accountability and security tool — the way the agency confirms, multiple times every day, that no one has escaped, been seriously injured, or been moved without authorization. Unofficially: counts also structure the entire rhythm of confinement. They divide the day into countable blocks, give staff a recurring point of control over where everyone is and what they're doing, and quietly enforce the rule that the institution's schedule, not the individual's, governs every hour.",
+    "related": ["recall", "shots"],
+    "sources": [
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      }
+    ]
+  },
+  {
+    "id": "recall",
+    "title": "Recall",
+    "category": "Daily Routine",
+    "shortDefinition": "The PA announcement that ends a movement period and sends everyone back to their housing unit — usually because the next count, meal, or lockdown window is about to begin.",
+    "body": [
+      "Recall is the announcement that ends free movement and tells everyone to return to their assigned housing unit. It comes over the institution's public-address system, often with a short countdown, and it is not a suggestion. Once recall is called, the compound is supposed to clear: people walking back from the chow hall, the law library, recreation, the chapel, education, or a work detail all turn around and head home.",
+      "Movement in a federal prison is not continuous. Most institutions run on what is called controlled movement — typically a ten-minute window at the top of each hour when people are allowed to leave one location and walk to another. Outside of those windows, the compound is closed and you are expected to be where you are scheduled to be. Recall is the bookend: it closes a longer movement period, like an evening recreation block, and gives everyone enough time to get back to the unit before the next count is called.",
+      "Being out of place at recall is a real disciplinary risk. \"Out of bounds\" — being in an area you are not authorized to be in, or failing to return to the unit when called — is a common write-up, and the kind of small infraction that nonetheless costs privileges or, depending on the staff member, lands as a formal incident report. People generally treat the first recall announcement as the one that matters and don't wait for the second.",
+      "From a family's perspective, recall is the explanation for why phone calls, emails, and visits often end abruptly at the same times every day. A call that ends mid-sentence with \"I have to go, recall\" is your person doing exactly what they are supposed to do. The institution's day ends earlier than the outside world's day; by mid-evening, most people are back in the unit for the night."
+    ],
+    "purpose": "Officially: recall is a movement-control mechanism — a way to clear the compound before count, before meals, before staff shift change, or before any scheduled lockdown. It keeps the institution's geography predictable and gives staff a clean reset between activity blocks. Unofficially: recall also reinforces the underlying truth that nobody at a federal facility owns their own time. The day is divided into permitted windows and closed windows, and the announcement that ends a window is the constant reminder that movement happens on the institution's schedule, not the individual's.",
+    "related": ["counts", "shots", "inspections"],
+    "sources": [
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      }
+    ]
+  },
+  {
+    "id": "inspections",
+    "title": "Inspections",
+    "category": "Daily Routine",
+    "shortDefinition": "Scheduled checks of cells, lockers, and common areas — usually weekly, plus shorter daily walk-throughs — where staff verify cleanliness, locker order, and the absence of contraband.",
+    "body": [
+      "Inspections are the routine, scheduled checks of the housing unit. The most formal version is the weekly unit inspection, when staff — often a lieutenant, a unit manager, or a designated inspector — walk through the unit on a known day and grade it. They look at cells and cubes, lockers, beds, floors, sinks, toilets, and common areas like the dayroom and laundry. They are checking that beds are made to standard, lockers are organized and closed, personal property is within the allowed limits, nothing is hanging from bunks or fixtures, and nothing prohibited is in plain sight.",
+      "On top of the weekly inspection, most units get shorter daily walk-throughs. An officer comes through during the shift, looks for the obvious — an unmade bed, a locker left open, food being stored where it shouldn't be, an extension cord rigged to something — and either says something on the spot or makes a note. Some staff are easygoing about it; some are not. The same condition that gets a verbal warning from one officer can get a write-up from another.",
+      "Failing an inspection has real consequences. Depending on the institution and the severity, the unit or an individual can lose privileges — dayroom time, microwave use, television, phone, or commissary — until the next inspection is passed. A serious or repeated failure, or finding contraband, can produce a formal incident report. It is also common for the unit's overall inspection grade to affect what the unit as a group is allowed to do for the following week, which is one of the reasons people pressure each other to keep their areas tight.",
+      "Inspections are not the same thing as a shakedown. An inspection is scheduled, focused on cleanliness and order, and largely visual. A shakedown is unannounced, can happen at any hour, and involves staff actually searching — pulling lockers apart, lifting mattresses, checking inside books and food containers. Both can happen in the same week, and both can produce write-ups, but the rhythm and the register are different. Inspections are part of the ordinary schedule. Shakedowns are not."
+    ],
+    "purpose": "Officially: inspections enforce sanitation, fire-safety, and contraband-control standards across the housing units, and they give the institution a recurring, documented record of unit condition. Unofficially: inspections are also a steady form of low-level pressure. They make the daily upkeep of a small, shared space into a graded performance, and they create a continuous incentive — through lost privileges and write-ups — for people to police each other's habits. The unit is held responsible as a group, which quietly does much of the management work for the staff.",
+    "related": ["counts", "shots", "recall"],
+    "sources": [
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      },
+      {
+        "label": "BOP — Policy & Forms (5000 series, Inmate & Custody Management)",
+        "url": "https://www.bop.gov/PublicInfo/execute/policysearch?todo=query&series=5000"
+      }
+    ]
+  },
+  {
+    "id": "shots",
+    "title": "Shots",
+    "category": "Daily Routine",
+    "shortDefinition": "BOP slang for an incident report — the formal disciplinary write-up. Shots are tiered by severity and run through a hearing process that can cost privileges, good time, and housing status.",
+    "body": [
+      "A \"shot\" is the inside word for an incident report, the formal piece of paper that begins the federal disciplinary process. A staff member writes up the alleged violation, the report is delivered to the person it is written on, and from that point forward the case moves through a structured hearing process. Shots are not the same as informal warnings or verbal counseling. Once a shot is written and not expunged, it becomes part of the central file and follows the person for the rest of their sentence.",
+      "Shots are tiered by the severity of the underlying offense. Under the BOP's Inmate Discipline Program, the 100-series codes are Greatest severity — things like assault, escape, and serious drug offenses. The 200-series is High severity, the 300-series is Moderate, and the 400-series is Low. The severity tier determines what range of sanctions is available and which body hears the case.",
+      "Lower-level shots are typically heard by the Unit Discipline Committee, or UDC — usually a small panel of unit staff. More serious shots, generally the 100 and 200 series, are referred to the Discipline Hearing Officer, or DHO, an institution-level hearing officer who runs a more formal proceeding. The person written up has the right to a staff representative, to call witnesses, and to present a statement. Only the DHO can take good conduct time; the UDC cannot.",
+      "Sanctions vary by tier and by the hearing officer's discretion, but commonly include loss of commissary, phone, email, or visiting privileges for a defined period; loss of good conduct time, which extends the projected release date; a disciplinary transfer; and placement in the Special Housing Unit, often called the SHU or segregation. A shot also affects classification scoring, which in turn affects security-level placement and eligibility for a halfway house or home confinement at the end of a sentence. A single 100-series shot late in a sentence can erase months of accumulated halfway house time.",
+      "For families, the practical things to know are these. A shot is not a conviction in the criminal sense, but the consequences inside are real and often quick. There is an appeal process — through the warden, the regional office, and the central office — and it is worth using, especially for serious shots, but it takes time. A person who has just gotten a shot may be in the SHU and unreachable by phone or email for days or weeks while the case is pending. Mail still gets through. Money on the books still works. The silence is procedural, not a sign that something worse has happened."
+    ],
+    "purpose": "Officially: the incident report system is the BOP's mechanism for maintaining order, safety, and accountability inside its institutions, with a graduated set of sanctions tied to the severity of the conduct and a hearing process designed to protect basic procedural rights. Unofficially: shots are the everyday currency of control. The threat of one shapes far more behavior than the actual issuance of one, and because so many sanctions — phone, visits, commissary, good time, halfway house — are stacked behind a single piece of paper, even a moderate shot can reshape a sentence in ways that are felt as much by the family as by the person inside.",
+    "related": ["counts", "recall", "inspections", "diesel-therapy"],
+    "sources": [
+      {
+        "label": "BOP — Program Statement 5270.09, Inmate Discipline Program (PDF)",
+        "url": "https://www.bop.gov/policy/progstat/5270_009.pdf"
+      },
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      }
+    ]
   }
 ]
