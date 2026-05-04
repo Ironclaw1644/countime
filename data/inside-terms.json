@@ -11,7 +11,7 @@
       "If a transfer is on the horizon, the practical preparation is simple and unglamorous: keep a current power of attorney with someone outside, leave a small reserve of money with that person rather than entirely on the books, photocopy critical legal documents and important addresses, and tell loved ones that a silent stretch of two to six weeks is normal, not alarming."
     ],
     "purpose": "Officially: a logistics tool. The federal system has to move tens of thousands of people every year — for sentencing, designation, court appearances, medical care, family-proximity transfers, and security reclassifications — and it does it through a hub-and-spoke network of buses, planes, and contracted county jails. Unofficially: extended transit is also recognized as a soft control measure. The experience is disorienting and disruptive enough to discourage certain behavior on its own, even when nothing is formally classified as discipline.",
-    "related": [],
+    "related": ["receiving-and-discharge", "being-shipped"],
     "sources": [
       {
         "label": "BOP — Custody & Care",
@@ -35,7 +35,7 @@
       "For families on the outside, counts are the most common reason a phone call gets cut off, an email goes unanswered for a few hours, or a visit is paused. If you're on a call and your person says \"count time\" and hangs up quickly, nothing is wrong — they have to be back in their housing area before the count is called, and being late is a disciplinary matter. The same is true if mail, commissary pickups, or callouts seem to bunch up at odd hours: the day is built around count, not the other way around."
     ],
     "purpose": "Officially: counts are the BOP's primary accountability and security tool — the way the agency confirms, multiple times every day, that no one has escaped, been seriously injured, or been moved without authorization. Unofficially: counts also structure the entire rhythm of confinement. They divide the day into countable blocks, give staff a recurring point of control over where everyone is and what they're doing, and quietly enforce the rule that the institution's schedule, not the individual's, governs every hour.",
-    "related": ["recall", "shots"],
+    "related": ["recall", "shots", "first-days"],
     "sources": [
       {
         "label": "BOP — Custody & Care",
@@ -55,7 +55,7 @@
       "From a family's perspective, recall is the explanation for why phone calls, emails, and visits often end abruptly at the same times every day. A call that ends mid-sentence with \"I have to go, recall\" is your person doing exactly what they are supposed to do. The institution's day ends earlier than the outside world's day; by mid-evening, most people are back in the unit for the night."
     ],
     "purpose": "Officially: recall is a movement-control mechanism — a way to clear the compound before count, before meals, before staff shift change, or before any scheduled lockdown. It keeps the institution's geography predictable and gives staff a clean reset between activity blocks. Unofficially: recall also reinforces the underlying truth that nobody at a federal facility owns their own time. The day is divided into permitted windows and closed windows, and the announcement that ends a window is the constant reminder that movement happens on the institution's schedule, not the individual's.",
-    "related": ["counts", "shots", "inspections"],
+    "related": ["counts", "shots", "inspections", "family-strain"],
     "sources": [
       {
         "label": "BOP — Custody & Care",
@@ -100,7 +100,7 @@
       "For families, the practical things to know are these. A shot is not a conviction in the criminal sense, but the consequences inside are real and often quick. There is an appeal process — through the warden, the regional office, and the central office — and it is worth using, especially for serious shots, but it takes time. A person who has just gotten a shot may be in the SHU and unreachable by phone or email for days or weeks while the case is pending. Mail still gets through. Money on the books still works. The silence is procedural, not a sign that something worse has happened."
     ],
     "purpose": "Officially: the incident report system is the BOP's mechanism for maintaining order, safety, and accountability inside its institutions, with a graduated set of sanctions tied to the severity of the conduct and a hearing process designed to protect basic procedural rights. Unofficially: shots are the everyday currency of control. The threat of one shapes far more behavior than the actual issuance of one, and because so many sanctions — phone, visits, commissary, good time, halfway house — are stacked behind a single piece of paper, even a moderate shot can reshape a sentence in ways that are felt as much by the family as by the person inside.",
-    "related": ["counts", "recall", "inspections", "diesel-therapy"],
+    "related": ["counts", "recall", "inspections", "diesel-therapy", "receiving-and-discharge", "being-shipped"],
     "sources": [
       {
         "label": "BOP — Program Statement 5270.09, Inmate Discipline Program (PDF)",
@@ -111,5 +111,307 @@
         "url": "https://www.bop.gov/inmates/custody_and_care/"
       }
     ]
+  },
+  {
+    "id": "receiving-and-discharge",
+    "title": "Receiving & Discharge (R&D)",
+    "category": "Movement & Transfers",
+    "shortDefinition": "The unit at every federal institution that processes inmates in at the start of a sentence and out at the end — and the place a camp-bound person usually meets first, because at most complexes R&D is run by the parent FCI or USP rather than the camp itself.",
+    "body": [
+      "R&D — Receiving and Discharge — is the unit that processes everyone in and out of a federal institution. It is where a sentence officially begins on the BOP's books and where it officially ends. For inmates designated to a low-security FCI, R&D is straightforward: it runs on-site, staffed by the FCI's own personnel, and intake and discharge happen at the same facility where the sentence will be served. For camps, the picture is more complicated. At many federal camps that share a complex with a parent FCI or USP, R&D is run by the parent institution — meaning that a camp-bound inmate goes through intake at the higher-security partner facility's R&D first and is only walked or driven the short distance over to the camp once that work is done. At standalone camps — FPC Bryan, FPC Alderson, FPC Yankton, FPC Duluth — R&D is handled on the camp grounds. For most camp inmates, then, the first and last hours of a federal sentence are spent inside a security register a step above where the sentence will actually be served.",
+      "On the way in, R&D does the work that turns a person into an inmate of record. That includes a strip search regardless of designation, a change out of street clothes into institution-issued khakis, a photograph, fingerprints, an initial medical screening that usually includes a TB skin test, and an intake interview. Property is handled at the same time: a small allowance — legal documents, prescription glasses, a wedding band, sometimes a religious medal — can usually come in, and everything else either gets shipped to a designated address at the inmate's expense or is destroyed if no shipping address is on file. R&D is also where the initial classification review happens, and it is sometimes the first moment an inmate discovers that the points have been recalculated, the designation has been changed, or the facility on the J&C order is not the facility they are now actually going to.",
+      "On the way out, R&D runs in reverse. The day someone leaves for halfway house, home confinement, or supervised release, they walk back through the same office to return institution-issued clothing for street clothes — either clothing the family sent in the week before, or, if nothing arrived, whatever the institution has on hand. Stored property is pulled or arrangements are made to ship it. The final paperwork is reviewed: release order, conditions of supervised release, halfway house transfer order if applicable, and a medical summary the person carries with them. Many camp inmates leaving for halfway house or home confinement are processed in the very early morning, sometimes before the day's first count, so that a transport van or a family pickup can clear the gate at the right hour.",
+      "For families on either end of this, the practical things to know are these. After self-surrender, the first 24 to 72 hours are usually silent: phone and email accounts are not active yet, the PAC — the phone activation code that lets calls come through to a particular outside number — has not been entered into the system, and the institution's own roster updates can take a day or two to propagate. Mail can take two to three weeks to start flowing reliably. On the discharge side, if your person is leaving the institution in the morning, the first call usually comes from the halfway house, the transit point, or them — not from the BOP. The silence on either side is procedural, not a sign that something has gone wrong."
+    ],
+    "purpose": "Officially: R&D is the Bureau's intake and out-processing department — the formal mechanism by which the agency takes administrative custody of a person at the start of a sentence and surrenders that custody at the end. Unofficially: R&D is also the only part of the federal experience that runs at the rhythm of the parent institution rather than the camp itself. For someone designated to a camp, the first and last hours of a sentence are usually spent in a higher-security register — strip-searched, fingerprinted, photographed, processed by FCI or USP staff — before the camp's much looser routine begins, or after it ends. The disorientation is part of the design; so is the relief on the other side of it.",
+    "related": ["diesel-therapy", "shots", "first-days"],
+    "sources": [
+      {
+        "label": "BOP — Program Statement 5800.18, Receiving and Discharge Manual (PDF)",
+        "url": "https://www.bop.gov/policy/progstat/5800_018.pdf"
+      },
+      {
+        "label": "BOP — Custody & Care",
+        "url": "https://www.bop.gov/inmates/custody_and_care/"
+      }
+    ]
+  },
+  {
+    "id": "first-days",
+    "title": "First Days",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The first hours and days at a camp, when the institution's rhythm has not yet become familiar and small choices — where to sit, who to ask, what to leave in property — feel disproportionately large.",
+    "body": [
+      "Almost everyone who reports to a camp does it the same way: a small parking lot, a minute longer in the car than is strictly necessary, and then an unmarked door with a duffel of allowed items. The first hours are a sequence of small displacements rather than a single shock — the change of clothes, the photograph, the walk to the housing unit, the door of the cube that someone else's name was on yesterday. There is no orientation in the first hours; the formal A&O program comes later, sometimes days later. What there is is a long stretch of unfamiliar quiet, punctuated by counts and meals, in which the most concrete fact of the day is that nothing is being asked of the new arrival except to be present.",
+      "What surprises most people is how undramatic a camp looks from the inside. There are no fences; there is a flagpole, a gravel path between low buildings, a small commissary, a rec yard, and units that look more like college dorms than what films have taught people to expect. The pacing is slow. Staff are sparse. The other people on the compound — most of them serving terms for non-violent offenses, many of them five to twenty years older than the new arrival — go about their day with a register of bored familiarity. The mismatch between the imagined first day and the actual one is itself disorienting; people frequently describe a quiet, low-grade panic that runs underneath the surface of an unremarkable afternoon.",
+      "The advice nearly every camp survivor gives about the first 48 hours is the same. Watch and listen before you speak. Do not try to make a friend on the first day; let people come to you. Do not ask twenty questions of twenty different people; pick one person who looks settled, ask them one or two things, and trust the rest will get answered through observation. Do not say what you did to be there. Do not announce your release date. Do not borrow anything, and do not lend anything, in the first week. The phrase repeated in nearly every camp's informal orientation is some version of stay away from the drama, which is shorthand for the rule that small social squabbles can grow into something disciplinary very quickly, and a new arrival has no political capital with which to absorb a misstep.",
+      "For families on the outside, the first 24 to 72 hours are the hardest stretch by a wide margin. Phone and email accounts are not active yet, so silence on day one is mechanical, not emotional. When the first call does come through, it is often shorter and less reassuring than expected — the person on the inside has not yet processed where they are, and the call is happening on a public phone in a noisy unit. Letters are the most stable form of communication for the first week, and the most useful kind of letter is mundane: who picked the kids up from school, what the weather is, what the dog did that morning. The texture of the outside is the part that fades fastest from view, and it is what the person in the unit most wants to hear."
+    ],
+    "testimony": [
+      {
+        "quote": "The Taft Prison Camp, however, looked no more imposing than a corporate office park.",
+        "attribution": "Justin Paperny, FPC Taft, self-surrendered April 28, 2008",
+        "sourceLabel": "Lessons from Prison, Chapter 2 (reproduced at White Collar Advice)",
+        "sourceUrl": "https://www.whitecollaradvice.com/life-inside-a-federal-prison-camp-first-day/"
+      },
+      {
+        "quote": "I slumped in a chair, crestfallen and holding my head. The first hour was a bit dizzying and overwhelming.",
+        "attribution": "Justin Paperny, FPC Taft, on his first afternoon",
+        "sourceLabel": "Lessons from Prison, Chapter 2 (reproduced at White Collar Advice)",
+        "sourceUrl": "https://www.whitecollaradvice.com/life-inside-a-federal-prison-camp-first-day/"
+      },
+      {
+        "quote": "It served as my initiation into the new reality of how cheap and plentiful time is here. No one is ever in a hurry.",
+        "attribution": "Charles Jones, Bastrop Satellite Camp, self-surrendered August 26, 2015",
+        "sourceLabel": "Etika LLC blog, October 6, 2015",
+        "sourceUrl": "https://etikallc.com/first-day-in-federal-prison-camp/"
+      }
+    ],
+    "coping": [
+      {
+        "strategy": "Watch first, talk later.",
+        "detail": "For the first 48 hours, observe the rhythm — when people get up, when count is, where the chow lines form, who lives in your unit — before forming opinions or asking many questions. The institution will teach you most of what you need to know without your having to ask, and the new arrivals who keep quiet for a few days are the ones who settle in cleanly."
+      },
+      {
+        "strategy": "Pick one person, not the room.",
+        "detail": "When you have a question, find one settled-looking person and ask them one or two things. Asking twenty questions of twenty different people on day one is a recognized way to attract attention you do not want, and it gives the impression — fairly or not — of someone who is going to be high-maintenance."
+      },
+      {
+        "strategy": "Don't say what you did, and don't ask anyone what they did.",
+        "detail": "Your case is your business and theirs is theirs. The camp's social rules treat unsolicited curiosity about other people's cases as a small but real warning sign. If asked directly, a short, factual answer about the charge is enough; you do not owe anyone the long version."
+      },
+      {
+        "strategy": "Stay away from the drama.",
+        "detail": "The phrase comes up in nearly every camp's informal orientation. Small squabbles — over a microwave, a phone slot, a borrowed item — escalate into incident reports faster at a camp than people expect, and a new arrival has no goodwill in reserve to absorb a misstep with. The safest rule for the first month is to be friendly, be brief, and be elsewhere when voices rise."
+      },
+      {
+        "strategy": "Make the first phone call short.",
+        "detail": "The first call home is rarely the call where you process the experience. Expect it to be brief, public, and a little disappointing for both sides; save the longer conversations for letters and for later calls, after the routine has settled and the privacy of a Sunday-morning slot has been worked out."
+      }
+    ],
+    "related": ["receiving-and-discharge", "counts", "recall"]
+  },
+  {
+    "id": "family-strain",
+    "title": "Family Strain",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The slow accumulation of everyday separations — missed birthdays, school events, ordinary phone calls — that compounds across a sentence, and the way a camp's limited communication windows can wear down even the relationships that survive.",
+    "body": [
+      "Family strain is not a single event but a weather. It is the awareness, every morning, that the family is moving through its day without the person on the inside in any of the ordinary places: the breakfast table, the school pickup, the front door at six. The 300 monthly phone minutes — typically allocated in calls of up to fifteen minutes, often capped at one a day — are enough to keep contact alive and nowhere near enough to keep a person inside the small, mundane rhythms that hold a family together. Email, on the BOP's TRULINCS system, runs on a 30-minute composition window and a delivery delay measured in hours; it is closer to letters than to texting. Both, used well, become the spine of the relationship. Used badly, both become a record of what is being missed.",
+      "Several stress points show up in nearly every long camp sentence. The first is the gap between the inmate's life, which is almost completely ritualized, and the family's life, which keeps changing — new schools, new jobs, illnesses, deaths, ordinary milestones that arrive while the person inside is still on count time. The second is the visiting room: typically open Saturdays, Sundays, and federal holidays, with rules about touching (a single embrace and kiss at the start and end), clothing (specific dress codes, no underwires, restricted colors), and food (only what comes out of the visiting-room vending machines), and with counts that interrupt the visit on the institution's schedule. The third is the slower erosion: the way friends thin out, the way long-distance support becomes administrative, the way some marriages and partnerships do not survive the years even when both people meant for them to.",
+      "From the inside, the hardest version of family strain is usually not the dramatic moments — those have a shape that the institution understands — but the small ones. The kid's voice on the phone that is six months older than it was six months ago. The picture in a letter showing a rearranged living room. A parent's voice that has gotten older in a way that is only audible because so much has been compressed into a half-hour call. People who serve longer sentences describe a particular kind of grief — the grief of being a witness to a family rather than a participant in one — that begins quietly and accumulates.",
+      "For families on the outside, the practical things that help are surprisingly small. Send mundane news, often. Photographs in letters are remembered for years. Set up regular phone slots so the call is not the negotiated event of the week but a piece of routine. Use email for daily life and save phone time for harder conversations or for the ordinary ones that need a voice. Bring children to visits when you can, and brief them honestly on what to expect, including the count; children handle the visiting room better than most adults, but only if they know the rules in advance. And when the strain becomes a fight on either end, know that the visiting room is a difficult place to fight in and the phone is a worse one — most of the conflicts that find their way onto a fifteen-minute call do not get resolved on a fifteen-minute call."
+    ],
+    "testimony": [
+      {
+        "quote": "It's standing up in front of them, in front of a room during a count time, and giving your name and your number ... to be identified as an inmate in front of your children. It's terrible.",
+        "attribution": "Walt Pavlo, FPC Edgefield, on his children visiting during count",
+        "sourceLabel": "ABC News Nightline, January 30, 2006",
+        "sourceUrl": "https://abcnews.com/Nightline/Business/story?id=1557957"
+      },
+      {
+        "quote": "When I first got a prison number, I was determined not to memorize it ... but now it's forever etched on my memory.",
+        "attribution": "Walt Pavlo, on what stayed with him after release",
+        "sourceLabel": "ABC News Nightline, January 30, 2006",
+        "sourceUrl": "https://abcnews.com/Nightline/Business/story?id=1557957"
+      },
+      {
+        "quote": "From the beginning, I missed my family, my community, and my dog, Honey. Understandably, those feelings would stay with me through the term.",
+        "attribution": "Justin Paperny, FPC Taft, on the constant of an 18-month sentence",
+        "sourceLabel": "Lessons from Prison, Chapter 1 (reproduced at White Collar Advice)",
+        "sourceUrl": "https://www.whitecollaradvice.com/first-days-in-federal-prison/"
+      }
+    ],
+    "coping": [
+      {
+        "strategy": "Set a phone schedule, not a phone hope.",
+        "detail": "The 300 monthly minutes are most useful when they are slotted into a recurring shape — the same time on the same days, agreed to with the people on the outside. A standing schedule turns the call from a piece of luck into a piece of routine, and removes the slow disappointment of an expected call that never happens because someone was in the shower."
+      },
+      {
+        "strategy": "Use email for the daily texture, letters for the harder things.",
+        "detail": "TRULINCS email is the right channel for what the kids said at dinner and what the dog did. Letters are the right channel for grief, fights, and apologies, because they can be written slowly and read more than once. Phone time is not the right channel for either kind of conversation, but it works for the in-between ones that need a voice."
+      },
+      {
+        "strategy": "Brief children honestly before a visit.",
+        "detail": "The visiting room is harder on adults who do not know the rules than on children who do. Tell them about the count, the metal detector, the dress code, and the fact that hugs are bookends, not punctuation. Most children handle a camp visit well; they handle being surprised badly."
+      },
+      {
+        "strategy": "Photos, not milestones.",
+        "detail": "In letters and visits, the things that get remembered for years are not the headline events but the textures: a kitchen rearranged, a haircut, a school project, a candid in a backyard. Send those. Mail rules vary by facility — some accept printed photos, some only postcards or photo postcards from approved services — but every camp has a way for families to send images."
+      },
+      {
+        "strategy": "Don't try to solve the relationship on the phone.",
+        "detail": "When the strain becomes a fight, the fifteen-minute call is the wrong arena. The conflict belongs in a letter, where it can be answered slowly, or in a visit, where it can be talked through with eye contact. A fight that ends with the line going dead at a hard moment can take weeks to repair."
+      }
+    ],
+    "related": ["first-days", "counts", "recall"]
+  },
+  {
+    "id": "boredom-and-loss-of-purpose",
+    "title": "Boredom and Loss of Purpose",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The hours of unoccupied time that a camp generates by design — and the slower realization that nothing about the day, beyond the rituals of the institution, will be asked of you unless you ask it of yourself.",
+    "body": [
+      "At a federal camp, boredom is structural. The institution organizes the day with counts and meals and a few hours of mandatory work or programming, and outside those windows it is almost completely indifferent to what anyone does. There are jobs assigned through the cadre — kitchen, landscaping, orderly, the occasional clerk position in the chapel or education department — that pay between roughly twelve and forty cents an hour and rarely consume more than a few hours a day. There are programs — A&O, sometimes drug and alcohol education, sometimes a financial-literacy or parenting course — that come and go on irregular calendars. The rest of the day is open. For someone who has spent twenty or thirty or forty years filling time with work and family and obligation, the open hours are the part the institution does not warn anyone about.",
+      "For people who arrive at a camp from a professional life — lawyers, doctors, executives, teachers, founders — the loss is not only of time but of identity. The phone calls, meetings, decisions, expertise, and the small daily compliments of competent work are gone, and what is left is a person in khakis in a dorm with no role and a great deal of unfilled afternoon. The first reflex is often denial: I will treat this like a sabbatical. The second is collapse: I cannot believe how slowly time moves. The third, if it arrives, is the recognition that the structure of the day is now the responsibility of the person inside it, and that the camp will not provide one.",
+      "The trap of camp boredom is that idle hours look harmless. They are not. The people who deteriorate at a camp tend to do so quietly: they sleep too much, they watch too much television, they get drawn into the small political weather of the unit, they pick up old habits that are easier to slip back into in a place with no real responsibilities. The people who do best almost always have a written plan that arrived with them — a project, a course of reading, a fitness program, a body of writing they intend to produce — and a daily structure that turns the open hours into something they can be accountable for. The plan does not need to be grand. It needs to exist.",
+      "For families on the outside, the boredom is the part that is hardest to imagine and the easiest to support. Books are the highest-leverage gift, sent through approved channels — Amazon and a small set of other vendors ship directly to most institutions, and the camp's mail room will tell you which are accepted there. Encouragement of whatever project the person inside has chosen for themselves matters too: a memoir, a correspondence course, a long reading list, a fitness goal, a draft of the next thing they want to do for work after release. The thing that will make a difference at month eight is the small choice made in week one to treat the open hours as material, not as a punishment to be passively endured."
+    ],
+    "testimony": [
+      {
+        "quote": "The equivalent of living inside the Department of Motor Vehicles … waiting in lines for everything: food, counts, medical, counseling.",
+        "attribution": "Walt Pavlo, FPC Edgefield (SC) and FPC Jesup (GA), on two years at federal camps",
+        "sourceLabel": "MEL Magazine, Chris Bourn, February 20, 2019",
+        "sourceUrl": "https://melmagazine.com/en-us/story/just-how-white-is-white-collar-prison-and-what-does-it-really-take-to-land-yourself-there"
+      },
+      {
+        "quote": "My morning routine in prison got my life back on track.",
+        "attribution": "Justin Paperny, FPC Taft, on the discipline of routine",
+        "sourceLabel": "White Collar Advice, February 4, 2017",
+        "sourceUrl": "https://www.whitecollaradvice.com/mornings-in-prison-master-mornings-in-federal-prison/"
+      }
+    ],
+    "coping": [
+      {
+        "strategy": "Arrive with a written plan.",
+        "detail": "The single biggest predictor of how the open hours go is whether you came in with a project. A reading list, a draft memoir, a correspondence course, a fitness regimen, a foreign-language self-study, a body of letters you intend to write — anything that gives the day a thing to do that is yours, not the institution's. The plan does not need to be ambitious. It needs to be specific."
+      },
+      {
+        "strategy": "Build a daily structure and protect it.",
+        "detail": "The day at a camp is open enough that an unstructured person will drift; a person with a structured day is doing something most others are not. Choose a wake time. Block out time for exercise, reading, writing or correspondence, and whatever job you have been assigned. Defend the blocks the way you would defend an outside calendar — including against your own bad afternoons."
+      },
+      {
+        "strategy": "Take the longest, hardest classes available.",
+        "detail": "Most camps run some combination of A&O, drug and alcohol education (RDAP for those who qualify), financial literacy, parenting, and ACE classes; some institutions partner with outside colleges. Sign up for what's available. The room costs nothing, the certificates count toward classification scoring, and a structured class is two or three hours of the week that the institution is filling for you instead of the other way around."
+      },
+      {
+        "strategy": "Cultivate one or two long-form projects.",
+        "detail": "Open hours filled with short, novel, low-effort activities — television, card games, gossip — accumulate as a sense of empty time. Open hours filled with one long-form effort — a book read slowly, a manuscript written, a body of physical training — accumulate as something else. Choose projects whose outcome you can carry out with you."
+      },
+      {
+        "strategy": "Move every day.",
+        "detail": "The track and the recreation yard are the most reliable structure most camps offer. Walking, running, calisthenics, weights — pick what is available and use it. Movement is the most consistent counterweight to the institution's gravitational pull toward sleep, screen time, and the slow drift of unfilled hours."
+      }
+    ],
+    "related": ["counts", "recall", "first-days"]
+  },
+  {
+    "id": "being-shipped",
+    "title": "Being Shipped",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The threat that a single incident report at a camp can cost the camp designation entirely and produce a transfer to a federal correctional institution at the next security level up — sometimes within hours of the report being written.",
+    "body": [
+      "Being shipped, in camp shorthand, is the abrupt loss of camp designation and the transfer to a federal correctional institution at the next security level up — typically a low-security FCI, occasionally a medium. Camps are minimum-security; the BOP's classification system holds camp eligibility at zero or near-zero security points. A single 100- or 200-series incident report can move those points enough to shift the designation, and a serious enough incident — assault, contraband, escape, refusing a direct order, drug or alcohol violations — can do it at the moment the report is written, before the disciplinary hearing has even happened. The person is taken from the camp to the parent institution's Special Housing Unit, the SHU, and held there until a transfer slot opens up.",
+      "At the camps, the most common shipping triggers are predictable. Fights — even minor altercations that would not be remarkable in any other setting. Contraband — most commonly cell phones, alcohol (often pruno made from fruit and sugar), tobacco, and pills. Stealing from the kitchen or warehouse for resale. Failing to return from a furlough. Walking off the compound, even briefly: there are no fences at a camp, and the act of stepping past the institution's perimeter without authorization is treated as an escape. A positive drug or alcohol test. A staff member's documentation of insubordination after a direct order. Sexual contact with another inmate or with staff. Each of these is a known shipping risk, and most camp survivors can name two or three people they watched leave for one of them.",
+      "From the inside, the dread of being shipped does much of the institution's work for it. Camps are not coercive places by visible signal — there are no fences, no lockdowns, no roving officers — and the BOP knows that the camp's order depends on people not wanting to lose what they have. The threat of an FCI low or medium is enough. The visible discipline of a place that runs on this incentive is, paradoxically, what makes it feel so quiet. The sentence cost of being shipped is real: lost halfway-house time, lost good conduct time, a higher-security record that follows the rest of the sentence and the post-release classification, a longer drive for visits, and an environment several registers more difficult than the one being left.",
+      "For families on the outside, the practical sign of a possible shipping is usually the silence. A person who has been written up for a serious incident is often placed in the SHU at the parent institution — sometimes immediately, sometimes after a few days — and is unreachable by phone or email for a stretch that can run from a few days to several weeks while the case moves through the disciplinary process and a transfer destination is selected. Mail still gets through to the SHU but is slow. The lawyer can usually confirm what is happening through the BOP and is the right first call when comms go dark. The transfer itself, if it happens, can take additional weeks once the destination is chosen, and the person may make several intermediate stops along the way."
+    ],
+    "coping": [
+      {
+        "strategy": "Treat every staff interaction as documented.",
+        "detail": "At a camp, the easiest way to be shipped is to give a staff member a reason to write something down. The same conversation that ends in a verbal warning from one officer ends in a 300-series shot from another. Be polite, follow direct orders even when the order seems pointless, and save any disputes for the BP-9 administrative remedy process, not the moment of the order."
+      },
+      {
+        "strategy": "Don't trade for contraband, even small.",
+        "detail": "Cell phones, alcohol, tobacco, and pills are the most common camp contraband and the most common shipping triggers. The economics — high prices, short supply, easy detection — are designed to fail. Even the small trades, like a piece of fruit lifted from the dining hall in exchange for stamps, can produce a shot if a staff member is looking for one."
+      },
+      {
+        "strategy": "Stay out of the disputes that are not yours.",
+        "detail": "Fights at a camp almost always start as someone else's argument that someone else gets pulled into. The rule, repeated by nearly every camp survivor, is to walk away the moment voices rise. The cost of stepping out is almost nothing in the moment; the institutional cost of being on the wrong side of an incident report is large enough to reshape a sentence."
+      },
+      {
+        "strategy": "Build the appeal as the report is written.",
+        "detail": "If a serious incident report is written on you and you intend to fight it, the time to begin documenting a defense is the day it is written, not the day of the hearing. Note who was present, what was said, what your own actions were. Talk to your staff representative. Use the appeal process — through the warden, the regional office, and the central office — if the UDC or DHO finding goes against you. It takes time and patience and almost always continues after you have left the SHU, but it is the only path that gets a shot reduced or expunged."
+      },
+      {
+        "strategy": "Pre-brief your family on a silent stretch.",
+        "detail": "If you have just been written up and the SHU looks likely, the people on the outside need to know that comms will be dark for a while. Brief your family in advance, while you still have phone access, on what to expect and what they should do — most importantly, who to call (your lawyer) and what not to assume. A stretch of silence after a known incident is procedural; it is not a sign that something further has gone wrong."
+      }
+    ],
+    "related": ["shots", "diesel-therapy", "receiving-and-discharge", "release-date-math"]
+  },
+  {
+    "id": "release-date-math",
+    "title": "Release-Date Math",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The constant calculation, recalculation, and second-guessing of when a sentence will actually end — Good Conduct Time, First Step Act earned time credits, RDAP, and halfway-house placement, each on its own clock and each capable of moving the projected date by weeks or months.",
+    "body": [
+      "Almost every camp inmate spends some part of the sentence doing release-date math, and over the last decade the math has gotten more complicated rather than less. Good Conduct Time, GCT, takes off up to 54 days a year for clear conduct under 18 U.S.C. § 3624(b) and is applied automatically to a sentence longer than one year. First Step Act earned time credits, FSA ETCs, are awarded for participation in approved programming and productive activities at a rate of 10 or 15 days per 30 days of programming, depending on whether a person's PATTERN risk score is minimum or low. RDAP — the Residential Drug Abuse Program — can take up to twelve additional months off the sentence for those who qualify, complete the program, and have a non-violent offense. Halfway-house placement and home confinement, governed by the Second Chance Act and the FSA, can move the last several months of a sentence out of the institution and into the community. Each program has eligibility rules, paperwork, and a calculation that someone — usually case management — has to actually do.",
+      "From the inside, the math is alive. People talk about it constantly. Spreadsheets are passed around. The TRULINCS terminals get used to check the BOP's own First Step Act conditional release-date calculator, and outside calculators built by former inmates and consultants — some careful, some speculative — get checked against the institution's SENTRY printout. Inmates with the same offense and the same sentence frequently arrive at meaningfully different numbers, because PATTERN scores, programming history, halfway-house bed availability, and the BOP's evolving interpretation of FSA rules each shift the calculation in ways the standard tools do not always catch. The same person can have a projected release date that moves by weeks or months when a new BOP memo comes out, when programming hours are entered, or when a case manager updates their file.",
+      "The bottleneck on most camp inmates' release-date math is the case manager. Case managers carry dozens of cases at a time and update SENTRY on their own schedule. A person whose programming hours have been earned but not entered will see those hours not yet credited. A halfway-house referral that has been accepted at the regional office but not transmitted to the residential reentry center will sit unconfirmed for weeks. The BOP's First Step Act auto-calculator has reduced some of this dependency, but errors and disputes about programming credit, PATTERN scoring, and conditional placement still require a case-manager review. Cooperation with case management is therefore not optional. The inmate who keeps a clean record of programming completions, who follows up politely and on a schedule, who files a BP-9 only when the informal route has clearly failed, gets a faster correct number than the one who escalates first.",
+      "For families on the outside, the right posture toward release-date math is gentle skepticism about any specific date until the institution's paperwork confirms it. The numbers passed in phone calls and letters — the home-confinement date, the halfway-house date, the conditional placement date, the projected release date — are the best estimates of someone doing the calculation under stress with imperfect information. They will move, sometimes in the right direction, sometimes the wrong one. The right thing to do with a date is plan for it but not arrange a surprise party around it. The BOP's published calculation lives in SENTRY; the printout the inmate can request from case management is the only source the institution itself relies on; every other number, including outside calculators and confident-sounding rumors from the unit, is an estimate."
+    ],
+    "coping": [
+      {
+        "strategy": "Get and keep the SENTRY printout.",
+        "detail": "The institution's official sentence calculation lives in a system called SENTRY. Inmates can request a printout through case management. Asking for one quarterly, keeping a folder of them, and noting any changes in your own handwriting on the bottom is the most reliable way to track what the BOP itself thinks your dates are."
+      },
+      {
+        "strategy": "Document programming completions in writing.",
+        "detail": "FSA earned time credits depend on programming hours being entered into your file. Keep a log of every approved program and productive activity completed, the dates, the hours, and the staff member who can confirm it. When a credit does not show up, the log is what you bring to your case manager — politely, with a copy left for them."
+      },
+      {
+        "strategy": "Argue the math at the right level.",
+        "detail": "If your dates look wrong, the place to dispute it is the administrative remedy chain — BP-8 informal, then BP-9 to the warden, BP-10 to the region, BP-11 to the central office — not the case manager's morning hallway. Filing the formal grievance triggers a written response and creates a record. Raising voices at the case manager creates a different record."
+      },
+      {
+        "strategy": "Use the calculators, but believe the SENTRY.",
+        "detail": "The BOP's First Step Act calculator at bop.gov gives a conditional date. Outside calculators built by consultants and former inmates can help with planning. Both are estimates. The SENTRY printout is what the institution will follow. When they disagree, SENTRY wins until it is corrected through the formal process."
+      },
+      {
+        "strategy": "Tell families the date is provisional.",
+        "detail": "The single most useful conversation to have with the people on the outside is the one where you explain that any release date you give them today is your best current estimate, not a guarantee. Plan logistics around it — flights, halfway-house intake, post-release work — as flexibly as possible. The release dates that move are usually the ones whose movement nobody had budgeted for."
+      }
+    ],
+    "related": ["shots", "diesel-therapy"]
+  },
+  {
+    "id": "career-and-financial-collapse",
+    "title": "Career and Financial Collapse",
+    "category": "Anxiety & Adjustment",
+    "shortDefinition": "The realization, somewhere in the early weeks at a camp, that the institution can hold the body but not the bills — and that careers, licenses, savings, and a financial life that took decades to build can come apart faster than the sentence itself.",
+    "body": [
+      "At a camp the financial picture inside is small and the financial picture outside is not. Institution jobs pay between roughly twelve and forty cents an hour. UNICOR, the federal prison industries program, when it is available, pays from twenty-three cents to a little over a dollar an hour — but most camps do not have a UNICOR factory, and the standard camp job is institution maintenance, kitchen, or grounds work at the lower end of the range. The Inmate Financial Responsibility Program — IFRP — takes a portion of those earnings, of any deposits sent in, and of any balance in the commissary account, and applies them to restitution and the special assessment ordered at sentencing. After IFRP and basic commissary, the working-week balance for most camp inmates is small: enough for stamps, soap, supplemental food, an occasional pair of athletic shoes through the official catalog. The money on the books is not the financial story for most white-collar people at a camp. The financial story is on the outside.",
+      "On the outside, the people who came to a camp from a professional life often arrive with a specific kind of arithmetic in their pockets. A mortgage that has to be paid or refinanced. A spouse or partner now carrying single-income obligations on a household built around two. A business — sometimes the business that produced the conviction — that has to be wound down or sold under duress. Professional licenses lost or under formal review: bar, medical, securities, real estate, CPA, nursing, insurance, teaching. A felony conviction that, by itself, resets most of the assumptions about what kinds of work and what kinds of credit will be available after release. And in the more serious financial cases, restitution that is effectively a second sentence — denominated in money rather than time, and paid out over decades rather than years.",
+      "From the inside, the most consistent feature of this anxiety is its uselessness. The inmate at a camp can do almost nothing, in real time, about the bill that came in this morning. Phone calls home about money are time-limited and rarely productive; a fifteen-minute call is not the right tool for a refinance conversation. A durable power of attorney, written and notarized before self-surrender, is the only mechanism that lets someone on the outside actually act on the inmate's behalf, and many people did not put one in place before they left. The work that can be done inside is almost always preparatory: writing letters to creditors and counterparties, drafting a post-release plan, completing the financial-literacy course if the camp offers one, and keeping a careful written record of the financial picture so that the conversations with the spouse, the lawyer, and the accountant can be done in letters and visits rather than fitfully on the phone.",
+      "For families on the outside, the financial side of the sentence is often where the largest help is given and the largest mistakes are made. Help: setting up the power of attorney early, writing it broadly enough to cover the decisions that will actually need to be made, and keeping the legal documents in a place a trusted person can reach. Mistakes: assuming the inmate can manage outside finances from inside (they cannot in any practical sense), or assuming silence on a topic means it is being handled (it usually means the call ran out of time). The most useful financial work to do during the sentence is the work of stabilization, not optimization: keep the basic obligations current, document everything, do not enter into new long-term commitments without legal advice, and treat any financial advice the inmate is getting from people on the unit with appropriate skepticism."
+    ],
+    "testimony": [
+      {
+        "quote": "I am not going to encumber your retirement. You worked an entire lifetime. … I am going to find a way to pay back the $535,000 in restitution.",
+        "attribution": "Justin Paperny, the promise made to his parents at the gate of FPC Taft, April 28, 2008",
+        "sourceLabel": "White Collar Advice — Federal Prison Mindset",
+        "sourceUrl": "https://www.whitecollaradvice.com/federal-prison-mindset/"
+      },
+      {
+        "quote": "That took ten years on the restitution.",
+        "attribution": "Justin Paperny, on how long the pledge actually took to fulfill",
+        "sourceLabel": "White Collar Advice — Federal Prison Mindset",
+        "sourceUrl": "https://www.whitecollaradvice.com/federal-prison-mindset/"
+      }
+    ],
+    "coping": [
+      {
+        "strategy": "Get a durable power of attorney in place before you go in.",
+        "detail": "The single most consequential financial document for most white-collar inmates is a durable power of attorney, written broadly enough to authorize the named person to refinance, sell, sign, and respond to creditors on the inmate's behalf. Drafting one after self-surrender is possible but slow and expensive; doing it before is a few hours and a notary visit. Without it, the people on the outside cannot act."
+      },
+      {
+        "strategy": "Stabilize, do not optimize.",
+        "detail": "Inside time is the wrong period in which to make new aggressive financial decisions. Keep the basic obligations current. Pay what is owed in the order it is owed. Resist the temptation, common in early months, to restructure or refinance from a fifteen-minute phone call. Major financial moves should wait for visits or letters and should run through a lawyer or accountant on the outside."
+      },
+      {
+        "strategy": "Document the picture in writing for the people outside.",
+        "detail": "Many white-collar inmates discover that their spouses or partners do not actually know where the bills are paid from, which accounts hold what, who handles the taxes. Spend the first weeks writing it down: a single document listing bank accounts, debit cards, online logins, professional contacts, recurring obligations, license numbers, and any ongoing legal matters. Mail it. The act of writing it down is part of how a household with one person inside survives the year."
+      },
+      {
+        "strategy": "Take the financial-literacy class if the camp offers one.",
+        "detail": "Most camps have a class sometimes called Money Smart, financial literacy, or post-release financial planning. They are uneven, but the certificate is on the FSA programming list, and the room hours count. The class is also where conversations with other inmates about restitution, IFRP, and post-release credit happen most usefully — out of the unit's gossip economy."
+      },
+      {
+        "strategy": "Plan for the long tail.",
+        "detail": "Restitution is not a sentence-length problem; for serious financial cases, it is a lifetime one. The IFRP rate inside is small. The post-release rate, set at sentencing or by the probation office, is what carries the burden after release. Use inside time to draft a plausible post-release earning plan — what work is available with a felony conviction, what licenses can be restored or replaced, what self-employment is possible — and to write the long letters of explanation to the people who will need to know. The plan does not need to be perfect; it needs to exist on paper before the gate opens."
+      }
+    ],
+    "related": ["shots", "release-date-math", "family-strain"]
   }
 ]
