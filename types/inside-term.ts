@@ -6,7 +6,7 @@ export interface InsideTermSource {
 export interface InsideTermTestimony {
   /** The quote itself, in the speaker's own words */
   quote: string;
-  /** Who said it — person plus brief role, e.g. "Justin Paperny, federal camp inmate 2008–2010" */
+  /** Who said it — person plus brief role, e.g. "Walt Pavlo, FPC Edgefield" */
   attribution: string;
   /** Citation label for sources without a clean URL (book + page, transcript, podcast) */
   sourceLabel?: string;
