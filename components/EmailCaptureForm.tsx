@@ -183,6 +183,8 @@ function humanError(code?: string): string {
   switch (code) {
     case 'invalid_email':
       return 'That email doesn’t look right. Try again?';
+    case 'not_configured':
+      return 'Sign-ups aren’t switched on yet — we’re still setting this up. Please try again in a day or two.';
     case 'bad_json':
       return 'Something got garbled. Please refresh and try again.';
     case 'checkout_failed':

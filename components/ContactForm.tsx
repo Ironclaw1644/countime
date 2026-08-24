@@ -149,6 +149,8 @@ function humanError(code: string): string {
       return 'Please add a message before sending.';
     case 'message_too_long':
       return 'That message is longer than we can accept. Could you trim it a little?';
+    case 'not_configured':
+      return 'The contact form isn\u2019t switched on yet — we\u2019re still setting it up. Please try again in a day or two.';
     default:
       return 'Something went wrong sending that. Please try again in a moment.';
   }

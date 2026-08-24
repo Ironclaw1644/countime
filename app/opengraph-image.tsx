@@ -65,7 +65,7 @@ export default async function OgImage() {
             <div style={{ display: 'flex' }}>90 facilities</div>
           </div>
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img src={logoSrc} alt="Countime" width={860} height={262} style={{ objectFit: 'contain' }} />
 
           <div
