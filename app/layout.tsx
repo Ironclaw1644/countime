@@ -80,9 +80,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fetchPriority="high"
         />
         <noscript>
-          {/* The write-on starts paused and is released by JS; without JS,
-              show the finished lettering rather than nothing. */}
-          <style>{`.write-on{animation:none!important;-webkit-mask-size:contain,128% 100%!important;mask-size:contain,128% 100%!important}`}</style>
+          {/* The curtain starts paused and is released by JS; without JS,
+              show the finished lettering rather than a covered one. */}
+          <style>{`.write-veil{display:none!important}`}</style>
         </noscript>
       </head>
       <body>

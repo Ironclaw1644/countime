@@ -95,15 +95,13 @@ export function LogoDisplay({
     const el = ref.current;
     if (!el || !animate) return;
 
-    // Skip the animation if the reader has asked for less motion.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       el.dataset.write = 'done';
       return;
     }
 
-    // Start only once the mask is actually decoded. Otherwise the animation
-    // runs against an image that hasn't arrived and the reader sees nothing
-    // happen — which is exactly what shipped the first time.
+    // Release the curtain only once the lettering has decoded, so the sweep
+    // never runs against an image that hasn't arrived.
     let cancelled = false;
     const start = () => {
       if (!cancelled) el.dataset.write = 'run';
@@ -118,7 +116,7 @@ export function LogoDisplay({
       img.onerror = start;
     }
 
-    // Belt and braces: never leave the logotype invisible if decoding stalls.
+    // Never leave the logotype half-covered if decoding stalls.
     const failsafe = window.setTimeout(start, 3000);
     return () => {
       cancelled = true;
@@ -127,31 +125,39 @@ export function LogoDisplay({
   }, [animate]);
 
   const src = `url(${DISPLAY_MASK})`;
+  const ink: React.CSSProperties = {
+    aspectRatio: String(ASPECT),
+    maskImage: src,
+    WebkitMaskImage: src,
+    maskRepeat: 'no-repeat',
+    WebkitMaskRepeat: 'no-repeat',
+    maskSize: 'contain',
+    WebkitMaskSize: 'contain',
+    maskPosition: 'center',
+    WebkitMaskPosition: 'center',
+  };
+
+  if (!animate) {
+    return (
+      <span
+        role="img"
+        aria-label={title}
+        className={cn('block w-full bg-current', className)}
+        style={ink}
+      />
+    );
+  }
 
   return (
     <span
       ref={ref}
       role="img"
       aria-label={title}
-      className={cn('block w-full bg-current', animate && 'write-on', className)}
-      style={
-        {
-          aspectRatio: String(ASPECT),
-          ['--logo-src' as string]: src,
-          ...(animate
-            ? {}
-            : {
-                maskImage: src,
-                WebkitMaskImage: src,
-                maskRepeat: 'no-repeat',
-                WebkitMaskRepeat: 'no-repeat',
-                maskSize: 'contain',
-                WebkitMaskSize: 'contain',
-                maskPosition: 'center',
-                WebkitMaskPosition: 'center',
-              }),
-        } as React.CSSProperties
-      }
-    />
+      className={cn('write-stage', className)}
+      style={{ aspectRatio: String(ASPECT) }}
+    >
+      <span aria-hidden className="block h-full w-full bg-current" style={ink} />
+      <span aria-hidden className="write-veil" />
+    </span>
   );
 }

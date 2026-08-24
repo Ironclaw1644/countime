@@ -57,7 +57,10 @@ export default function HomePage() {
     <>
       {/* Hero — the logotype is the headline, at full width. No serif
           display line, no italicised word; the lettering carries it. */}
-      <section className="relative overflow-hidden border-b border-rule">
+      {/* Opaque paper band: the write-on curtain is paper-coloured, so the
+          ruled grid must not run behind it — otherwise the hairlines wink out
+          and back as the curtain passes. */}
+      <section className="relative overflow-hidden border-b border-rule bg-paper">
         <Container width="wide">
           <div className="pb-14 pt-10 sm:pb-20 sm:pt-14">
             <div className="flex flex-wrap items-baseline justify-between gap-4">

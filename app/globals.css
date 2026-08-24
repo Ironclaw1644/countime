@@ -261,59 +261,66 @@ p { text-wrap: pretty; }
 .maplibregl-ctrl-attrib a { color: rgb(var(--ink-soft)); }
 
 /* ── Logotype write-on ─────────────────────────────────────────────────────
-   The logotype is raster artwork used as a mask, so there are no SVG paths to
-   stroke. Instead a second, feathered gradient mask sweeps left to right and
-   is intersected with the lettering — the script appears in the order it was
-   written, with a soft leading edge that reads like ink arriving rather than
-   a hard wipe. The trailing ".NET" lands last, which is also how you'd write it.
+   The lettering is revealed by sliding a paper-coloured curtain off it, left
+   to right, with a soft gradient leading edge so the ink appears to flow in.
 
-   The animation starts PAUSED. A CSS animation begins at first paint, but the
-   mask image still has to download — on any real connection it arrived after
-   the sweep had already finished, so the logotype just appeared fully formed.
-   Logo.tsx decodes the image first, then sets data-write="run".
+   This deliberately uses only `transform` on an ordinary element. The first
+   attempt intersected two mask layers and animated `mask-size`; both are
+   unreliable on mobile WebKit, and if either falls back the whole logotype
+   just appears at once — which is what shipped. A translated curtain is
+   compositor-friendly and behaves the same on every engine.
+
+   The curtain starts paused; Logo.tsx releases it once the lettering's mask
+   image has decoded, so the sweep never runs against an image that hasn't
+   arrived yet.
 */
-.write-on {
-  -webkit-mask-image: var(--logo-src), linear-gradient(90deg, #000 82%, rgb(0 0 0 / 0.35) 93%, transparent 100%);
-  mask-image: var(--logo-src), linear-gradient(90deg, #000 82%, rgb(0 0 0 / 0.35) 93%, transparent 100%);
-  -webkit-mask-repeat: no-repeat, no-repeat;
-  mask-repeat: no-repeat, no-repeat;
-  -webkit-mask-position: center, left center;
-  mask-position: center, left center;
-  -webkit-mask-size: contain, 0% 100%;
-  mask-size: contain, 0% 100%;
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-  animation: write-on 2600ms cubic-bezier(0.33, 0.03, 0.3, 1) forwards;
+.write-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+
+.write-veil {
+  position: absolute;
+  top: -2%;
+  bottom: -2%;
+  left: 0;
+  width: 130%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--paper) / 0) 0%,
+    rgb(var(--paper) / 0.55) 4%,
+    rgb(var(--paper)) 8%,
+    rgb(var(--paper)) 100%
+  );
+  transform: translateX(-12%);
+  animation: write-veil 2600ms cubic-bezier(0.33, 0.03, 0.3, 1) forwards;
   animation-play-state: paused;
 }
 
-.write-on[data-write='run'] {
+.write-stage[data-write='run'] .write-veil {
   animation-play-state: running;
 }
 
-/* Reduced motion, or no JavaScript: skip straight to the finished lettering. */
-.write-on[data-write='done'] {
-  animation: none;
-  -webkit-mask-size: contain, 128% 100%;
-  mask-size: contain, 128% 100%;
+/* Reduced motion, no JavaScript, or a stalled decode: no curtain at all. */
+.write-stage[data-write='done'] .write-veil {
+  display: none;
 }
 
-@keyframes write-on {
+@keyframes write-veil {
   from {
-    -webkit-mask-size: contain, 0% 100%;
-    mask-size: contain, 0% 100%;
+    transform: translateX(-12%);
   }
   to {
-    -webkit-mask-size: contain, 128% 100%;
-    mask-size: contain, 128% 100%;
+    transform: translateX(100%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .write-on {
-    animation: none;
-    -webkit-mask-size: contain, 128% 100%;
-    mask-size: contain, 128% 100%;
+  .write-veil {
+    display: none;
   }
 }
 
