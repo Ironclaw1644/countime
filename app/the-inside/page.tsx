@@ -21,11 +21,11 @@ export default function TheInsidePage() {
       <Section className="pt-12 pb-8 sm:pt-16">
         <Container>
           <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-cream-50/70 px-3 py-1 text-[11px] text-ink-muted shadow-paper">
-              <Icon icon={faComments} className="text-clay" />
-              <span className="small-caps">The Inside</span>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
+              <Icon icon={faComments} className="text-accent" />
+              <span className="eyebrow">The Inside</span>
             </div>
-            <h1 className="font-display text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl md:text-7xl">
+            <h1 className="font-display text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink  md:text-7xl">
               The things you only learn once you&rsquo;re in.
             </h1>
             <p className="mt-6 max-w-2xl text-pretty text-[17px] leading-relaxed text-ink-soft">

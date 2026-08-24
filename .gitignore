@@ -41,3 +41,7 @@ next-env.d.ts
 
 # OS
 Thumbs.db
+
+# local agent state
+.claude/settings.local.json
+.claude/worktrees/

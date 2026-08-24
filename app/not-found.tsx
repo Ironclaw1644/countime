@@ -8,8 +8,8 @@ export default function NotFound() {
   return (
     <Section className="pt-20 pb-32 sm:pt-32">
       <Container width="narrow" className="text-center">
-        <p className="small-caps text-[11px] text-clay-deep">404</p>
-        <h1 className="font-display mt-3 text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl">
+        <p className="eyebrow text-[11px] text-accent-hover">404</p>
+        <h1 className="font-display mt-3 text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink ">
           We couldn&rsquo;t find that page.
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-pretty text-[17px] leading-relaxed text-ink-soft">

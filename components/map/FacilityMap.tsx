@@ -11,8 +11,11 @@ import { MapLegend } from './MapLegend';
 import { applyFilters, getAllFacilities, ALL_STATES, initialFilters } from '@/lib/facilities';
 import { distanceMiles, DEFAULT_VIEW } from '@/lib/geo';
 import type { Facility, FacilityFilters } from '@/types/facility';
+import { useTheme } from '@/lib/use-theme';
 
-const MAP_STYLE = 'https://tiles.openfreemap.org/styles/positron';
+// Near-monochrome basemaps in both themes, so the markers carry all the meaning.
+const MAP_STYLE_LIGHT = 'https://tiles.openfreemap.org/styles/positron';
+const MAP_STYLE_DARK = 'https://tiles.openfreemap.org/styles/dark';
 
 interface State {
   filters: FacilityFilters;
@@ -49,6 +52,8 @@ export default function FacilityMap() {
     hoverId: null,
     showAllRings: false,
   });
+
+  const isDark = useTheme() === 'dark';
 
   const [viewState, setViewState] = useState(DEFAULT_VIEW);
 
@@ -118,7 +123,7 @@ export default function FacilityMap() {
         onMove={(evt) => setViewState(evt.viewState)}
         onClick={() => dispatch({ type: 'SELECT', id: null })}
         mapLib={maplibregl}
-        mapStyle={MAP_STYLE}
+        mapStyle={isDark ? MAP_STYLE_DARK : MAP_STYLE_LIGHT}
         attributionControl={true}
         style={{ position: 'absolute', inset: 0 }}
         cursor="grab"
@@ -136,6 +141,10 @@ export default function FacilityMap() {
 
         {ALL_FACILITIES.map((f) => {
           const visible = visibleIds.has(f.id);
+          // Filtered-out facilities dim rather than disappear, which keeps the
+          // country's shape legible. Closed ones are the exception: leaving a
+          // ghost of a prison that no longer exists reads as an option.
+          if (!visible && f.status === 'CLOSED') return null;
           return (
             <FacilityMarker
               key={f.id}

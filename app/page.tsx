@@ -2,143 +2,185 @@ import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { ButtonLink } from '@/components/ui/Button';
-import { Icon } from '@/components/ui/Icon';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { PullQuote } from '@/components/ui/PullQuote';
 import { MapSection } from '@/components/map/MapSection';
-import {
-  faLocationDot,
-  faStethoscope,
-  faShieldHeart,
-  faArrowRight,
-  faBook,
-  faPalette,
-} from '@fortawesome/free-solid-svg-icons';
-import { getAllFacilities, isHoldingFacility } from '@/lib/facilities';
+import { LogoDisplay } from '@/components/brand/Logo';
+import { getAllFacilities, isHoldingFacility, isClosed } from '@/lib/facilities';
+
+const CHECKED_LABEL = 'August 2026';
+
+const CONTENTS = [
+  {
+    n: '01',
+    href: '#map',
+    title: 'The map',
+    body: 'Every federal minimum-security camp, medical center, and holding facility — with what is open, what is closing, and how far each one is from your ZIP.',
+  },
+  {
+    n: '02',
+    href: '/handbooks',
+    title: 'The handbooks',
+    body: 'The Admission & Orientation handbook the Bureau hands every new arrival, linked straight from bop.gov for each facility that publishes one.',
+  },
+  {
+    n: '03',
+    href: '/the-inside',
+    title: 'The Inside',
+    body: 'Plain-language entries on counts, recall, shots, R&D, diesel therapy — the vocabulary nobody explains to you beforehand.',
+  },
+  {
+    n: '04',
+    href: '/checklist',
+    title: 'The checklist',
+    body: 'What to do at ninety days out, sixty, thirty, seven, and on the morning itself. Free, and built to be printed.',
+  },
+  {
+    n: '05',
+    href: '/updates',
+    title: 'What changed',
+    body: 'A dated log of camp closures, conversions, and BOP announcements, with the source for each one.',
+  },
+];
 
 export default function HomePage() {
   const facilities = getAllFacilities();
-  const totalCount = facilities.length;
-  const rdapCount = facilities.filter((f) => f.hasRDAP).length;
-  const medCount = facilities.filter((f) => f.isMedical).length;
-  const womensCount = facilities.filter((f) => f.gender === 'FEMALE').length;
-  const holdingCount = facilities.filter(isHoldingFacility).length;
+  const live = facilities.filter((f) => !isClosed(f));
+  const rdapCount = facilities.filter((f) => f.rdapAtFacility && f.rdapStatus === 'ACTIVE').length;
+  const medCount = live.filter((f) => f.isMedical).length;
+  const womensCount = live.filter((f) => f.gender === 'FEMALE').length;
+  const holdingCount = live.filter(isHoldingFacility).length;
+  const selfSurrenderCount = facilities.filter((f) => f.acceptsSelfSurrender).length;
+  const changedCount = facilities.filter((f) => f.status !== 'OPEN').length;
 
   return (
     <>
-      {/* Hero */}
-      <Section className="pt-12 pb-10 sm:pt-20 sm:pb-12">
-        <Container width="default">
-          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-end">
-            <div>
-              <p
-                data-reveal="1"
-                className="small-caps text-[11px] text-clay-deep"
-              >
+      {/* Hero — the logotype is the headline, at full width. No serif
+          display line, no italicised word; the lettering carries it. */}
+      <section className="relative overflow-hidden border-b border-rule">
+        <Container width="wide">
+          <div className="pb-14 pt-10 sm:pb-20 sm:pt-14">
+            <div className="flex flex-wrap items-baseline justify-between gap-4">
+              <Eyebrow data-reveal="1" className="!text-accent">
                 For families navigating federal sentencing
-              </p>
-              <h1
-                data-reveal="2"
-                className="font-display mt-4 text-balance text-5xl leading-[1.02] tracking-tightest text-ink sm:text-6xl md:text-[5.25rem]"
-              >
-                Know where they&rsquo;re going.{' '}
-                <em className="text-clay-deep">Plan</em> what comes next.
-              </h1>
-              <p
-                data-reveal="3"
-                className="mt-7 max-w-xl text-pretty text-[17px] leading-relaxed text-ink-soft sm:text-lg"
-              >
-                Countime is a quiet companion for white-collar offenders and
-                the people who love them. Find every federal camp, medical
-                center, and pre-trial holding facility on one map; see which
-                is closest to home; download the handbook for the place you
-                need.
-              </p>
+              </Eyebrow>
+              <Eyebrow data-reveal="1" className="tabular">
+                {live.length} facilities · checked {CHECKED_LABEL}
+              </Eyebrow>
+            </div>
 
-              <div data-reveal="4" className="mt-9 flex flex-wrap items-center gap-3">
+            {/* No scroll-reveal here — the write-on animation is the entrance. */}
+            <div className="mt-8 text-ink sm:mt-10">
+              <LogoDisplay animate />
+            </div>
+
+            <div className="mt-10 grid gap-8 border-t border-rule pt-8 sm:mt-14 md:grid-cols-[1fr_auto] md:items-end">
+              <p data-reveal="3" className="max-w-prose text-lg leading-relaxed text-ink-soft">
+                A calm, current map of every federal minimum-security camp —
+                checked against the Bureau&rsquo;s own records, including the
+                ones that have closed. Built for the people who love someone
+                going in.
+              </p>
+              <div data-reveal="4" className="flex flex-wrap items-center gap-3">
                 <ButtonLink href="#map" size="lg" variant="primary">
-                  Open the camp map
-                  <Icon icon={faArrowRight} />
+                  Open the map
                 </ButtonLink>
-                <ButtonLink href="/handbooks" size="lg" variant="outline">
-                  <Icon icon={faBook} />
-                  Browse handbooks
+                <ButtonLink href="/checklist" size="lg" variant="outline">
+                  Surrender checklist
                 </ButtonLink>
               </div>
             </div>
-
-            <aside
-              data-reveal="5"
-              className="rounded-3xl border border-ink/10 bg-cream-50/70 p-6 shadow-paper backdrop-blur"
-            >
-              <p className="small-caps text-[10px] text-ink-muted">By the numbers</p>
-              <dl className="mt-3 grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
-                <Stat value={totalCount} label="Facilities mapped" />
-                <Stat value={rdapCount} label="Offer RDAP" />
-                <Stat value={womensCount} label="Women's" />
-                <Stat value={holdingCount} label="Holding" />
-              </dl>
-              <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
-                The Bureau of Prisons aims to place inmates within{' '}
-                <strong className="text-ink">500 miles</strong> of home when
-                possible — though almost everyone passes through a holding
-                facility first. Enter your ZIP on the map to see what&rsquo;s
-                in reach.
-              </p>
-              <p className="mt-3 text-[12px] leading-relaxed text-ink-muted">
-                {medCount} medical center{medCount === 1 ? '' : 's'} and{' '}
-                {holdingCount} federal holding facilit
-                {holdingCount === 1 ? 'y' : 'ies'} are mapped alongside the
-                camps.
-              </p>
-            </aside>
           </div>
+        </Container>
+      </section>
+
+      {/* Ledger row — the numbers, ruled like a page */}
+      <Section className="py-12 sm:py-16">
+        <Container width="wide">
+          <dl className="grid grid-cols-2 border-t border-rule md:grid-cols-4">
+            <Stat n="01" value={live.length} label="Facilities mapped" />
+            <Stat n="02" value={selfSurrenderCount} label="Take self-surrender" />
+            <Stat n="03" value={rdapCount} label="Run RDAP on site" />
+            <Stat n="04" value={changedCount} label="Closed or changing" href="/updates" />
+          </dl>
+          <p className="mt-8 max-w-prose text-sm leading-relaxed text-ink-muted">
+            The Bureau aims to place people within{' '}
+            <strong className="font-medium text-ink-soft">500 miles</strong> of home
+            when it can — though almost everyone passes through a holding facility
+            first. {medCount} medical centers and {holdingCount} holding facilities
+            are mapped alongside the camps.
+          </p>
         </Container>
       </Section>
 
       {/* Map */}
       <MapSection />
 
-      {/* Three-column explainer */}
+      {/* Front matter */}
       <Section className="py-20 sm:py-28">
         <Container>
-          <div className="mb-12 max-w-2xl">
-            <p className="small-caps text-[11px] text-clay-deep">
-              How to read this map
-            </p>
-            <h2 className="font-display rule-under mt-3 text-4xl leading-tight tracking-tightest text-ink sm:text-5xl">
-              A map made for one careful question.
+          <div className="max-w-2xl">
+            <Eyebrow className="text-accent">Contents</Eyebrow>
+            <h2 data-reveal data-reveal-style="wipe" className="mt-4 text-3xl text-ink">
+              <span>Five things worth knowing before the day comes.</span>
             </h2>
-            <p className="mt-5 text-[17px] leading-relaxed text-ink-soft">
-              We didn&rsquo;t build a directory. We built a way to look at one
-              difficult moment and see what&rsquo;s actually nearby.
+          </div>
+
+          <ol className="mt-12 border-t border-rule">
+            {CONTENTS.map((item) => (
+              <li key={item.n} data-reveal className="border-b border-rule">
+                <Link
+                  href={item.href}
+                  className="group grid gap-x-8 gap-y-2 py-7 transition-colors sm:grid-cols-[3rem_14rem_1fr] sm:items-baseline"
+                >
+                  <span className="tabular text-sm text-ink-faint transition-colors group-hover:text-accent">
+                    {item.n}
+                  </span>
+                  <span className="font-display text-xl text-ink transition-colors group-hover:text-accent">
+                    {item.title}
+                  </span>
+                  <span className="max-w-prose text-sm leading-relaxed text-ink-muted">
+                    {item.body}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+
+      {/* How to read the map */}
+      <Section className="pb-20 pt-0 sm:pb-28">
+        <Container>
+          <div className="mb-12 max-w-2xl">
+            <Eyebrow className="text-accent">How to read the map</Eyebrow>
+            <h2 data-reveal data-reveal-style="wipe" className="mt-4 text-3xl text-ink">
+              <span>A map made for one careful question.</span>
+            </h2>
+            <p className="mt-5 max-w-prose leading-relaxed text-ink-soft">
+              Not a directory — a way to look at one difficult moment and see
+              what is actually nearby, and what is actually still open.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-10 border-t border-rule pt-10 md:grid-cols-3">
             <Explainer
-              icon={faLocationDot}
-              tone="clay"
-              title="Every camp, plus where the system holds people in transit"
-              body="Standalone camps, satellite camps, federal medical centers, and the detention centers people pass through pre-trial or on the way to designation. Click any marker for the address, phone, and the handbook."
+              title="Shape tells you what kind"
+              body="A circle is a camp. A square is a federal medical center. A diamond is a holding or detention facility — somewhere people pass through, not somewhere they serve a sentence."
             />
             <Explainer
-              icon={faShieldHeart}
-              tone="gold"
-              title="A 500-mile reach for each"
-              body="The BOP&rsquo;s designation guideline is to keep families within 500 miles when they can. Hover a camp to see its reach, or enter your ZIP to see which facilities are in&nbsp;yours."
+              title="Fill tells you what state it is in"
+              body="Solid means open. Hollow means the Bureau has announced it is closing, or converting to a security level that is no longer a camp. Crossed through means closed — kept on the map, with the date and the reason."
             />
             <Explainer
-              icon={faPalette}
-              tone="teal"
-              title="Each color tells you what kind"
-              body="<span class='text-clay-deep font-medium'>Clay</span> for camps, <span class='text-pink-deep font-medium'>pink</span> for women&rsquo;s facilities, <span class='text-teal-deep font-medium'>teal</span> for medical centers, <span class='text-slate-deep font-medium'>slate</span> for federal holding. A gold ring marks RDAP — the residential drug program."
+              title="A ring means RDAP on site"
+              body="The residential drug program can take up to a year off a sentence. The ring marks camps that run it themselves — not ones whose parent prison runs it, which would mean transferring off the camp to join."
             />
           </div>
         </Container>
       </Section>
 
-      {/* Pull-quote */}
-      <Section className="py-16 sm:py-20">
+      <Section className="py-12 sm:py-16">
         <Container>
           <PullQuote attribution="A note we keep close">
             It&rsquo;s going to be okay. There is a way through this, and a lot
@@ -147,34 +189,26 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* CTA strip */}
-      <Section className="pb-24 pt-0">
+      {/* Closing CTA */}
+      <Section className="pb-24 pt-4">
         <Container>
-          <div className="relative overflow-hidden rounded-3xl border border-ink/10 bg-gradient-to-br from-cream-100 via-cream-50 to-cream p-10 shadow-paper sm:p-14">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-12 -top-12 h-56 w-56 rounded-full bg-clay/15 blur-3xl"
-            />
-            <div className="relative grid gap-8 md:grid-cols-[1.6fr_1fr] md:items-center">
-              <div>
-                <p className="small-caps text-[11px] text-clay-deep">
-                  Handbook library
-                </p>
-                <h3 className="font-display mt-3 text-3xl leading-tight tracking-tightest text-ink sm:text-4xl">
-                  The official A&amp;O handbook for every camp, in one quiet place.
-                </h3>
-                <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-ink-soft">
-                  These are the documents the Bureau of Prisons gives every
-                  inmate in their first week. We&rsquo;ve gathered them so
-                  families can read along — and arrive prepared.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3 md:justify-end">
-                <ButtonLink href="/handbooks" size="lg">
-                  Open the library
-                  <Icon icon={faArrowRight} />
-                </ButtonLink>
-              </div>
+          <div className="grid gap-8 border-t border-rule pt-12 md:grid-cols-[1.6fr_1fr] md:items-end">
+            <div>
+              <Eyebrow className="text-accent">Handbook library</Eyebrow>
+              <h2 data-reveal data-reveal-style="wipe" className="mt-4 max-w-2xl text-2xl text-ink">
+                <span>The official A&amp;O handbook for every facility that publishes one.</span>
+              </h2>
+              <p className="mt-4 max-w-prose text-sm leading-relaxed text-ink-soft">
+                These are the documents the Bureau gives every person in their
+                first week. Each link here was checked against bop.gov — where
+                the Bureau publishes no handbook, we say so rather than sending
+                you to a dead page.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 md:justify-end">
+              <ButtonLink href="/handbooks" size="lg">
+                Open the library
+              </ButtonLink>
             </div>
           </div>
         </Container>
@@ -183,49 +217,46 @@ export default function HomePage() {
   );
 }
 
-function Stat({ value, label }: { value: number; label: string }) {
-  return (
-    <div>
-      <dt className="font-display text-3xl leading-none tracking-tightest text-clay-deep">
+function Stat({
+  n,
+  value,
+  label,
+  href,
+}: {
+  n: string;
+  value: number;
+  label: string;
+  href?: string;
+}) {
+  const body = (
+    <>
+      <span className="eyebrow tabular block !text-ink-faint">{n}</span>
+      <dt className="tabular mt-6 font-display text-3xl font-semibold leading-none text-ink">
         {value}
       </dt>
-      <dd className="mt-1.5 text-[11px] uppercase tracking-wide text-ink-muted">
-        {label}
-      </dd>
+      <dd className="mt-2 text-sm text-ink-muted">{label}</dd>
+    </>
+  );
+  return (
+    <div
+      data-reveal
+      className="border-b border-rule px-1 py-7 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0"
+    >
+      {href ? (
+        <Link href={href} className="group block transition-colors hover:text-accent">
+          {body}
+        </Link>
+      ) : (
+        body
+      )}
     </div>
   );
 }
-
-function Explainer({
-  icon,
-  title,
-  body,
-  tone,
-}: {
-  icon: import('@fortawesome/fontawesome-svg-core').IconDefinition;
-  title: string;
-  body: string;
-  tone: 'clay' | 'gold' | 'teal';
-}) {
-  const tones = {
-    clay: 'bg-clay/12 text-clay-deep',
-    gold: 'bg-gold/20 text-gold-deep',
-    teal: 'bg-teal/15 text-teal-deep',
-  };
+function Explainer({ title, body }: { title: string; body: string }) {
   return (
-    <article className="group relative">
-      <div
-        className={`mb-5 grid h-12 w-12 place-items-center rounded-2xl ${tones[tone]}`}
-      >
-        <Icon icon={icon} className="text-lg" />
-      </div>
-      <h3 className="font-display text-2xl leading-tight tracking-tightest text-ink">
-        {title}
-      </h3>
-      <p
-        className="mt-3 text-[15px] leading-relaxed text-ink-soft"
-        dangerouslySetInnerHTML={{ __html: body }}
-      />
+    <article data-reveal>
+      <h3 className="font-display text-xl text-ink">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-ink-muted">{body}</p>
     </article>
   );
 }

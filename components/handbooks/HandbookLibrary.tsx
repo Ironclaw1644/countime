@@ -27,7 +27,7 @@ export function HandbookLibrary({ facilities }: { facilities: Facility[] }) {
         return false;
       }
       if (region !== 'All' && f.region !== region) return false;
-      if (rdapOnly && !f.hasRDAP) return false;
+      if (rdapOnly && !f.rdapAtFacility) return false;
       if (medicalOnly && !f.isMedical) return false;
       return true;
     });
@@ -46,9 +46,9 @@ export function HandbookLibrary({ facilities }: { facilities: Facility[] }) {
   return (
     <>
       {/* Filter bar */}
-      <div className="sticky top-16 z-20 -mx-5 mb-10 border-y border-ink/10 bg-cream/85 px-5 py-4 backdrop-blur sm:-mx-8 sm:px-8 sm:top-20">
+      <div className="sticky top-16 z-20 -mx-5 mb-10 border-y border-rule bg-paper/85 px-5 py-4 backdrop-blur sm:-mx-8 sm:px-8 sm:top-20">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-1 items-center gap-2 rounded-full border border-ink/10 bg-cream-50/80 px-4 py-2.5 lg:max-w-md">
+          <div className="flex flex-1 items-center gap-2 rounded-full border border-rule bg-paper-raised/80 px-4 py-2.5 lg:max-w-md">
             <Icon icon={faMagnifyingGlass} className="text-ink-muted" />
             <input
               type="search"
@@ -137,10 +137,10 @@ export function HandbookLibrary({ facilities }: { facilities: Facility[] }) {
             return (
               <section key={r}>
                 <header className="mb-6 flex items-end justify-between">
-                  <h2 className="font-display text-3xl leading-tight tracking-tightest text-ink sm:text-4xl">
+                  <h2 className="font-display text-3xl leading-tight tracking-[-0.02em] text-ink sm:text-4xl">
                     {r}
                   </h2>
-                  <span className="small-caps text-[10px] text-ink-muted">
+                  <span className="eyebrow text-[10px] text-ink-muted">
                     {list.length} {list.length === 1 ? 'facility' : 'facilities'}
                   </span>
                 </header>
@@ -175,8 +175,8 @@ function RegionTab({
       className={cn(
         'rounded-full px-3.5 py-1.5 text-[12px] font-medium transition-colors',
         active
-          ? 'bg-ink text-cream-50'
-          : 'text-ink-soft hover:bg-cream-100 hover:text-ink',
+          ? 'bg-ink text-accent-on'
+          : 'text-ink-soft hover:bg-paper-sunk hover:text-ink',
       )}
     >
       {label}
@@ -203,8 +203,8 @@ function ProgramToggle({
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-medium transition-colors',
         active
-          ? 'border-clay bg-clay text-cream-50'
-          : 'border-ink/15 bg-cream-50/60 text-ink-soft hover:bg-cream-100',
+          ? 'border-accent bg-accent text-accent-on'
+          : 'border-ink/15 bg-paper-raised/60 text-ink-soft hover:bg-paper-sunk',
       )}
     >
       <Icon icon={icon} />

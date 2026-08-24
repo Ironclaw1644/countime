@@ -13,35 +13,89 @@ interface Props {
   onHoverEnd?: () => void;
 }
 
-type Variant = 'pink' | 'slate' | 'teal' | 'clay';
+/**
+ * Markers are double-encoded: shape carries the kind of facility, fill carries
+ * its operating status, and a ring marks on-site RDAP. Colour alone was doing
+ * all of that before, which broke down as soon as closures needed showing —
+ * and never worked for colour-blind readers or in print.
+ */
+export type MarkerShape = 'camp' | 'medical' | 'holding';
 
-function variantFor(facility: Facility): Variant {
-  if (facility.gender === 'FEMALE') return 'pink';
-  if (HOLDING_TYPES.includes(facility.type)) return 'slate';
-  if (facility.type === 'FMC' || facility.type === 'MCFP' || facility.isMedical) return 'teal';
-  return 'clay';
+export function shapeFor(f: Facility): MarkerShape {
+  if (HOLDING_TYPES.includes(f.type)) return 'holding';
+  if (f.type === 'FMC' || f.type === 'MCFP' || f.isMedical) return 'medical';
+  return 'camp';
 }
 
-const HALO: Record<Variant, string> = {
-  pink: 'bg-pink/40',
-  slate: 'bg-slate/40',
-  teal: 'bg-teal/40',
-  clay: 'bg-clay/40',
-};
+/** Geometry shared by the markers and the legend, so the two can't drift. */
+export function MarkerGlyph({
+  shape,
+  status,
+  rdap,
+  women,
+  size = 13,
+  className,
+}: {
+  shape: MarkerShape;
+  status: Facility['status'];
+  rdap?: boolean;
+  women?: boolean;
+  size?: number;
+  className?: string;
+}) {
+  const closed = status === 'CLOSED';
+  const hollow = status === 'CLOSING' || status === 'CONVERTING';
+  const color = closed
+    ? 'var(--state-closed)'
+    : women
+      ? 'var(--tone-women)'
+      : shape === 'medical'
+        ? 'var(--tone-medical)'
+        : shape === 'holding'
+          ? 'var(--tone-holding)'
+          : 'var(--state-open)';
 
-const DOT: Record<Variant, string> = {
-  pink: 'bg-pink',
-  slate: 'bg-slate',
-  teal: 'bg-teal',
-  clay: 'bg-clay',
-};
+  const stroke = `rgb(${color})`;
+  const fill = hollow || closed ? 'transparent' : stroke;
+  const box = 24;
+  const c = box / 2;
+  const r = 6.5;
 
-const DOT_SELECTED: Record<Variant, string> = {
-  pink: 'bg-pink-deep',
-  slate: 'bg-slate-deep',
-  teal: 'bg-teal-deep',
-  clay: 'bg-clay-deep',
-};
+  return (
+    <svg
+      viewBox={`0 0 ${box} ${box}`}
+      width={size * 1.85}
+      height={size * 1.85}
+      aria-hidden
+      className={cn('overflow-visible', className)}
+    >
+      {rdap && !closed && (
+        <circle cx={c} cy={c} r={r + 3.4} fill="none" stroke="rgb(var(--tone-rdap))" strokeWidth="1.4" />
+      )}
+      {shape === 'camp' && (
+        <circle cx={c} cy={c} r={r} fill={fill} stroke={stroke} strokeWidth="1.8" />
+      )}
+      {shape === 'medical' && (
+        <rect
+          x={c - r} y={c - r} width={r * 2} height={r * 2} rx="1.4"
+          fill={fill} stroke={stroke} strokeWidth="1.8"
+        />
+      )}
+      {shape === 'holding' && (
+        <path
+          d={`M${c} ${c - r - 0.8} L${c + r + 0.8} ${c} L${c} ${c + r + 0.8} L${c - r - 0.8} ${c} Z`}
+          fill={fill} stroke={stroke} strokeWidth="1.8" strokeLinejoin="round"
+        />
+      )}
+      {closed && (
+        <path
+          d={`M${c - r} ${c - r} L${c + r} ${c + r}`}
+          stroke={stroke} strokeWidth="1.8" strokeLinecap="round"
+        />
+      )}
+    </svg>
+  );
+}
 
 export function FacilityMarker({
   facility,
@@ -51,7 +105,7 @@ export function FacilityMarker({
   onHoverStart,
   onHoverEnd,
 }: Props) {
-  const variant = variantFor(facility);
+  const shape = shapeFor(facility);
 
   return (
     <Marker
@@ -62,7 +116,9 @@ export function FacilityMarker({
     >
       <button
         type="button"
-        aria-label={`${facility.name} in ${facility.city}, ${facility.state}`}
+        aria-label={`${facility.name} in ${facility.city}, ${facility.state}${
+          facility.status !== 'OPEN' ? ` — ${facility.status.toLowerCase()}` : ''
+        }`}
         onClick={(e) => {
           e.stopPropagation();
           onSelect(facility.id);
@@ -72,39 +128,26 @@ export function FacilityMarker({
         onFocus={() => onHoverStart?.(facility.id)}
         onBlur={() => onHoverEnd?.()}
         className={cn(
-          'group relative grid place-items-center',
-          'h-7 w-7 rounded-full',
-          'transition-all duration-200',
-          isDimmed && !isSelected ? 'opacity-30' : 'opacity-100',
-          isSelected && 'scale-125 z-30',
+          'group relative grid h-7 w-7 place-items-center rounded-full transition-all duration-200',
+          isDimmed && !isSelected ? 'opacity-25' : 'opacity-100',
+          facility.status === 'CLOSED' && !isSelected && 'opacity-70',
+          isSelected && 'z-30 scale-[1.35]',
         )}
       >
-        {/* Soft pulse halo */}
         <span
           aria-hidden
           className={cn(
-            'absolute inset-0 rounded-full',
-            HALO[variant],
-            'animate-pulse-soft',
-            !isSelected && 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100',
+            'absolute inset-0 rounded-full bg-current opacity-0 blur-[3px] transition-opacity',
+            'text-accent group-hover:opacity-20 group-focus-visible:opacity-20',
+            isSelected && 'opacity-25',
           )}
         />
-        {/* Gold RDAP ring */}
-        {facility.hasRDAP && (
-          <span
-            aria-hidden
-            className={cn(
-              'absolute inset-0 rounded-full ring-2 ring-gold ring-offset-2 ring-offset-cream-50',
-            )}
-          />
-        )}
-        {/* Core dot */}
-        <span
-          aria-hidden
-          className={cn(
-            'block h-3.5 w-3.5 rounded-full border-[2px] border-cream-50 shadow-paper',
-            isSelected ? DOT_SELECTED[variant] : DOT[variant],
-          )}
+        <MarkerGlyph
+          shape={shape}
+          status={facility.status}
+          rdap={facility.rdapAtFacility && facility.rdapStatus === 'ACTIVE'}
+          women={facility.gender === 'FEMALE'}
+          className="relative drop-shadow-sm"
         />
       </button>
     </Marker>

@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+ 
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import facilities from '../data/facilities.json';
@@ -16,6 +16,12 @@ async function main() {
   let failed = 0;
 
   for (const f of facilities as Facility[]) {
+    if (!f.handbookUrl) {
+      console.warn(`- ${f.id} no handbook published by BOP`);
+      updated.push(f);
+      continue;
+    }
+
     const targetName = `${f.id}_ao-handbook.pdf`;
     const targetPath = join(PUBLIC_DIR, targetName);
     const mirror = `/handbooks/${targetName}`;

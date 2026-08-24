@@ -14,12 +14,18 @@ import {
   faLocationDot,
   faPersonRunning,
   faPhone,
+  faRightToBracket,
   faShieldHeart,
   faStethoscope,
   faStore,
   faVenus,
 } from '@fortawesome/free-solid-svg-icons';
-import { getAllFacilities, getFacilityById, isHoldingFacility } from '@/lib/facilities';
+import {
+  getAllFacilities,
+  getFacilityById,
+  isHoldingFacility,
+  STATUS_LABEL,
+} from '@/lib/facilities';
 import {
   getCommissaryFor,
   getAmenitiesFor,
@@ -101,16 +107,47 @@ export default async function FacilityProfilePage({
           </div>
 
           <div className="max-w-3xl">
-            <p className="small-caps text-[11px] text-ink-muted">
+            <p className="eyebrow text-[11px] text-ink-muted">
               {TYPE_LABEL[facility.type]}
             </p>
-            <h1 className="font-display mt-2 text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl">
+            <h1 className="mt-3 text-3xl text-ink">
               {facility.name}
             </h1>
             <p className="mt-4 inline-flex items-center gap-2 text-[15px] text-ink-soft">
-              <Icon icon={faLocationDot} className="text-clay" />
+              <Icon icon={faLocationDot} className="text-accent" />
               {facility.city}, {facility.state}
             </p>
+
+            {facility.status !== 'OPEN' && (
+              <aside
+                className={`mt-6 border-l-2 py-3 pl-4 ${
+                  facility.status === 'CLOSED' ? 'border-state-closed' : 'border-state-warn'
+                }`}
+              >
+                <p
+                  className={`eyebrow ${
+                    facility.status === 'CLOSED' ? '!text-state-closed' : '!text-state-warn'
+                  }`}
+                >
+                  {STATUS_LABEL[facility.status]}
+                  {facility.statusEffective &&
+                    ` · ${new Date(`${facility.statusEffective}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', timeZone: 'UTC' })}`}
+                </p>
+                <p className="mt-2 max-w-prose text-sm leading-relaxed text-ink-soft">
+                  {facility.statusNote}
+                </p>
+                {facility.statusSourceUrl && (
+                  <a
+                    href={facility.statusSourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-xs text-accent underline underline-offset-4"
+                  >
+                    Source — Bureau of Prisons
+                  </a>
+                )}
+              </aside>
+            )}
 
             <div className="mt-5 flex flex-wrap gap-1.5">
               {facility.gender === 'FEMALE' && (
@@ -124,12 +161,20 @@ export default async function FacilityProfilePage({
                   Holding / detention
                 </Badge>
               )}
+              {facility.acceptsSelfSurrender && (
+                <Badge icon={faRightToBracket} tone="sage">
+                  Self-surrender
+                </Badge>
+              )}
               {facility.isMedical && (
                 <Badge icon={faStethoscope} tone="teal">
                   Medical
                 </Badge>
               )}
-              {facility.hasRDAP && (
+              {!facility.rdapAtFacility && facility.rdapAtComplex && (
+                <Badge icon={faShieldHeart}>RDAP at parent prison</Badge>
+              )}
+              {facility.rdapAtFacility && (
                 <Badge icon={faShieldHeart} tone="gold">
                   RDAP
                 </Badge>
@@ -158,7 +203,7 @@ export default async function FacilityProfilePage({
                   <Field label="Phone">
                     <a
                       href={`tel:${facility.phone.replace(/\D/g, '')}`}
-                      className="hover:text-clay-deep"
+                      className="hover:text-accent-hover"
                     >
                       {facility.phone}
                     </a>
@@ -176,7 +221,7 @@ export default async function FacilityProfilePage({
                     <Field label="Parent facility">
                       <Link
                         href={`/facilities/${facility.parentFacility}`}
-                        className="hover:text-clay-deep"
+                        className="hover:text-accent-hover"
                       >
                         {facility.parentFacility}
                       </Link>
@@ -192,7 +237,7 @@ export default async function FacilityProfilePage({
                     {facility.programs.map((p) => (
                       <span
                         key={p}
-                        className="rounded-full border border-ink/10 bg-cream-50/80 px-3 py-1 text-[12px] text-ink-soft"
+                        className="rounded-full border border-rule bg-paper-raised/80 px-3 py-1 text-[12px] text-ink-soft"
                       >
                         {p}
                       </span>
@@ -215,7 +260,7 @@ export default async function FacilityProfilePage({
                   {commissary.map((section) => (
                     <details
                       key={section.category}
-                      className="group rounded-xl border border-ink/10 bg-cream-50/60 open:bg-cream-50/90"
+                      className="group rounded-xl border border-rule bg-paper-raised/60 open:bg-paper-raised/90"
                     >
                       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-[14px] font-medium text-ink">
                         <span>{section.category}</span>
@@ -229,7 +274,7 @@ export default async function FacilityProfilePage({
                       <ul className="grid gap-1 px-4 pb-4 pt-1 text-[13px] leading-relaxed text-ink-soft sm:grid-cols-2">
                         {section.items.map((item) => (
                           <li key={item} className="flex items-start gap-2">
-                            <span aria-hidden className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-clay/60" />
+                            <span aria-hidden className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-accent/60" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -255,7 +300,7 @@ export default async function FacilityProfilePage({
                       key={a}
                       className="flex items-start gap-2 text-[14px] leading-relaxed text-ink-soft"
                     >
-                      <span aria-hidden className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-clay/60" />
+                      <span aria-hidden className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-accent/60" />
                       <span>{a}</span>
                     </li>
                   ))}
@@ -278,7 +323,7 @@ export default async function FacilityProfilePage({
                       key={c}
                       className="flex items-start gap-2 text-[14px] leading-relaxed text-ink-soft"
                     >
-                      <span aria-hidden className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-clay/60" />
+                      <span aria-hidden className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-accent/60" />
                       <span>{c}</span>
                     </li>
                   ))}
@@ -299,15 +344,28 @@ export default async function FacilityProfilePage({
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
               <Card title="Documents">
                 <div className="flex flex-col gap-3">
-                  <ButtonLink
-                    href={facility.handbookUrl}
-                    external
-                    variant="primary"
-                    size="md"
-                  >
-                    <Icon icon={faDownload} />
-                    A&amp;O Handbook (PDF)
-                  </ButtonLink>
+                  {facility.handbookUrl && (
+                    <ButtonLink
+                      href={facility.handbookUrl}
+                      external
+                      variant="primary"
+                      size="md"
+                    >
+                      <Icon icon={faDownload} />
+                      A&amp;O Handbook (PDF)
+                    </ButtonLink>
+                  )}
+                  {facility.voluntarySurrenderUrl && (
+                    <ButtonLink
+                      href={facility.voluntarySurrenderUrl}
+                      external
+                      variant="outline"
+                      size="md"
+                    >
+                      <Icon icon={faRightToBracket} />
+                      Voluntary surrender instructions (PDF)
+                    </ButtonLink>
+                  )}
                   <ButtonLink
                     href={facility.bopUrl}
                     external
@@ -319,9 +377,41 @@ export default async function FacilityProfilePage({
                   </ButtonLink>
                 </div>
                 <p className="mt-4 text-[12px] leading-relaxed text-ink-muted">
-                  The Admission &amp; Orientation handbook is the camp&rsquo;s own
-                  rulebook — issued to every new arrival in their first week.
+                  {facility.handbookUrl ? (
+                    <>
+                      The Admission &amp; Orientation handbook is the camp&rsquo;s own
+                      rulebook — issued to every new arrival in their first week.
+                    </>
+                  ) : (
+                    <>
+                      BOP does not publish an Admission &amp; Orientation handbook for
+                      this facility. The Bureau-wide{' '}
+                      <a
+                        href="https://www.bop.gov/policy/progstat/1315_08.pdf"
+                        className="underline underline-offset-2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        A&amp;O program statement
+                      </a>{' '}
+                      covers what every institution has to tell new arrivals.
+                    </>
+                  )}
                 </p>
+                {facility.acceptsSelfSurrender ? (
+                  <p className="mt-2 text-[12px] leading-relaxed text-ink-muted">
+                    This facility accepts <strong className="text-ink">voluntary
+                    self-surrender</strong> when the court allows it. The U.S.
+                    Marshals Service will confirm the exact date and reporting
+                    time after BOP designation.
+                  </p>
+                ) : (
+                  <p className="mt-2 text-[12px] leading-relaxed text-ink-muted">
+                    This is a pre-trial or in-transit facility — it is generally
+                    not a self-surrender destination. BOP designations for
+                    voluntary surrender go to camps and medical centers.
+                  </p>
+                )}
               </Card>
 
               <Card title="Get in touch">
@@ -332,14 +422,14 @@ export default async function FacilityProfilePage({
                 </p>
                 <a
                   href={`tel:${facility.phone.replace(/\D/g, '')}`}
-                  className="mt-3 inline-flex items-center gap-2 text-[15px] font-medium text-ink hover:text-clay-deep"
+                  className="mt-3 inline-flex items-center gap-2 text-[15px] font-medium text-ink hover:text-accent-hover"
                 >
-                  <Icon icon={faPhone} className="text-clay" />
+                  <Icon icon={faPhone} className="text-accent" />
                   {facility.phone}
                 </a>
               </Card>
 
-              <p className="rounded-xl border border-ink/10 bg-cream-50/60 px-4 py-3 text-[12px] italic leading-relaxed text-ink-muted">
+              <p className="rounded-xl border border-rule bg-paper-raised/60 px-4 py-3 text-[12px] italic leading-relaxed text-ink-muted">
                 Compiled from public BOP sources
                 {facility.dataLastVerified
                   ? `, last reviewed ${formatDate(facility.dataLastVerified)}`
@@ -367,10 +457,10 @@ function Card({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-ink/10 bg-cream-50/80 p-6 shadow-paper backdrop-blur sm:p-7">
+    <section className="rounded border border-rule bg-paper-raised/80 p-6 shadow-raise backdrop-blur sm:p-7">
       <header className="mb-5 flex items-start justify-between gap-3">
         <div>
-          <h2 className="font-display text-2xl leading-tight tracking-tightest text-ink">
+          <h2 className="font-display text-2xl leading-tight tracking-[-0.02em] text-ink">
             {title}
           </h2>
           {subtitle && (
@@ -380,7 +470,7 @@ function Card({
           )}
         </div>
         {icon && (
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-cream-100 text-clay">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-paper-sunk text-accent">
             <Icon icon={icon} />
           </span>
         )}
@@ -393,7 +483,7 @@ function Card({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <dt className="small-caps text-[10px] text-ink-muted">{label}</dt>
+      <dt className="eyebrow text-[10px] text-ink-muted">{label}</dt>
       <dd className="mt-1 text-[14px] leading-relaxed text-ink">{children}</dd>
     </div>
   );
@@ -409,11 +499,11 @@ function Badge({
   tone?: 'sage' | 'gold' | 'teal' | 'pink' | 'slate';
 }) {
   const tones = {
-    sage: 'bg-sage/15 text-sage-deep',
-    gold: 'bg-gold/20 text-gold-deep',
-    teal: 'bg-teal/15 text-teal-deep',
-    pink: 'bg-pink/20 text-pink-deep',
-    slate: 'bg-slate/15 text-slate-deep',
+    sage: 'bg-accent/15 text-accent',
+    gold: 'bg-tone-rdap/20 text-tone-rdap',
+    teal: 'bg-tone-medical/15 text-tone-medical',
+    pink: 'bg-tone-women/20 text-tone-women',
+    slate: 'bg-tone-holding/15 text-tone-holding',
   };
   return (
     <span

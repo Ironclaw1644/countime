@@ -1,16 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Icon } from '@/components/ui/Icon';
-import {
-  faStethoscope,
-  faShieldHeart,
-  faCircle,
-  faChevronUp,
-  faChevronDown,
-  faVenus,
-  faBuildingShield,
-} from '@fortawesome/free-solid-svg-icons';
+import { MarkerGlyph } from './FacilityMarker';
 
 interface Props {
   showAllRings: boolean;
@@ -19,6 +10,11 @@ interface Props {
   totalCount: number;
 }
 
+/**
+ * Teaches the marker encoding. Every swatch is drawn with the same
+ * <MarkerGlyph> the map uses, so the legend cannot fall out of step with what
+ * is actually on screen.
+ */
 export function MapLegend({
   showAllRings,
   onToggleRings,
@@ -28,63 +24,51 @@ export function MapLegend({
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="pointer-events-auto absolute bottom-4 right-4 z-20 max-w-[280px] overflow-hidden rounded-2xl border border-ink/10 bg-cream-50/90 shadow-paper backdrop-blur">
+    <div className="pointer-events-auto absolute bottom-4 right-4 z-20 w-[264px] overflow-hidden rounded border border-rule bg-paper-raised/95 shadow-raise backdrop-blur">
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left"
       >
-        <span className="small-caps text-[10px] text-ink-muted">Legend</span>
-        <Icon
-          icon={open ? faChevronDown : faChevronUp}
-          className="text-[10px] text-ink-muted"
-        />
+        <span className="eyebrow">Legend</span>
+        <svg viewBox="0 0 12 12" className="h-3 w-3 text-ink-muted" stroke="currentColor" strokeWidth="1.3" fill="none">
+          <path d={open ? 'M2.5 7.5 6 4l3.5 3.5' : 'M2.5 4.5 6 8l3.5-3.5'} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
+
       {open && (
-        <div className="space-y-2.5 px-4 pb-4 text-[12px] text-ink-soft">
-          <Row swatch={<Dot color="bg-clay" />} label="Federal Prison Camp" />
-          <Row
-            swatch={<Dot color="bg-pink" />}
-            label="Women's facility"
-            icon={faVenus}
-          />
-          <Row
-            swatch={<Dot color="bg-teal" />}
-            label="Medical facility (FMC / MCFP)"
-            icon={faStethoscope}
-          />
-          <Row
-            swatch={<Dot color="bg-slate" />}
-            label="Holding / detention center"
-            icon={faBuildingShield}
-          />
-          <Row
-            swatch={
-              <span className="grid h-4 w-4 place-items-center">
-                <Icon icon={faCircle} className="text-clay text-[8px]" />
-                <span
-                  aria-hidden
-                  className="absolute h-4 w-4 rounded-full ring-1 ring-gold"
-                />
-              </span>
-            }
-            label="Offers RDAP (drug program)"
-            icon={faShieldHeart}
-          />
-          <hr className="border-ink/10" />
-          <label className="flex cursor-pointer select-none items-center justify-between gap-2 text-[12px]">
-            <span>Show all 500-mi reach</span>
+        <div className="border-t border-rule px-4 pb-4 pt-3">
+          <p className="eyebrow mb-2 !tracking-[0.1em]">Shape — what kind</p>
+          <ul className="space-y-1.5">
+            <Row glyph={<MarkerGlyph shape="camp" status="OPEN" size={9} />} label="Minimum-security camp" />
+            <Row glyph={<MarkerGlyph shape="medical" status="OPEN" size={9} />} label="Federal medical center" />
+            <Row glyph={<MarkerGlyph shape="holding" status="OPEN" size={9} />} label="Holding / detention" />
+            <Row glyph={<MarkerGlyph shape="camp" status="OPEN" size={9} women />} label="Women&rsquo;s facility" />
+          </ul>
+
+          <p className="eyebrow mb-2 mt-4 !tracking-[0.1em]">Fill — what state</p>
+          <ul className="space-y-1.5">
+            <Row glyph={<MarkerGlyph shape="camp" status="OPEN" size={9} />} label="Open" />
+            <Row glyph={<MarkerGlyph shape="camp" status="CLOSING" size={9} />} label="Closing or converting" />
+            <Row glyph={<MarkerGlyph shape="camp" status="CLOSED" size={9} />} label="Closed" />
+            <Row glyph={<MarkerGlyph shape="camp" status="OPEN" size={9} rdap />} label="RDAP on site" />
+          </ul>
+
+          <label className="mt-4 flex cursor-pointer items-center gap-2 border-t border-rule pt-3 text-xs text-ink-soft">
             <input
               type="checkbox"
               checked={showAllRings}
               onChange={(e) => onToggleRings(e.target.checked)}
-              className="h-4 w-4 cursor-pointer accent-sage-deep"
+              className="h-3.5 w-3.5 accent-[rgb(var(--accent))]"
             />
+            Show all 500-mile reach
           </label>
-          <p className="pt-1 text-[11px] leading-snug text-ink-muted">
-            Showing {facilityCount} of {totalCount} facilities. The BOP aims to
-            place inmates within 500&nbsp;miles of home when possible.
+
+          <p className="mt-3 text-2xs leading-relaxed text-ink-muted">
+            Showing <span className="tabular text-ink-soft">{facilityCount}</span> of{' '}
+            <span className="tabular text-ink-soft">{totalCount}</span>. The Bureau aims to
+            place people within 500 miles of home when it can.
           </p>
         </div>
       )}
@@ -92,28 +76,11 @@ export function MapLegend({
   );
 }
 
-function Dot({ color }: { color: string }) {
+function Row({ glyph, label }: { glyph: React.ReactNode; label: string }) {
   return (
-    <span className={`relative inline-block h-3 w-3 rounded-full ${color}`} />
-  );
-}
-
-function Row({
-  swatch,
-  label,
-  icon,
-}: {
-  swatch: React.ReactNode;
-  label: string;
-  icon?: import('@fortawesome/fontawesome-svg-core').IconDefinition;
-}) {
-  return (
-    <div className="flex items-center gap-2.5">
-      <span className="relative inline-flex h-4 w-4 items-center justify-center">
-        {swatch}
-      </span>
-      <span className="flex-1">{label}</span>
-      {icon && <Icon icon={icon} className="text-[11px] text-ink-muted" />}
-    </div>
+    <li className="flex items-center gap-2.5 text-xs text-ink-soft">
+      <span className="grid h-4 w-4 shrink-0 place-items-center">{glyph}</span>
+      <span dangerouslySetInnerHTML={{ __html: label }} />
+    </li>
   );
 }

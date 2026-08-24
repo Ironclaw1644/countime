@@ -23,13 +23,13 @@ const TYPE_LABEL: Record<Facility['type'], string> = {
 
 export function HandbookCard({ facility }: { facility: Facility }) {
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-ink/10 bg-cream-50/80 p-6 shadow-paper backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lift">
+    <article className="group relative flex h-full flex-col rounded border border-rule bg-paper-raised/60 p-6 transition-colors duration-200 hover:border-rule-strong">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="small-caps text-[10px] text-ink-muted">
+          <p className="eyebrow text-[10px] text-ink-muted">
             {TYPE_LABEL[facility.type]}
           </p>
-          <h3 className="font-display mt-1 text-2xl leading-tight tracking-tightest text-ink">
+          <h3 className="font-display mt-1 text-xl leading-tight text-ink">
             {facility.name}
           </h3>
         </div>
@@ -39,7 +39,7 @@ export function HandbookCard({ facility }: { facility: Facility }) {
               Medical
             </Pill>
           )}
-          {facility.hasRDAP && (
+          {facility.rdapAtFacility && (
             <Pill icon={faShieldHeart} tone="gold">
               RDAP
             </Pill>
@@ -48,7 +48,7 @@ export function HandbookCard({ facility }: { facility: Facility }) {
       </div>
 
       <p className="mt-4 flex items-start gap-2 text-[13px] text-ink-soft">
-        <Icon icon={faLocationDot} className="mt-0.5 text-clay" />
+        <Icon icon={faLocationDot} className="mt-0.5 text-accent" />
         <span>
           {facility.city}, {facility.state}
         </span>
@@ -61,20 +61,24 @@ export function HandbookCard({ facility }: { facility: Facility }) {
       )}
 
       <div className="mt-auto flex items-center justify-between gap-3 pt-6">
-        <a
-          href={facility.handbookUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full bg-clay px-4 py-2 text-[13px] font-medium text-cream-50 shadow-paper transition-colors hover:bg-clay-deep"
-        >
-          <Icon icon={faDownload} />
-          Download A&amp;O Handbook
-        </a>
+        {facility.handbookUrl ? (
+          <a
+            href={facility.handbookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded bg-accent px-4 py-2 text-xs font-medium text-accent-on transition-colors hover:bg-accent-hover"
+          >
+            <Icon icon={faDownload} />
+            Download A&amp;O Handbook
+          </a>
+        ) : (
+          <span className="text-xs text-ink-muted">No handbook published</span>
+        )}
         <a
           href={facility.bopUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-[12px] text-ink-soft hover:text-clay-deep"
+          className="inline-flex items-center gap-1.5 text-[12px] text-ink-soft hover:text-accent-hover"
         >
           BOP page
           <Icon icon={faArrowUpRightFromSquare} className="text-[10px]" />
@@ -94,8 +98,8 @@ function Pill({
   tone: 'gold' | 'teal';
 }) {
   const tones = {
-    gold: 'bg-gold/20 text-gold-deep',
-    teal: 'bg-teal/15 text-teal-deep',
+    gold: 'bg-tone-rdap/20 text-tone-rdap',
+    teal: 'bg-tone-medical/15 text-tone-medical',
   };
   return (
     <span

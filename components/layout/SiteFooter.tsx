@@ -1,16 +1,15 @@
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
-import { Icon } from '@/components/ui/Icon';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { Logo } from '@/components/brand/Logo';
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-ink/10 bg-cream-100/40">
+    <footer className="mt-24 border-t border-rule bg-paper-sunk/40">
       <Container width="wide" className="py-14">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" className="font-display text-2xl tracking-tightest text-ink">
-              countime
+            <Link href="/" className="inline-block text-ink transition-opacity hover:opacity-70" aria-label="Countime — home">
+              <Logo height={30} />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink-soft">
               A quiet companion for families navigating sentencing to a federal prison camp.
@@ -24,6 +23,8 @@ export function SiteFooter() {
               { href: '/#map', label: 'Camp map' },
               { href: '/handbooks', label: 'Handbook library' },
               { href: '/the-inside', label: 'The Inside' },
+              { href: '/checklist', label: 'Surrender checklist' },
+              { href: '/updates', label: 'Facility updates' },
               { href: '/resources', label: 'Resources' },
             ]}
           />
@@ -35,18 +36,21 @@ export function SiteFooter() {
             ]}
           />
           <div>
-            <h3 className="small-caps text-xs text-ink-muted">Stay in touch</h3>
-            <a
-              href="mailto:hello@countime.com"
-              className="mt-4 inline-flex items-center gap-2 text-sm text-ink hover:text-clay-deep"
+            <h3 className="eyebrow">Stay in touch</h3>
+            <p className="mt-4 text-sm leading-relaxed text-ink-muted">
+              Corrections and questions go through the contact form — we
+              don&rsquo;t publish an email address.
+            </p>
+            <Link
+              href="/contact"
+              className="mt-3 inline-block text-sm text-accent underline underline-offset-4 hover:text-accent-hover"
             >
-              <Icon icon={faEnvelope} className="text-clay" />
-              hello@countime.com
-            </a>
+              Write to us
+            </Link>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-ink/10 pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-rule pt-6 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} Countime. Built with care for families in transition.
           </p>
@@ -70,13 +74,13 @@ function FooterCol({
 }) {
   return (
     <div>
-      <h3 className="small-caps text-xs text-ink-muted">{title}</h3>
+      <h3 className="eyebrow text-xs text-ink-muted">{title}</h3>
       <ul className="mt-4 space-y-2.5">
         {items.map((item) => (
           <li key={item.href}>
             <Link
               href={item.href}
-              className="text-sm text-ink-soft transition-colors hover:text-clay-deep"
+              className="text-sm text-ink-soft transition-colors hover:text-accent-hover"
             >
               {item.label}
             </Link>

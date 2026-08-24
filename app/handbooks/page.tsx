@@ -13,26 +13,30 @@ export const metadata: Metadata = {
 };
 
 export default function HandbooksPage() {
-  const facilities = getAllFacilities();
+  // Only facilities BOP actually publishes a handbook for. Guessing the URL
+  // pattern used to produce a library of 404s.
+  const facilities = getAllFacilities().filter(
+    (f) => f.handbookUrl && f.status !== 'CLOSED',
+  );
 
   return (
     <>
       <Section className="pt-12 pb-8 sm:pt-16">
         <Container>
           <div className="max-w-3xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-cream-50/70 px-3 py-1 text-[11px] text-ink-muted shadow-paper">
-              <Icon icon={faBook} className="text-clay" />
-              <span className="small-caps">Handbook library</span>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
+              <Icon icon={faBook} className="text-accent" />
+              <span className="eyebrow">Handbook library</span>
             </div>
-            <h1 className="font-display text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl md:text-7xl">
-              The handbook for every camp, gathered for the people who love them.
+            <h1 className="font-display text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink  md:text-7xl">
+              Every handbook the Bureau publishes, gathered for the people who love them.
             </h1>
             <p className="mt-6 max-w-2xl text-pretty text-[17px] leading-relaxed text-ink-soft">
-              Each Bureau of Prisons facility hands new arrivals an{' '}
-              <em>Admission &amp; Orientation</em> handbook in their first
-              week — the rules, the routines, the small things that turn into
-              big things if you don&rsquo;t know about them. We&rsquo;ve
-              collected them so families can read along.
+              Each Bureau of Prisons facility hands new arrivals an <em>Admission &amp;
+              Orientation</em> handbook in their first week — the rules, the routines,
+              the small things that turn into big things if you don&rsquo;t know about
+              them. Every link here was checked against bop.gov; facilities the Bureau
+              publishes no handbook for are left out rather than linked to a dead page.
             </p>
           </div>
         </Container>

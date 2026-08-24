@@ -57,8 +57,8 @@ export default async function InsideTermPage({
           </Link>
         </div>
 
-        <p className="small-caps text-[11px] text-ink-muted">{term.category}</p>
-        <h1 className="font-display mt-2 text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl">
+        <p className="eyebrow text-[11px] text-ink-muted">{term.category}</p>
+        <h1 className="font-display mt-2 text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink ">
           {term.title}
         </h1>
         <p className="mt-5 max-w-prose text-pretty text-[18px] leading-relaxed text-ink-soft">
@@ -75,21 +75,21 @@ export default async function InsideTermPage({
 
         {term.testimony && term.testimony.length > 0 && (
           <section className="mt-12">
-            <h2 className="small-caps text-[11px] text-sage-deep">
+            <h2 className="eyebrow text-[11px] text-accent">
               In their words
             </h2>
             <div className="mt-4 space-y-4">
               {term.testimony.map((t, i) => (
                 <figure
                   key={i}
-                  className="rounded-2xl border border-sage/30 bg-sage/10 p-6 sm:p-7"
+                  className="rounded border border-accent/30 bg-accent/10 p-6 sm:p-7"
                 >
                   <blockquote className="font-display text-pretty text-[18px] leading-[1.55] text-ink sm:text-[19px]">
-                    <span aria-hidden="true" className="mr-1 text-sage/70">
+                    <span aria-hidden="true" className="mr-1 text-accent/70">
                       &ldquo;
                     </span>
                     {t.quote}
-                    <span aria-hidden="true" className="ml-1 text-sage/70">
+                    <span aria-hidden="true" className="ml-1 text-accent/70">
                       &rdquo;
                     </span>
                   </blockquote>
@@ -104,7 +104,7 @@ export default async function InsideTermPage({
                               href={t.sourceUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="underline-offset-2 hover:text-sage-deep hover:underline"
+                              className="underline-offset-2 hover:text-accent hover:underline"
                             >
                               {t.sourceLabel ?? 'source'}
                             </a>
@@ -122,8 +122,8 @@ export default async function InsideTermPage({
         )}
 
         {term.purpose && (
-          <aside className="mt-12 rounded-2xl border border-clay/30 bg-clay-soft/20 p-6 sm:p-8">
-            <p className="small-caps text-[11px] text-clay-deep">Why it exists</p>
+          <aside className="mt-12 rounded border border-accent/30 bg-accent/20 p-6 sm:p-8">
+            <p className="eyebrow text-[11px] text-accent-hover">Why it exists</p>
             <p className="mt-2 text-[16px] leading-relaxed text-ink">
               {term.purpose}
             </p>
@@ -131,8 +131,8 @@ export default async function InsideTermPage({
         )}
 
         {term.coping && term.coping.length > 0 && (
-          <section className="mt-12 border-t border-ink/10 pt-8">
-            <h2 className="small-caps text-[11px] text-ink-muted">
+          <section className="mt-12 border-t border-rule pt-8">
+            <h2 className="eyebrow text-[11px] text-ink-muted">
               Ways through it
             </h2>
             <ol className="mt-5 space-y-5">
@@ -151,8 +151,8 @@ export default async function InsideTermPage({
         )}
 
         {term.sources && term.sources.length > 0 && (
-          <section className="mt-12 border-t border-ink/10 pt-8">
-            <h2 className="small-caps text-[11px] text-ink-muted">
+          <section className="mt-12 border-t border-rule pt-8">
+            <h2 className="eyebrow text-[11px] text-ink-muted">
               Further reading
             </h2>
             <ul className="mt-4 space-y-2">
@@ -162,7 +162,7 @@ export default async function InsideTermPage({
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[14px] text-ink-soft hover:text-clay-deep"
+                    className="inline-flex items-center gap-2 text-[14px] text-ink-soft hover:text-accent-hover"
                   >
                     {s.label}
                     <Icon icon={faArrowUpRightFromSquare} className="text-[10px]" />
@@ -174,8 +174,8 @@ export default async function InsideTermPage({
         )}
 
         {related.length > 0 && (
-          <section className="mt-12 border-t border-ink/10 pt-8">
-            <h2 className="small-caps text-[11px] text-ink-muted">
+          <section className="mt-12 border-t border-rule pt-8">
+            <h2 className="eyebrow text-[11px] text-ink-muted">
               Related terms
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2">
@@ -183,7 +183,7 @@ export default async function InsideTermPage({
                 <li key={r.id}>
                   <Link
                     href={`/the-inside/${r.id}`}
-                    className="inline-flex items-center rounded-full border border-ink/15 bg-cream-50/60 px-3 py-1 text-[12px] text-ink-soft hover:border-clay/40 hover:text-clay-deep"
+                    className="inline-flex items-center rounded-full border border-ink/15 bg-paper-raised/60 px-3 py-1 text-[12px] text-ink-soft hover:border-accent/40 hover:text-accent-hover"
                   >
                     {r.title}
                   </Link>

@@ -1,82 +1,82 @@
 import type { Config } from 'tailwindcss';
 
+/**
+ * Colours resolve to the CSS custom properties defined in app/globals.css, so
+ * a single token override switches the whole site between paper and night.
+ * Add new colours there first, then surface them here.
+ */
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        cream: {
-          DEFAULT: '#FAF7F2',
-          50: '#FDFBF7',
-          100: '#F5F0E6',
-          200: '#EBE4D4',
+        paper: {
+          DEFAULT: 'rgb(var(--paper) / <alpha-value>)',
+          raised: 'rgb(var(--paper-raised) / <alpha-value>)',
+          sunk: 'rgb(var(--paper-sunk) / <alpha-value>)',
         },
         ink: {
-          DEFAULT: '#1B2A3A',
-          soft: '#2E3D4F',
-          muted: '#5A6878',
+          DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+          soft: 'rgb(var(--ink-soft) / <alpha-value>)',
+          muted: 'rgb(var(--ink-muted) / <alpha-value>)',
+          faint: 'rgb(var(--ink-faint) / <alpha-value>)',
         },
-        sage: {
-          DEFAULT: '#7B8F7A',
-          deep: '#5C7059',
-          soft: '#A6B6A4',
+        accent: {
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          hover: 'rgb(var(--accent-hover) / <alpha-value>)',
+          on: 'rgb(var(--accent-on) / <alpha-value>)',
         },
-        clay: {
-          DEFAULT: '#C97B5B',
-          deep: '#A55E3F',
-          soft: '#E0A98C',
+        state: {
+          open: 'rgb(var(--state-open) / <alpha-value>)',
+          warn: 'rgb(var(--state-warn) / <alpha-value>)',
+          closed: 'rgb(var(--state-closed) / <alpha-value>)',
         },
-        teal: {
-          DEFAULT: '#2F5D62',
-          deep: '#1F4347',
+        tone: {
+          women: 'rgb(var(--tone-women) / <alpha-value>)',
+          medical: 'rgb(var(--tone-medical) / <alpha-value>)',
+          holding: 'rgb(var(--tone-holding) / <alpha-value>)',
+          rdap: 'rgb(var(--tone-rdap) / <alpha-value>)',
         },
-        gold: {
-          DEFAULT: '#C8A24A',
-          deep: '#A28236',
+        rule: {
+          DEFAULT: 'rgb(var(--rule-rgb) / var(--rule-a))',
+          strong: 'rgb(var(--rule-rgb) / var(--rule-strong-a))',
         },
-        pink: {
-          DEFAULT: '#D88BA1',
-          deep: '#B86A82',
-          soft: '#EFC2D0',
-        },
-        slate: {
-          DEFAULT: '#5F6F84',
-          deep: '#42526A',
-          soft: '#A6B1BF',
-        },
+      },
+      borderColor: {
+        DEFAULT: 'var(--rule)',
       },
       fontFamily: {
-        display: ['var(--font-fraunces)', 'Georgia', 'serif'],
-        sans: ['var(--font-public-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        '2xs': 'var(--step--2)',
+        xs: 'var(--step--1)',
+        base: 'var(--step-0)',
+        lg: 'var(--step-1)',
+        xl: 'var(--step-2)',
+        '2xl': 'var(--step-3)',
+        '3xl': 'var(--step-4)',
+        '4xl': 'var(--step-5)',
       },
       boxShadow: {
-        paper: '0 1px 2px rgba(27,42,58,.06), 0 8px 24px -12px rgba(27,42,58,.18)',
-        lift: '0 2px 4px rgba(27,42,58,.08), 0 24px 48px -20px rgba(27,42,58,.22)',
-        inset: 'inset 0 1px 0 0 rgba(255,255,255,0.6)',
-      },
-      backgroundImage: {
-        'warm-mesh':
-          'radial-gradient(ellipse 80% 50% at 50% -10%, #F5F0E6 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 100% 100%, #EBE4D4 0%, transparent 50%)',
+        raise: 'var(--shadow-raise)',
+        lift: 'var(--shadow-lift)',
       },
       maxWidth: {
-        prose: '68ch',
+        prose: '66ch',
       },
-      letterSpacing: {
-        tightest: '-0.04em',
+      borderRadius: {
+        // Squared-off by comparison with the old fully-pill language: the
+        // logotype supplies the curves, the layout stays quiet.
+        DEFAULT: '3px',
+        sm: '2px',
+        md: '4px',
+        lg: '6px',
+        xl: '8px',
       },
-      animation: {
-        'pulse-soft': 'pulseSoft 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'fade-up': 'fadeUp 700ms cubic-bezier(0.22, 1, 0.36, 1) both',
-      },
-      keyframes: {
-        pulseSoft: {
-          '0%, 100%': { opacity: '0.55', transform: 'scale(1)' },
-          '50%': { opacity: '0.2', transform: 'scale(1.6)' },
-        },
-        fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(14px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
+      transitionTimingFunction: {
+        editorial: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
     },
   },

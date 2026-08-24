@@ -1,70 +1,119 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from '@/components/ui/Container';
-import { Icon } from '@/components/ui/Icon';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Logo } from '@/components/brand/Logo';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import { cn } from '@/lib/cn';
 
 const NAV = [
   { href: '/#map', label: 'Map' },
   { href: '/handbooks', label: 'Handbooks' },
   { href: '/the-inside', label: 'The Inside' },
-  { href: '/resources', label: 'Resources' },
+  { href: '/checklist', label: 'Checklist' },
+  { href: '/updates', label: 'Updates' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
 ];
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    const onClick = (e: MouseEvent) => {
+      if (!panelRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onClick);
+    };
+  }, [open]);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/85 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper/85 backdrop-blur-md">
       <Container width="wide">
-        <div className="flex h-16 items-center justify-between sm:h-20">
+        <div className="flex h-16 items-center justify-between gap-6 sm:h-[4.5rem]">
           <Link
             href="/"
-            className="group flex items-baseline gap-2 focus-visible:outline-none"
+            className="text-ink transition-opacity duration-200 hover:opacity-70"
             aria-label="Countime — home"
           >
-            <span className="font-display text-2xl sm:text-[28px] tracking-tightest text-ink leading-none">
-              countime
-            </span>
-            <span
-              aria-hidden
-              className="hidden h-2 w-2 rounded-full bg-clay transition-transform duration-300 group-hover:scale-125 sm:inline-block"
-            />
+            <Logo height={30} className="sm:!h-[34px] sm:!w-[112px]" />
           </Link>
 
           <nav aria-label="Primary" className="hidden md:block">
-            <ul className="flex items-center gap-1 text-[15px]">
-              {NAV.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="rounded-full px-4 py-2 text-ink-soft transition-colors hover:bg-cream-100 hover:text-ink"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <details className="md:hidden">
-            <summary className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full text-ink hover:bg-cream-100">
-              <Icon icon={faBars} label="Open menu" />
-            </summary>
-            <div className="absolute right-4 mt-2 w-56 rounded-2xl border border-ink/10 bg-cream-50 p-2 shadow-lift">
-              <ul className="flex flex-col">
-                {NAV.map((item) => (
+            <ul className="flex items-center gap-7">
+              {NAV.map((item) => {
+                const active =
+                  item.href.startsWith('/#')
+                    ? pathname === '/'
+                    : pathname.startsWith(item.href);
+                return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="block rounded-xl px-4 py-2.5 text-ink-soft hover:bg-cream-100 hover:text-ink"
+                      className={cn(
+                        'relative py-1 text-xs tracking-[0.1em] uppercase transition-colors duration-200',
+                        'after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left',
+                        'after:scale-x-0 after:bg-current after:transition-transform after:duration-300',
+                        'hover:after:scale-x-100',
+                        active ? 'text-ink after:scale-x-100' : 'text-ink-muted hover:text-ink',
+                      )}
                     >
                       {item.label}
                     </Link>
                   </li>
-                ))}
-              </ul>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-1">
+            <ThemeToggle className="flex h-9 w-9 items-center justify-center rounded text-ink-muted transition-colors hover:bg-paper-sunk hover:text-ink" />
+
+            <div className="relative md:hidden" ref={panelRef}>
+              <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}
+                aria-controls="mobile-nav"
+                aria-label={open ? 'Close menu' : 'Open menu'}
+                className="flex h-9 w-9 items-center justify-center rounded text-ink transition-colors hover:bg-paper-sunk"
+              >
+                <svg viewBox="0 0 16 16" className="h-4 w-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                  {open ? <path d="M3.5 3.5 12.5 12.5M12.5 3.5 3.5 12.5" /> : <path d="M2 4.5h12M2 11.5h12" />}
+                </svg>
+              </button>
+
+              {open && (
+                <div
+                  id="mobile-nav"
+                  className="absolute right-0 top-11 w-56 border border-rule bg-paper-raised py-1 shadow-lift"
+                >
+                  <ul className="flex flex-col">
+                    {NAV.map((item) => (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          onClick={() => setOpen(false)}
+                          className="block px-4 py-2.5 text-sm text-ink-soft transition-colors hover:bg-paper-sunk hover:text-ink"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          </details>
+          </div>
         </div>
       </Container>
     </header>

@@ -71,11 +71,11 @@ export default function ResourcesPage() {
     <>
       <Section className="pt-12 pb-10 sm:pt-20">
         <Container width="narrow">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-cream-50/70 px-3 py-1 text-[11px] text-ink-muted shadow-paper">
-            <Icon icon={faCircleQuestion} className="text-clay" />
-            <span className="small-caps">Resources</span>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
+            <Icon icon={faCircleQuestion} className="text-accent" />
+            <span className="eyebrow">Resources</span>
           </div>
-          <h1 className="font-display text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl">
+          <h1 className="font-display text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink ">
             Plain answers to the questions most families ask first.
           </h1>
           <p className="mt-6 text-pretty text-[17px] leading-relaxed text-ink-soft">
@@ -87,14 +87,14 @@ export default function ResourcesPage() {
 
       <Section className="py-10">
         <Container width="narrow">
-          <h2 className="font-display rule-under text-3xl leading-tight tracking-tightest text-ink sm:text-4xl">
+          <h2 className="font-display rule-under text-3xl leading-tight tracking-[-0.02em] text-ink sm:text-4xl">
             Common questions
           </h2>
           <div className="mt-8 space-y-4">
             {FAQS.map((item) => (
               <details
                 key={item.q}
-                className="group rounded-2xl border border-ink/10 bg-cream-50/70 p-5 shadow-paper transition-colors open:bg-cream-50"
+                className="group rounded border border-rule bg-paper-raised/70 p-5 shadow-raise transition-colors open:bg-paper-raised"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink">
                   <span className="text-[16px] leading-snug">{item.q}</span>
@@ -116,27 +116,27 @@ export default function ResourcesPage() {
 
       <Section className="py-10">
         <Container width="narrow">
-          <h2 className="font-display rule-under text-3xl leading-tight tracking-tightest text-ink sm:text-4xl">
+          <h2 className="font-display rule-under text-3xl leading-tight tracking-[-0.02em] text-ink sm:text-4xl">
             Official links
           </h2>
-          <ul className="mt-8 divide-y divide-ink/10 border-y border-ink/10">
+          <ul className="mt-8 divide-y divide-ink/10 border-y border-rule">
             {LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between gap-6 py-5 transition-colors hover:bg-cream-100/40"
+                  className="group flex items-center justify-between gap-6 py-5 transition-colors hover:bg-paper-sunk/40"
                 >
                   <div>
-                    <p className="font-display text-xl leading-tight tracking-tightest text-ink group-hover:text-clay-deep">
+                    <p className="font-display text-xl leading-tight tracking-[-0.02em] text-ink group-hover:text-accent-hover">
                       {link.title}
                     </p>
                     <p className="mt-1 text-[14px] text-ink-soft">{link.note}</p>
                   </div>
                   <Icon
                     icon={faArrowUpRightFromSquare}
-                    className="text-ink-muted group-hover:text-clay-deep"
+                    className="text-ink-muted group-hover:text-accent-hover"
                   />
                 </a>
               </li>

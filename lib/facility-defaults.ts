@@ -261,7 +261,7 @@ export function getAmenitiesFor(f: Facility): string[] {
 export function getClassesFor(f: Facility): string[] {
   if (f.classes && f.classes.length > 0) return f.classes;
   const base = isHoldingType(f.type) ? HOLDING_CLASSES : TYPICAL_CAMP_CLASSES;
-  if (f.hasRDAP && !isHoldingType(f.type)) {
+  if ((f.rdapAtFacility || f.rdapAtComplex) && !isHoldingType(f.type)) {
     return [...base, 'Residential Drug Abuse Program (RDAP) — 9-month residential cohort'];
   }
   return base;

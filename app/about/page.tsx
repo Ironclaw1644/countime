@@ -17,11 +17,11 @@ export default function AboutPage() {
     <>
       <Section className="pt-12 pb-12 sm:pt-20">
         <Container width="narrow">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/10 bg-cream-50/70 px-3 py-1 text-[11px] text-ink-muted shadow-paper">
-            <Icon icon={faHandshake} className="text-clay" />
-            <span className="small-caps">About Countime</span>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
+            <Icon icon={faHandshake} className="text-accent" />
+            <span className="eyebrow">About Countime</span>
           </div>
-          <h1 className="font-display text-balance text-5xl leading-[1.05] tracking-tightest text-ink sm:text-6xl">
+          <h1 className="font-display text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink ">
             Built for the families who didn&rsquo;t expect to need it.
           </h1>
           <p className="mt-7 text-pretty text-[18px] leading-relaxed text-ink-soft">
@@ -71,10 +71,10 @@ export default function AboutPage() {
               closer to a facility than we are. If something here is wrong or
               out of date, please write us at{' '}
               <a
-                href="mailto:hello@countime.com"
-                className="text-clay-deep underline-offset-2 hover:underline"
+                href="/contact"
+                className="text-accent-hover underline-offset-2 hover:underline"
               >
-                hello@countime.com
+                the contact form
               </a>
               .
             </p>
@@ -84,7 +84,7 @@ export default function AboutPage() {
 
       <Section className="pb-24">
         <Container width="narrow">
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-cream-50/70 p-6 shadow-paper">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded border border-rule bg-paper-raised/70 p-6 shadow-raise">
             <p className="text-[15px] text-ink-soft">
               Looking for a specific camp?
             </p>
@@ -108,7 +108,7 @@ export default function AboutPage() {
 
 function Heading({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-display rule-under text-[28px] leading-tight tracking-tightest text-ink">
+    <h2 className="font-display rule-under text-[28px] leading-tight tracking-[-0.02em] text-ink">
       {children}
     </h2>
   );
