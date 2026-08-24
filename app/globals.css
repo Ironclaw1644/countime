@@ -266,6 +266,11 @@ p { text-wrap: pretty; }
    is intersected with the lettering — the script appears in the order it was
    written, with a soft leading edge that reads like ink arriving rather than
    a hard wipe. The trailing ".NET" lands last, which is also how you'd write it.
+
+   The animation starts PAUSED. A CSS animation begins at first paint, but the
+   mask image still has to download — on any real connection it arrived after
+   the sweep had already finished, so the logotype just appeared fully formed.
+   Logo.tsx decodes the image first, then sets data-write="run".
 */
 .write-on {
   -webkit-mask-image: var(--logo-src), linear-gradient(90deg, #000 82%, rgb(0 0 0 / 0.35) 93%, transparent 100%);
@@ -278,7 +283,19 @@ p { text-wrap: pretty; }
   mask-size: contain, 0% 100%;
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
-  animation: write-on 2600ms cubic-bezier(0.33, 0.03, 0.3, 1) 260ms forwards;
+  animation: write-on 2600ms cubic-bezier(0.33, 0.03, 0.3, 1) forwards;
+  animation-play-state: paused;
+}
+
+.write-on[data-write='run'] {
+  animation-play-state: running;
+}
+
+/* Reduced motion, or no JavaScript: skip straight to the finished lettering. */
+.write-on[data-write='done'] {
+  animation: none;
+  -webkit-mask-size: contain, 128% 100%;
+  mask-size: contain, 128% 100%;
 }
 
 @keyframes write-on {

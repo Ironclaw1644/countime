@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/cn';
 
 /** Intrinsic aspect of public/brand/countime-logotype.png (1764 × 537). */
@@ -73,6 +76,9 @@ export function LogoMark({ size = 28, className }: { size?: number; className?: 
  * the headline rather than sitting above one. Set at the largest asset so the
  * hairlines stay crisp when it spans the viewport.
  */
+/** The hero mask. Luminance+alpha rather than RGBA — a mask only reads alpha. */
+const DISPLAY_MASK = '/brand/countime-logotype-mask.png';
+
 export function LogoDisplay({
   className,
   title = 'Countime',
@@ -83,17 +89,54 @@ export function LogoDisplay({
   /** Draw the lettering on once, as though it were being written. */
   animate?: boolean;
 }) {
-  const src = 'url(/brand/countime-logotype.png)';
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !animate) return;
+
+    // Skip the animation if the reader has asked for less motion.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.dataset.write = 'done';
+      return;
+    }
+
+    // Start only once the mask is actually decoded. Otherwise the animation
+    // runs against an image that hasn't arrived and the reader sees nothing
+    // happen — which is exactly what shipped the first time.
+    let cancelled = false;
+    const start = () => {
+      if (!cancelled) el.dataset.write = 'run';
+    };
+
+    const img = new Image();
+    img.src = DISPLAY_MASK;
+    if (img.decode) {
+      img.decode().then(start).catch(start);
+    } else {
+      img.onload = start;
+      img.onerror = start;
+    }
+
+    // Belt and braces: never leave the logotype invisible if decoding stalls.
+    const failsafe = window.setTimeout(start, 3000);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(failsafe);
+    };
+  }, [animate]);
+
+  const src = `url(${DISPLAY_MASK})`;
+
   return (
     <span
+      ref={ref}
       role="img"
       aria-label={title}
       className={cn('block w-full bg-current', animate && 'write-on', className)}
       style={
         {
           aspectRatio: String(ASPECT),
-          // The write-on class builds its own two-layer mask from this var; the
-          // static case just paints the lettering straight away.
           ['--logo-src' as string]: src,
           ...(animate
             ? {}

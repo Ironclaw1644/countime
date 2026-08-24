@@ -72,6 +72,19 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/brand/countime-logotype-mask.png"
+          fetchPriority="high"
+        />
+        <noscript>
+          {/* The write-on starts paused and is released by JS; without JS,
+              show the finished lettering rather than nothing. */}
+          <style>{`.write-on{animation:none!important;-webkit-mask-size:contain,128% 100%!important;mask-size:contain,128% 100%!important}`}</style>
+        </noscript>
+      </head>
       <body>
         <ThemeScript />
         <Reveal />
