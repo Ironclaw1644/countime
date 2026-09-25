@@ -19,15 +19,33 @@ type CountimeAdmin = ReturnType<typeof createCountimeAdmin>;
 
 let _admin: CountimeAdmin | null = null;
 
+/**
+ * The server-side key, under either name.
+ *
+ * Supabase is migrating from legacy `service_role` JWTs to the newer
+ * `sb_secret_…` API keys, and the two live under different env var names in
+ * the wild. This file used to read `SUPABASE_SERVICE_ROLE_KEY` only, while
+ * every env file and setup script here writes `SUPABASE_SECRET_KEY` — so
+ * `isSupabaseConfigured()` returned false even with a perfectly good key
+ * present, and every capture 503'd. Accept both names.
+ */
+function secretKey(): string | undefined {
+  return process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
+
+function projectUrl(): string | undefined {
+  return process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+}
+
 function createCountimeAdmin() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = projectUrl();
+  const serviceRoleKey = secretKey();
 
   if (!url) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL is not set');
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) is not set');
   }
   if (!serviceRoleKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
+    throw new Error('SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) is not set');
   }
 
   return createClient(url, serviceRoleKey, {
@@ -45,7 +63,7 @@ function createCountimeAdmin() {
  * possible answer.
  */
 export function isSupabaseConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return Boolean(projectUrl() && secretKey());
 }
 
 export function supabaseAdmin(): CountimeAdmin {
