@@ -46,3 +46,8 @@ Thumbs.db
 .claude/settings.local.json
 .claude/worktrees/
 supabase/.temp/
+
+# revamp scratch (screenshots, research, local tooling)
+.revamp-shots/
+.revamp-research/
+.revamp-tools/
