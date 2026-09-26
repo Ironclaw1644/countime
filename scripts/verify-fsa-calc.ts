@@ -14,7 +14,15 @@
  *    https://www.bop.gov/resources/docs/fsa_time_credit_handout.pdf
  *  - RDAP tiers: BOP Program Statement 5331.02 CN-3 §11.
  */
-import { calculate, DEFAULT_INPUT, fromSearchParams, rdapCapFor, toSearchParams, type CalcInput } from '../lib/fsa/calc';
+import {
+  calculate,
+  DEFAULT_INPUT,
+  fromSearchParams,
+  priorCustodyDays,
+  rdapCapFor,
+  toSearchParams,
+  type CalcInput,
+} from '../lib/fsa/calc';
 import { RULES, SOURCES } from '../lib/fsa/rules';
 
 let failures = 0;
@@ -30,10 +38,13 @@ function eq<T>(label: string, actual: T, expected: T) {
 }
 
 const run = (over: Partial<CalcInput>) => calculate({ ...DEFAULT_INPUT, ...over });
+// BOP's handout examples "arrive" on a date: a self-surrender, where the
+// sentence commences and the prison is reached on the same day.
+const at = (date: string): Partial<CalcInput> => ({ sentenced: date, startMode: 'surrender', surrender: date });
 
 // Isolate good conduct time: no credits in play.
 const gctOnly = (start: string, months: number, days = 0) =>
-  run({ start, years: Math.floor(months / 12), months: months % 12, days, fsaEligible: false });
+  run({ ...at(start), years: Math.floor(months / 12), months: months % 12, days, fsaEligible: false });
 
 // ── 1. BOP's GCT table (prison term starting Jan. 1, 2020) ────────────────
 const table1: [number, number, number, string][] = [
@@ -54,7 +65,7 @@ for (const [m, d, gct, date] of table1) {
 
 // ── 2. BOP handout, Example 1: 24 months, arrived Jan 1, 2025 ─────────────
 {
-  const r = run({ start: '2025-01-01', years: 2, risk: 'low' });
+  const r = run({ ...at('2025-01-01'), years: 2, risk: 'low' });
   eq('Handout ex. 1: GCT release date', r.statutoryRelease, '2026-09-14');
   eq('Handout ex. 1: FSA conditional release date', r.projectedRelease, '2026-03-23');
   eq('Handout ex. 1: credits earned', r.ftc.earnedByRelease, 175);
@@ -63,7 +74,7 @@ for (const [m, d, gct, date] of table1) {
 
 // ── 3. BOP handout, Example 2: 60 months, arrived Jan 1, 2025 ─────────────
 {
-  const r = run({ start: '2025-01-01', years: 5, risk: 'low' });
+  const r = run({ ...at('2025-01-01'), years: 5, risk: 'low' });
   eq('Handout ex. 2: full term', r.fullTerm, '2029-12-31');
   eq('Handout ex. 2: GCT days', r.gctDays, 270);
   eq('Handout ex. 2: GCT release date', r.statutoryRelease, '2029-04-05');
@@ -75,7 +86,7 @@ for (const [m, d, gct, date] of table1) {
 
 // ── 4. BOP handout, Example 3: 60 months + § 3621(e) RDAP ─────────────────
 {
-  const r = run({ start: '2025-01-01', years: 5, risk: 'low', rdap: true, rdapMonths: 12 });
+  const r = run({ ...at('2025-01-01'), years: 5, risk: 'low', rdap: true, rdapMonths: 12 });
   eq('Handout ex. 3: 3621(e) RDAP release date', r.afterRdap, '2028-04-05');
   eq('Handout ex. 3: conditional placement date', r.ftc.prereleaseDate, '2027-04-01');
   eq('Handout ex. 3: FSRDAP conditional release date', r.projectedRelease, '2027-04-05');
@@ -84,7 +95,7 @@ for (const [m, d, gct, date] of table1) {
 
 // ── 5. BOP handout, 120 months, arrived Jan 1, 2025 ───────────────────────
 {
-  const r = run({ start: '2025-01-01', years: 10, risk: 'minimum' });
+  const r = run({ ...at('2025-01-01'), years: 10, risk: 'minimum' });
   eq('Handout 120 mo: full term', r.fullTerm, '2034-12-31');
   eq('Handout 120 mo: GCT days', r.gctDays, 540);
   eq('Handout 120 mo: GCT release date', r.statutoryRelease, '2033-07-09');
@@ -108,26 +119,26 @@ for (const [m, d, gct, date] of table1) {
   eq('12 months and a day: release date', dayOver.statutoryRelease, '2026-11-08');
   eq('…which is a Sunday, so § 3624(a) allows the Friday before', dayOver.releaseWeekday, '2026-11-06');
 
-  const noGed = run({ start: '2026-01-01', years: 5, fsaEligible: false, diploma: false });
+  const noGed = run({ ...at('2026-01-01'), years: 5, fsaEligible: false, diploma: false });
   eq('No diploma/GED progress: 42 days a year (28 CFR 523.20(d)(2)(ii))', noGed.gctDays, 210);
 
-  const jail = run({ start: '2026-01-01', years: 5, fsaEligible: false, jailCreditDays: 30 });
+  const jail = run({ ...at('2026-01-01'), years: 5, fsaEligible: false, priorExactDays: 30 });
   eq('Jail credit shortens the full term day for day', jail.fullTerm, '2030-12-01');
   eq('Jail credit does not change GCT (it is on the sentence imposed)', jail.gctDays, 270);
 }
 
 // ── 7. Eligibility ────────────────────────────────────────────────────────
 {
-  const excluded = run({ start: '2025-01-01', years: 5, fsaEligible: false });
+  const excluded = run({ ...at('2025-01-01'), years: 5, fsaEligible: false });
   eq('Excluded offense: no credits', excluded.ftc.earnedByRelease, 0);
   eq('Excluded offense: release is the GCT date', excluded.projectedRelease, '2029-04-05');
 
-  const medium = run({ start: '2025-01-01', years: 5, risk: 'medium' });
+  const medium = run({ ...at('2025-01-01'), years: 5, risk: 'medium' });
   eq('Medium risk: credits not applied', medium.ftc.canApply, false);
   eq('Medium risk: release stays at the GCT date', medium.projectedRelease, '2029-04-05');
   eq('Medium risk: still earns 10 per 30 served', medium.ftc.ratePer30, 10);
 
-  const noSr = run({ start: '2025-01-01', years: 5, risk: 'low', supervisedRelease: false });
+  const noSr = run({ ...at('2025-01-01'), years: 5, risk: 'low', supervisedRelease: false });
   eq('No supervised release term: release stays at the GCT date', noSr.projectedRelease, '2029-04-05');
   eq('No supervised release term: every credit goes to prerelease custody', noSr.ftc.prereleaseDate, '2027-12-02');
 }
@@ -138,13 +149,13 @@ eq('RDAP cap, 31 months', rdapCapFor(31), 9);
 eq('RDAP cap, 36 months', rdapCapFor(36), 9);
 eq('RDAP cap, 37 months', rdapCapFor(37), 12);
 {
-  const r = run({ start: '2026-01-01', years: 2, months: 6, rdap: true, rdapMonths: 12, fsaEligible: false });
+  const r = run({ ...at('2026-01-01'), years: 2, months: 6, rdap: true, rdapMonths: 12, fsaEligible: false });
   eq('RDAP request above the tier is capped', r.rdapMonthsApplied, 6);
 }
 
 // ── 9. Second Chance Act ──────────────────────────────────────────────────
 {
-  const r = run({ start: '2025-01-01', years: 5, risk: 'low', scaMonths: 6 });
+  const r = run({ ...at('2025-01-01'), years: 5, risk: 'low', scaMonths: 6 });
   eq('SCA months stack on the FTC placement date', r.earliestPrerelease, '2027-06-02');
   eq('Home confinement cap: shorter of 10% of term or 6 months', r.sca.homeConfinementCapDays, 182);
 }
@@ -162,9 +173,64 @@ for (const s of Object.values(SOURCES)) {
 
 // ── 11. Shareable URLs round-trip ─────────────────────────────────────────
 {
-  const input: CalcInput = { ...DEFAULT_INPUT, start: '2027-02-15', years: 3, months: 4, risk: 'minimum', rdap: true, scaMonths: 3 };
+  const input: CalcInput = { ...DEFAULT_INPUT, ...at('2027-02-15'), priorYears: 1, priorMonths: 3, rule: 'old', years: 3, months: 4, risk: 'minimum', rdap: true, scaMonths: 3 };
   eq('URL params round-trip', fromSearchParams(toSearchParams(input)), input);
   eq('Garbage params fall back to safe values', fromSearchParams(new URLSearchParams('y=abc&s=nope&r=evil')).risk, DEFAULT_INPUT.risk);
+}
+
+// ── 12. Time locked up before sentencing, in years/months/days ────────────
+// Counted back from the sentencing date on the calendar, not in 30-day months.
+eq('1 year before June 15, 2026 is 365 days', priorCustodyDays('2026-06-15', 1, 0, 0), 365);
+eq('1 year before June 15, 2024 crosses Feb 29: 366 days', priorCustodyDays('2024-06-15', 1, 0, 0), 366);
+eq('1 month before Mar 31, 2026 lands on Feb 28: 31 days', priorCustodyDays('2026-03-31', 0, 1, 0), 31);
+eq('6 months 10 days before June 15, 2026 (Dec 5, 2025): 192 days', priorCustodyDays('2026-06-15', 0, 6, 10), 192);
+eq('Nothing entered: 0 days', priorCustodyDays('2026-06-15', 0, 0, 0), 0);
+{
+  // Held 1 year 6 months (Jul 1, 2024 → Jan 1, 2026 = 549 days), sentenced
+  // and remanded Jan 1, 2026 to 5 years.
+  const r = run({ sentenced: '2026-01-01', startMode: 'custody', arrived: '2026-01-01', years: 5, priorYears: 1, priorMonths: 6, fsaEligible: false });
+  eq('Prior custody 1y 6m before Jan 1, 2026 = 549 days', r.priorCustodyDays, 549);
+  eq('Prior custody comes off the full term day for day', r.fullTerm, '2029-06-30');
+  eq('Prior custody does not change GCT (it is on the sentence imposed)', r.gctDays, 270);
+  const exact = run({ sentenced: '2026-01-01', startMode: 'custody', arrived: '2026-01-01', years: 5, priorYears: 1, priorMonths: 6, priorExactDays: 500, fsaEligible: false });
+  eq('An exact day count from BOP overrides years/months/days', exact.priorCustodyDays, 500);
+}
+
+// ── 13. The Sept. 30, 2026 rule: credits from when the sentence commences ─
+{
+  // Remanded at sentencing Jan 1, 2025; reached the prison Mar 2 (60 days).
+  const base: Partial<CalcInput> = { sentenced: '2025-01-01', startMode: 'custody', arrived: '2025-03-02', years: 5, risk: 'low' };
+  const nu = run({ ...base, rule: 'new' });
+  eq('New rule: sentence commences at sentencing when remanded', nu.commenced, '2025-01-01');
+  eq('New rule: earning starts at commencement', nu.earningFrom, '2025-01-01');
+  // Earning from Jan 1, 2025 is exactly BOP's handout Example 2.
+  eq('New rule: same placement as handout ex. 2', nu.ftc.prereleaseDate, '2027-12-02');
+  eq('New rule: same release as handout ex. 2', nu.projectedRelease, '2028-04-05');
+
+  const old = run({ ...base, rule: 'old' });
+  eq('Old rule: earning starts on arrival', old.earningFrom, '2025-03-02');
+  // 34 periods reached on day 1,080 (60 + 30×34): 1,080 + 475 credits = 1,555
+  // days to the GCT date, 15 days later than the new rule's day 1,065.
+  eq('Old rule: placement 15 days later', old.ftc.prereleaseDate, '2027-12-17');
+  eq('Old rule: credits by placement', old.ftc.earnedByRelease, 475);
+  eq('Old rule: supervised release unchanged (12-month cap reached either way)', old.projectedRelease, '2028-04-05');
+  eq('Comparison: new rule gains 15 days', nu.compare?.newRuleGainDays, 15);
+  eq('Comparison names the other rule', nu.compare?.rule, 'old');
+
+  const assumed = run({ sentenced: '2026-11-02', startMode: 'custody', arrived: '' });
+  eq('No arrival date: BOP’s 66-day average transit is assumed', assumed.arrival, '2027-01-07');
+  eq('…and flagged as assumed', assumed.arrivalAssumed, true);
+
+  const surrender = run({ ...at('2025-01-01'), years: 5, risk: 'low' });
+  eq('Self-surrender: nothing to compare, both rules start the same day', surrender.compare, null);
+  eq('Rule effective date (91 FR 55740)', RULES.ftcRuleEffective, '2026-09-30');
+}
+
+// ── 14. Links shared before round 2 still open ────────────────────────────
+{
+  const legacy = fromSearchParams(new URLSearchParams('s=2025-01-01&y=5&jc=30'));
+  eq('Old link: start date read as a self-surrender', [legacy.startMode, legacy.surrender, legacy.sentenced], ['surrender', '2025-01-01', '2025-01-01']);
+  eq('Old link: jail credit read as exact days', legacy.priorExactDays, 30);
 }
 
 console.log(`\nverify:fsa-calc — ${passes} passed, ${failures} failed`);

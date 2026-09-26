@@ -151,11 +151,11 @@ export const SOURCES: Record<SourceId, Source> = {
   },
   'fr-2026-17752': {
     id: 'fr-2026-17752',
-    cite: '91 FR 55743 (Aug. 31, 2026), effective Sept. 30, 2026',
+    cite: '91 FR 55740 (Aug. 31, 2026), effective Sept. 30, 2026',
     title: 'First Step Act Time Credits — Revisions (interim final rule)',
-    url: 'https://www.federalregister.gov/documents/2026/08/31/2026-17752/first-step-act-time-credits-revisions',
+    url: 'https://www.govinfo.gov/content/pkg/FR-2026-08-31/html/2026-17752.htm',
     quote:
-      'An eligible inmate begins earning FSA Time Credits after the inmate’s term of imprisonment commences. … by removing the parenthetical, we leave intact the understanding that a term of imprisonment begins either (1) on the date the defendant is received in custody pending transportation to the designated facility where the sentence will be served, or (2) on the date the defendant voluntarily surrenders',
+      'An eligible inmate begins earning FSA Time Credits after the inmate’s term of imprisonment commences. … by removing the parenthetical, we leave intact the understanding that a term of imprisonment begins either (1) on the date the defendant is received in custody pending transportation to the designated facility where the sentence will be served, or (2) on the date the defendant voluntarily surrenders at the institution where the sentence will be served. … this change does not mean that every eligible inmate will automatically begin earning Time Credits immediately after their sentence is imposed. … the inmate must still complete evidence-based recidivism reduction (EBRR) programming or productive activities assigned to them based on their assessed needs. … the average length of time from sentencing to arrival at the designated facility to be 66.06 days.',
   },
 };
 
@@ -188,6 +188,10 @@ export const RULES = {
   ],
   /** PS 5410.01 §11 — RDAP's community-based treatment component. */
   rdapCommunityTreatmentDays: 120,
+  /** 91 FR 55740 — the interim rule that starts credits when the sentence commences. */
+  ftcRuleEffective: '2026-09-30',
+  /** 91 FR 55742 — BOP's average, sentencing to arrival at the designated prison, 2023–2025 (66.06 days). */
+  avgDaysSentencingToArrival: 66,
 } as const;
 
 export const RULE_SOURCES: Record<keyof typeof RULES, SourceId[]> = {
@@ -203,4 +207,6 @@ export const RULE_SOURCES: Record<keyof typeof RULES, SourceId[]> = {
   rdapMaxMonths: ['usc-3621e', 'cfr-550-55'],
   rdapTiers: ['ps-5331'],
   rdapCommunityTreatmentDays: ['ps-5410'],
+  ftcRuleEffective: ['fr-2026-17752'],
+  avgDaysSentencingToArrival: ['fr-2026-17752'],
 };

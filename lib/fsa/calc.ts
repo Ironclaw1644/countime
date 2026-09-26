@@ -18,10 +18,26 @@
  *      what is left of the term (§ 3624(g)(1)(A)); up to 12 months of them
  *      go to early supervised release (§ 3624(g)(3)), the rest to prerelease
  *      custody. This model reproduces BOP's worked examples to the day.
+ *      Earning starts when the sentence commences under the interim rule
+ *      effective Sept. 30, 2026 (91 FR 55740), or on arrival at the
+ *      designated prison under the old rule; both are computed so the page
+ *      can show the difference.
  *   5. Second Chance Act placement (§ 3624(c)) is added on top of the FTC days,
  *      as PS 5410.01 describes the RRC/HC referral: Five-Factor days plus the
  *      FTC days not used for supervised release. BOP decides that number; the
  *      reader supplies an assumption, capped at 12 months.
+ *
+ * When the sentence commences (§ 3585(a), as the 2026 rule restates it):
+ * on the day of sentencing for someone already in custody and remanded, or on
+ * the day of self-surrender at the designated prison.
+ *
+ * Prior custody is asked for in years, months and days, because that is how
+ * people remember it. It is turned into days by counting back from the
+ * sentencing date on the calendar — 1 year before 15 June 2026 is 15 June
+ * 2025, i.e. 365 days — not by assuming 30-day months. If the time was served
+ * in an earlier stretch the true count can differ by a day or two around
+ * short months and leap days; a BOP sentence computation's exact day count
+ * can be entered instead.
  *
  * Where the rules leave a choice (rounding a prorated year, counting the
  * start date as day one), the choice is written down in NOTES and shown on
@@ -30,15 +46,29 @@
 import { RULES } from './rules';
 
 export type Risk = 'minimum' | 'low' | 'medium' | 'high';
+/** In custody when sentenced (remanded to the Marshals), or reporting on their own. */
+export type StartMode = 'custody' | 'surrender';
+/** Which rule decides when time credits start: the Sept. 30, 2026 interim rule, or the one it replaced. */
+export type FtcRule = 'new' | 'old';
 
 export type CalcInput = {
-  /** ISO date the sentence commenced — self-surrender, or received in custody for service. */
-  start: string;
+  /** ISO date the sentence was imposed. */
+  sentenced: string;
+  startMode: StartMode;
+  /** ISO date of self-surrender at the designated prison (startMode 'surrender'). */
+  surrender: string;
+  /** ISO date of arrival at the designated prison (startMode 'custody'); '' = not known yet. */
+  arrived: string;
   years: number;
   months: number;
   days: number;
-  /** § 3585(b) prior-custody credit, in days. */
-  jailCreditDays: number;
+  /** Time locked up before federal sentencing, as people remember it (§ 3585(b)). */
+  priorYears: number;
+  priorMonths: number;
+  priorDays: number;
+  /** Exact prior-custody days from a BOP sentence computation; overrides the above when > 0. */
+  priorExactDays: number;
+  rule: FtcRule;
   /** Earned or making progress toward a diploma/GED (28 CFR 523.20(d)(2)). */
   diploma: boolean;
   /** Not serving a sentence for a § 3632(d)(4)(D) offense and no final order of removal. */
@@ -48,8 +78,6 @@ export type CalcInput = {
   supervisedRelease: boolean;
   /** Share of time in earning status, 0–1. BOP's projection assumes 1. */
   participation: number;
-  /** Days after commencement before earning status begins (assessments, transit). */
-  earningDelayDays: number;
   /** 30-day increments at the base 10 before the +5 applies (min/low). BOP's handout uses 7. */
   basePeriods: number;
   /** Plans to complete RDAP and is eligible for the § 3621(e) reduction. */
@@ -61,17 +89,23 @@ export type CalcInput = {
 };
 
 export const DEFAULT_INPUT: CalcInput = {
-  start: '2026-11-02',
+  sentenced: '2026-11-02',
+  startMode: 'custody',
+  surrender: '2027-01-04',
+  arrived: '',
   years: 5,
   months: 0,
   days: 0,
-  jailCreditDays: 0,
+  priorYears: 0,
+  priorMonths: 0,
+  priorDays: 0,
+  priorExactDays: 0,
+  rule: 'new',
   diploma: true,
   fsaEligible: true,
   risk: 'low',
   supervisedRelease: true,
   participation: 1,
-  earningDelayDays: 0,
   basePeriods: 7,
   rdap: false,
   rdapMonths: 12,
@@ -79,13 +113,23 @@ export const DEFAULT_INPUT: CalcInput = {
 };
 
 export type Milestone = {
-  key: 'start' | 'prerelease-sca' | 'prerelease-ftc' | 'release' | 'srd' | 'full-term';
+  key: 'sentenced' | 'start' | 'arrival' | 'prerelease-sca' | 'prerelease-ftc' | 'release' | 'srd' | 'full-term';
   label: string;
   date: string;
 };
 
 export type CalcResult = {
   input: CalcInput;
+  /** The day the sentence commenced (§ 3585(a)). */
+  commenced: string;
+  /** The day of arrival at the designated prison. */
+  arrival: string;
+  /** Arrival wasn't given, so BOP's own average transit time was assumed. */
+  arrivalAssumed: boolean;
+  /** The day time credits start to be earned under the chosen rule. */
+  earningFrom: string;
+  /** § 3585(b) prior-custody credit, in days. */
+  priorCustodyDays: number;
   /** Total months imposed (years×12 + months), days ignored — used by RDAP tiers. */
   sentenceMonths: number;
   /** Length of the term imposed, in days, start date counted as day one. */
@@ -121,6 +165,17 @@ export type CalcResult = {
   earliestPrerelease: string;
   daysServedToRelease: number;
   percentOfTermServed: number;
+  /**
+   * The same case under the other credit-start rule, when the two differ
+   * (only possible when there is time between commencement and arrival).
+   */
+  compare: {
+    rule: FtcRule;
+    projectedRelease: string;
+    earliestPrerelease: string;
+    /** Days by which the new rule's earliest date beats the old rule's (≥ 0). */
+    newRuleGainDays: number;
+  } | null;
   milestones: Milestone[];
   notes: string[];
 };
@@ -158,6 +213,31 @@ function previousWeekday(d: Date): Date {
   return d;
 }
 const max = (a: Date, b: Date) => (a > b ? a : b);
+const isIsoDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(parseDate(v).getTime());
+
+/**
+ * Years/months/days of custody before sentencing → days, counted back from
+ * the sentencing date on the calendar (see the header comment).
+ */
+export function priorCustodyDays(sentenced: string, years: number, months: number, days: number): number {
+  const end = parseDate(sentenced);
+  const from = addDays(addMonths(end, -(years * 12 + months)), -days);
+  return diffDays(end, from);
+}
+
+/** When the sentence commenced and when the person reached the designated prison. */
+export function startDates(input: CalcInput): { commenced: string; arrival: string; arrivalAssumed: boolean } {
+  if (input.startMode === 'surrender') {
+    // Self-surrender at the designated prison: both happen the same day.
+    return { commenced: input.surrender, arrival: input.surrender, arrivalAssumed: false };
+  }
+  if (input.arrived) return { commenced: input.sentenced, arrival: input.arrived, arrivalAssumed: false };
+  return {
+    commenced: input.sentenced,
+    arrival: iso(addDays(parseDate(input.sentenced), RULES.avgDaysSentencingToArrival)),
+    arrivalAssumed: true,
+  };
+}
 
 // ── The calculation ───────────────────────────────────────────────────────
 
@@ -168,14 +248,42 @@ export function rdapCapFor(sentenceMonths: number): number {
 
 export function calculate(raw: CalcInput): CalcResult {
   const input = sanitize(raw);
+  const primary = project(input, input.rule);
+  const other: FtcRule = input.rule === 'new' ? 'old' : 'new';
+  if (primary.commenced === primary.arrival || !input.fsaEligible) return { ...primary, compare: null };
+  const alt = project(input, other);
+  const newer = input.rule === 'new' ? primary : alt;
+  const older = input.rule === 'new' ? alt : primary;
+  const gain = diffDays(parseDate(older.earliestPrerelease), parseDate(newer.earliestPrerelease));
+  return {
+    ...primary,
+    compare: {
+      rule: other,
+      projectedRelease: alt.projectedRelease,
+      earliestPrerelease: alt.earliestPrerelease,
+      newRuleGainDays: Math.max(0, gain),
+    },
+  };
+}
+
+function project(input: CalcInput, rule: FtcRule): Omit<CalcResult, 'compare'> {
   const notes: string[] = [];
-  const start = parseDate(input.start);
+  const { commenced, arrival, arrivalAssumed } = startDates(input);
+  const start = parseDate(commenced);
+  const arrivalDate = parseDate(arrival);
+  const earnFrom = rule === 'new' ? start : arrivalDate;
+  const earningDelayDays = diffDays(earnFrom, start);
+
+  const priorDays =
+    input.priorExactDays > 0
+      ? input.priorExactDays
+      : priorCustodyDays(input.sentenced, input.priorYears, input.priorMonths, input.priorDays);
 
   // 1. Full term. The start date is day one, so a 12-month term that begins
   //    on 1 January ends on 31 December.
   const termEndNoCredit = addDays(addMonths(start, input.years * 12 + input.months), input.days - 1);
   const termDays = diffDays(termEndNoCredit, start) + 1;
-  const fullTerm = addDays(termEndNoCredit, -input.jailCreditDays);
+  const fullTerm = addDays(termEndNoCredit, -priorDays);
   const sentenceMonths = input.years * 12 + input.months;
 
   // 2. Good conduct time on the sentence imposed. "More than 1 year": a
@@ -214,7 +322,7 @@ export function calculate(raw: CalcInput): CalcResult {
   const minLow = input.risk === 'minimum' || input.risk === 'low';
   const creditsAfter = (daysServed: number): number => {
     if (!input.fsaEligible) return 0;
-    const earning = Math.max(0, daysServed - input.earningDelayDays) * input.participation;
+    const earning = Math.max(0, daysServed - earningDelayDays) * input.participation;
     const n = Math.floor(earning / RULES.ftcPeriodDays);
     if (!minLow) return n * RULES.ftcBaseDaysPer30;
     const base = Math.min(n, input.basePeriods);
@@ -279,9 +387,25 @@ export function calculate(raw: CalcInput): CalcResult {
       'The projected date falls on a weekend; § 3624(a) lets BOP release on the preceding weekday. Legal holidays at the place of confinement can move it too — we don’t adjust for those.',
     );
   }
-  if (input.jailCreditDays > 0) {
+  if (priorDays > 0) {
     notes.push(
-      'Prior-custody (jail) credit shortens the time to serve, but credits can’t be earned for time in detention before the sentence commenced (§ 3632(d)(4)(B)(ii)).',
+      `Time locked up before sentencing (${priorDays.toLocaleString('en-US')} days) comes off the sentence day for day, as long as it wasn’t already counted toward another sentence (§ 3585(b)). It doesn’t earn First Step Act credits — those only start once the federal sentence does (§ 3632(d)(4)(B)(ii)).`,
+    );
+  }
+  const effective = parseDate(RULES.ftcRuleEffective);
+  if (input.fsaEligible && rule === 'new' && earningDelayDays === 0 && diffDays(arrivalDate, start) > 0) {
+    notes.push(
+      'Credits here start the day the sentence began, not the day of arrival at the prison. The Sept. 30, 2026 rule says people waiting to be moved can start programming, but they still have to complete the programs or activities they’ve been assigned — being held in a county jail doesn’t earn credits on its own.',
+    );
+    if (start < effective) {
+      notes.push(
+        'Some of the time before arrival falls before September 30, 2026, when the new rule took effect. The rule doesn’t say whether BOP will go back and count days from before then. Switch to the old rule to see the date if it doesn’t.',
+      );
+    }
+  }
+  if (input.startMode === 'custody' && arrivalAssumed) {
+    notes.push(
+      `Arrival date not given, so we assumed ${RULES.avgDaysSentencingToArrival} days from sentencing to arriving at the prison — BOP’s own average for 2023–2025.`,
     );
   }
   if (input.rdap && canApply) {
@@ -290,9 +414,13 @@ export function calculate(raw: CalcInput): CalcResult {
     );
   }
 
-  const served = diffDays(projectedRelease, start) + 1 + input.jailCreditDays;
+  const served = diffDays(projectedRelease, start) + 1 + priorDays;
 
-  const milestones: Milestone[] = [{ key: 'start', label: 'Sentence begins', date: iso(start) }];
+  const milestones: Milestone[] = [];
+  if (input.sentenced !== iso(start)) milestones.push({ key: 'sentenced', label: 'Sentenced', date: input.sentenced });
+  milestones.push({ key: 'start', label: 'Sentence begins', date: iso(start) });
+  if (diffDays(arrivalDate, start) > 0)
+    milestones.push({ key: 'arrival', label: arrivalAssumed ? 'Arrives at the prison (estimated)' : 'Arrives at the prison', date: arrival });
   if (assumedScaDays > 0) milestones.push({ key: 'prerelease-sca', label: 'Prerelease with Second Chance Act time', date: iso(scaDate) });
   if (prereleaseFtc) milestones.push({ key: 'prerelease-ftc', label: 'Prerelease custody from FSA credits', date: iso(prereleaseFtc) });
   milestones.push({
@@ -307,6 +435,11 @@ export function calculate(raw: CalcInput): CalcResult {
 
   return {
     input,
+    commenced,
+    arrival,
+    arrivalAssumed,
+    earningFrom: iso(earnFrom),
+    priorCustodyDays: priorDays,
     sentenceMonths,
     termDays,
     fullTerm: iso(fullTerm),
@@ -347,16 +480,24 @@ function clamp(n: number, lo: number, hi: number): number {
 }
 
 export function sanitize(i: CalcInput): CalcInput {
-  const okDate = /^\d{4}-\d{2}-\d{2}$/.test(i.start) && !Number.isNaN(parseDate(i.start).getTime());
+  const sentenced = isIsoDate(i.sentenced) ? i.sentenced : DEFAULT_INPUT.sentenced;
+  // Neither surrender nor arrival can come before the sentence is imposed.
+  const notBefore = (v: string, fallback: string) => (isIsoDate(v) ? (v < sentenced ? sentenced : v) : fallback);
   return {
     ...i,
-    start: okDate ? i.start : DEFAULT_INPUT.start,
+    sentenced,
+    startMode: i.startMode === 'surrender' ? 'surrender' : 'custody',
+    surrender: notBefore(i.surrender, sentenced),
+    arrived: i.arrived ? notBefore(i.arrived, '') : '',
+    rule: i.rule === 'old' ? 'old' : 'new',
     years: Math.floor(clamp(i.years, 0, 60)),
     months: Math.floor(clamp(i.months, 0, 11)),
     days: Math.floor(clamp(i.days, 0, 30)),
-    jailCreditDays: Math.floor(clamp(i.jailCreditDays, 0, 3650)),
+    priorYears: Math.floor(clamp(i.priorYears, 0, 20)),
+    priorMonths: Math.floor(clamp(i.priorMonths, 0, 11)),
+    priorDays: Math.floor(clamp(i.priorDays, 0, 30)),
+    priorExactDays: Math.floor(clamp(i.priorExactDays, 0, 7300)),
     participation: clamp(i.participation, 0, 1),
-    earningDelayDays: Math.floor(clamp(i.earningDelayDays, 0, 365)),
     basePeriods: Math.floor(clamp(i.basePeriods, 0, 240)),
     rdapMonths: Math.floor(clamp(i.rdapMonths, 0, RULES.rdapMaxMonths)),
     scaMonths: Math.floor(clamp(i.scaMonths, 0, RULES.scaMaxMonths)),
@@ -366,17 +507,23 @@ export function sanitize(i: CalcInput): CalcInput {
 // ── URL state ─────────────────────────────────────────────────────────────
 
 const KEYS: Record<keyof CalcInput, string> = {
-  start: 's',
+  sentenced: 'sd',
+  startMode: 'how',
+  surrender: 'ss',
+  arrived: 'ar',
   years: 'y',
   months: 'm',
   days: 'd',
-  jailCreditDays: 'jc',
+  priorYears: 'py',
+  priorMonths: 'pm',
+  priorDays: 'pd',
+  priorExactDays: 'px',
+  rule: 'rule',
   diploma: 'ged',
   fsaEligible: 'fsa',
   risk: 'r',
   supervisedRelease: 'sr',
   participation: 'p',
-  earningDelayDays: 'dl',
   basePeriods: 'b',
   rdap: 'rdap',
   rdapMonths: 'rm',
@@ -387,8 +534,9 @@ export function toSearchParams(i: CalcInput): URLSearchParams {
   const p = new URLSearchParams();
   for (const [k, short] of Object.entries(KEYS) as [keyof CalcInput, string][]) {
     const v = i[k];
-    // The start date always travels, so a shared link survives a change of default.
-    if (v === DEFAULT_INPUT[k] && k !== 'start') continue;
+    // The dates always travel, so a shared link survives a change of default.
+    const isDate = k === 'sentenced' || (k === 'surrender' && i.startMode === 'surrender');
+    if (v === DEFAULT_INPUT[k] && !isDate) continue;
     p.set(short, typeof v === 'boolean' ? (v ? '1' : '0') : String(v));
   }
   return p;
@@ -401,6 +549,16 @@ export function fromSearchParams(p: URLSearchParams | Record<string, string | st
     return Array.isArray(v) ? v[0] : v;
   };
   const out: CalcInput = { ...DEFAULT_INPUT };
+  // Links shared before Sept. 2026 carried one start date (s) and jail credit
+  // in days (jc). Read them as a self-surrender on that date, exact days.
+  const legacyStart = get('s');
+  if (legacyStart && get('sd') === undefined) {
+    out.sentenced = legacyStart;
+    out.surrender = legacyStart;
+    out.startMode = 'surrender';
+  }
+  const legacyJail = get('jc');
+  if (legacyJail && get('px') === undefined) out.priorExactDays = Number(legacyJail);
   for (const [k, short] of Object.entries(KEYS) as [keyof CalcInput, string][]) {
     const v = get(short);
     if (v === undefined) continue;
