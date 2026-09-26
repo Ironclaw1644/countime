@@ -66,7 +66,7 @@ export function ScriptureBand({
           </p>
           <p className="numeral text-lg text-ink-faint" aria-hidden>
             {String(i + 1).padStart(2, '0')}
-            <span className="mx-1 text-ink-faint/60">/</span>
+            <span className="mx-1 text-ink-faint">/</span>
             {String(verses.length).padStart(2, '0')}
           </p>
         </div>

@@ -60,7 +60,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             ]}
           />
           <Eyebrow className="mt-10 !text-accent">Guide · {guide.readingTime} min read</Eyebrow>
-          <h1 className="mt-4 max-w-4xl text-4xl text-ink sm:text-5xl">{guide.title}</h1>
+          <h1 className="mt-4 max-w-4xl text-4xl text-ink lg:text-[4.25rem]">{guide.title}</h1>
           <p className="mt-8 max-w-3xl text-xl leading-relaxed text-ink-soft">{guide.lede}</p>
           <p className="mt-8 text-xs text-ink-muted">
             Updated <time dateTime={guide.updated}>{fmt(guide.updated)}</time> · Every statement is linked to the

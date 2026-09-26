@@ -4,7 +4,6 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { ThemeScript } from '@/components/layout/ThemeScript';
 import { Reveal } from '@/components/layout/Reveal';
-import { ColumnRules } from '@/components/layout/ColumnRules';
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from '@/lib/site';
 import { JsonLd, organizationLd, websiteLd } from '@/lib/seo';
 import '@/lib/fontawesome';
@@ -92,7 +91,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ThemeScript />
         <Reveal />
-        <ColumnRules />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

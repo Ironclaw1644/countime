@@ -45,12 +45,12 @@ export default function FacilitiesPage() {
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
               <Eyebrow className="!text-accent">Map &amp; directory</Eyebrow>
-              <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
+              <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
                 Every federal camp, <em className="serif-italic text-accent">on one map.</em>
               </h1>
             </div>
             <p className="max-w-prose text-lg leading-relaxed text-ink-soft">
-              {live.length} minimum-security camps, medical centers and holding
+              {live.length}{' '}minimum-security camps, medical centers and holding
               facilities, checked against the Bureau of Prisons&rsquo; own directory
               and population report — including the ones that have closed, so a
               search by name still gets an answer.
@@ -67,9 +67,9 @@ export default function FacilitiesPage() {
             <h2 id="directory" className="text-3xl text-ink">
               Directory by state
             </h2>
-            <nav aria-label="Jump to state" className="flex max-w-3xl flex-wrap gap-x-3 gap-y-1.5">
+            <nav aria-label="Jump to state" className="flex max-w-3xl flex-wrap gap-x-1.5 gap-y-1">
               {states.map((s) => (
-                <a key={s} href={`#state-${s}`} className="numeral text-base text-ink-muted hover:text-accent">
+                <a key={s} href={`#state-${s}`} className="numeral inline-flex min-h-6 min-w-6 items-center justify-center px-1 text-base text-ink-muted hover:text-accent">
                   {s}
                 </a>
               ))}

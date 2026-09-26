@@ -22,7 +22,7 @@ export default function NotFound() {
             <p className="numeral text-[clamp(6rem,4rem+10vw,14rem)] leading-none text-ink/10" aria-hidden>
               404
             </p>
-            <h1 className="-mt-6 text-4xl text-ink sm:text-5xl">
+            <h1 className="-mt-6 text-4xl text-ink lg:text-[4.25rem]">
               This page has gone <em className="serif-italic text-accent">missing.</em>
             </h1>
             <p className="mt-6 max-w-prose text-lg leading-relaxed text-ink-soft">

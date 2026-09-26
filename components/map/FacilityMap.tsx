@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import Map, { NavigationControl, ScaleControl } from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
+// Loaded with the map chunk only, rather than render-blocking every page.
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { FacilityMarker } from './FacilityMarker';
 import { RadiusCircle } from './RadiusCircle';
 import { FacilityTooltip } from './FacilityTooltip';

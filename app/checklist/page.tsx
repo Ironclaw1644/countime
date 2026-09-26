@@ -1,5 +1,7 @@
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
+import { PullQuote } from '@/components/ui/PullQuote';
+import { scripture } from '@/data/scripture';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { Icon } from '@/components/ui/Icon';
@@ -33,7 +35,7 @@ export default function ChecklistPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-12 pb-6 sm:pt-20 sm:pb-8">
+      <Section className="band-night overflow-hidden pt-12 pb-14 sm:pt-20 sm:pb-16">
         <Container width="narrow">
           <p className="eyebrow text-[11px] text-accent-hover">
             Free — for families navigating self-surrender
@@ -216,6 +218,11 @@ export default function ChecklistPage() {
           </div>
         </Container>
       </Section>
+      <section className="py-16 sm:py-20 print:hidden">
+        <Container>
+          <PullQuote verse={scripture('galatians-6-2')} />
+        </Container>
+      </section>
     </>
   );
 }

@@ -40,7 +40,7 @@ export default async function NewsPage() {
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
               <Eyebrow className="!text-accent">Updated hourly</Eyebrow>
-              <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
+              <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
                 First Step Act <em className="serif-italic text-accent">news.</em>
               </h1>
             </div>

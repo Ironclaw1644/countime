@@ -50,10 +50,9 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 border-b transition-[background-color,box-shadow,border-color] duration-300',
-        scrolled || open
-          ? 'border-rule bg-paper/90 shadow-[0_8px_30px_-24px_rgb(0_0_0/0.5)] backdrop-blur-md'
-          : 'border-transparent bg-paper/70 backdrop-blur-sm',
+        // Night in both themes, so it runs straight into the night heroes.
+        'band-night no-lamp sticky top-0 z-40 border-b transition-[box-shadow,border-color] duration-300',
+        scrolled || open ? 'border-rule shadow-[0_10px_30px_-20px_rgb(0_0_0/0.7)]' : 'border-transparent',
       )}
     >
       <Container width="wide">

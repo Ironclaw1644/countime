@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useId, useMemo, useState, useSyncExternalStore } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   calculate,
@@ -64,7 +64,7 @@ export function Calculator() {
     <div className="grid gap-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-14 xl:gap-20">
       {/* ── Inputs ─────────────────────────────────────────── */}
       <form
-        className="print:hidden lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto lg:pr-2"
+        className="print:hidden"
         onSubmit={(e) => e.preventDefault()}
         aria-label="Sentence details"
       >
@@ -95,13 +95,17 @@ export function Calculator() {
         </Fieldset>
 
         <Fieldset n="02" legend="First Step Act">
-          <Field label="Can they earn time credits?" group>
+          <Field
+            label="Can they earn time credits?"
+            hint="No if the offense is on the excluded list, or there is a final order of removal."
+            group
+          >
             <Segmented
               name="fsa"
               value={input.fsaEligible ? 'yes' : 'no'}
               options={[
                 { v: 'yes', label: 'Yes' },
-                { v: 'no', label: 'No — excluded offense or removal order' },
+                { v: 'no', label: 'No' },
               ]}
               onChange={(v) => update({ fsaEligible: v === 'yes' })}
             />
@@ -212,7 +216,8 @@ export function Calculator() {
       </form>
 
       {/* ── Results ────────────────────────────────────────── */}
-      <div aria-live="polite" className="min-w-0">
+      <MobileResultBar result={result} />
+      <div id="estimate" aria-live="polite" className="min-w-0 scroll-mt-20">
         <Results result={result} />
         <div className="mt-8 flex flex-wrap gap-3 print:hidden">
           <button
@@ -318,6 +323,13 @@ function Results({ result: r }: { result: CalcResult }) {
               <Row label="+ Second Chance Act placement (assumed)" value={`${r.sca.assumedDays} days`} sub={`From ${fmtDate(r.earliestPrerelease)}`} cite={['usc-3624c', 'ps-5410']} />
             )}
             <Row label={r.ftc.appliedToSupervisedRelease > 0 ? 'Supervised release begins' : 'Projected release'} value={fmtDate(r.projectedRelease)} strong />
+            {r.releaseWeekday !== r.projectedRelease && (
+              <Row
+                label="Falls on a weekend — may release the weekday before"
+                value={fmtDate(r.releaseWeekday, { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}
+                cite={['usc-3624a']}
+              />
+            )}
           </tbody>
         </table>
 
@@ -340,6 +352,38 @@ function Results({ result: r }: { result: CalcResult }) {
         </p>
       </div>
     </section>
+  );
+}
+
+/** On phones the form comes first, so keep the answer in view until the results are. */
+function MobileResultBar({ result: r }: { result: CalcResult }) {
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById('estimate');
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setHidden(e.boundingClientRect.top < window.innerHeight * 0.9), {
+      threshold: [0, 0.01, 1],
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const hasPre = r.earliestPrerelease < r.projectedRelease;
+  return (
+    <a
+      href="#estimate"
+      aria-hidden={hidden}
+      tabIndex={hidden ? -1 : 0}
+      className={cn(
+        'band-night fixed inset-x-3 bottom-3 z-30 flex items-center justify-between gap-4 rounded-full px-5 py-3 shadow-lift transition-all duration-300 lg:hidden print:hidden',
+        hidden ? 'pointer-events-none translate-y-6 opacity-0' : 'opacity-100',
+      )}
+    >
+      <span className="text-xs text-ink-soft">{hasPre ? 'Earliest move home' : 'Projected release'}</span>
+      <span className="numeral text-xl text-accent">
+        {fmtDate(hasPre ? r.earliestPrerelease : r.projectedRelease, { month: 'short', day: 'numeric', year: 'numeric' })}
+      </span>
+      <span aria-hidden className="text-ink">↓</span>
+    </a>
   );
 }
 
@@ -376,7 +420,7 @@ function Row({ label, value, sub, cite, strong }: { label: string; value: string
               <a
                 key={c}
                 href={`#rule-${c}`}
-                className="text-[0.7rem] font-normal text-accent hover:underline"
+                className="inline-flex h-6 min-w-6 items-center justify-center text-[0.75rem] font-normal text-accent hover:underline"
                 aria-label={`Source: ${SOURCES[c].cite}`}
                 title={SOURCES[c].cite}
               >

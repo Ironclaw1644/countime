@@ -1,6 +1,3 @@
-/* MapLibre stylesheet — sets popup, marker, control defaults */
-@import 'maplibre-gl/dist/maplibre-gl.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,7 +27,7 @@
   --ink: 38 29 24;             /* warm brown-black, friendlier than blue-black */
   --ink-soft: 78 64 55;
   --ink-muted: 112 97 86;
-  --ink-faint: 138 123 111;
+  --ink-faint: 118 103 91;
 
   --rule-rgb:    42 33 28;
   --rule-a:      0.14;
@@ -90,7 +87,7 @@
     --ink: 243 233 219;
     --ink-soft: 205 190 173;
     --ink-muted: 160 144 128;
-    --ink-faint: 122 108 97;
+    --ink-faint: 145 131 119;
 
     --rule-rgb:    243 233 219;
     --rule-a:      0.14;
@@ -128,7 +125,7 @@
   --ink: 243 233 219;
   --ink-soft: 205 190 173;
   --ink-muted: 160 144 128;
-  --ink-faint: 122 108 97;
+  --ink-faint: 145 131 119;
 
   --rule-rgb:    243 233 219;
   --rule-a:      0.14;
@@ -164,13 +161,20 @@
   --ink: var(--night-ink);
   --ink-soft: var(--night-soft);
   --ink-muted: var(--night-muted);
-  --ink-faint: 120 106 95;
+  --ink-faint: 145 131 119;
   --rule-rgb: 243 233 219;
   --rule-a: 0.13;
   --rule-strong-a: 0.26;
   --accent: var(--sodium);
   --accent-hover: 248 192 122;
   --accent-on: 20 15 12;
+  --state-open: 160 180 132;
+  --state-warn: 214 168 90;
+  --state-closed: 150 137 126;
+  --tone-women: 204 160 190;
+  --tone-medical: 131 182 190;
+  --tone-holding: 163 173 188;
+  --tone-rdap: 211 174 105;
   color-scheme: dark;
   isolation: isolate;
   background-color: rgb(var(--night));
@@ -179,6 +183,9 @@
 
 /* Zero-specificity so a `fixed`/`sticky` utility on the same element wins. */
 :where(.band-night) { position: relative; }
+
+/* The header is night too, but unlit — its own lamp would leave a seam. */
+.band-night.no-lamp::before { display: none; }
 
 /* The lamp: one warm pool of light, off-centre, plus grain. Pure CSS. */
 .band-night::before {
@@ -259,6 +266,7 @@ p { text-wrap: pretty; }
 /* Figures line up in columns — populations, distances, dates */
 .tabular { font-variant-numeric: tabular-nums; letter-spacing: 0; }
 
+@layer components {
 /* The letterspaced uppercase micro-label, echoing the ".NET" in the logotype */
 .eyebrow {
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -268,6 +276,7 @@ p { text-wrap: pretty; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgb(var(--ink-muted));
+}
 }
 
 /* Form inputs — one definition, used by the calculator and forms. */
@@ -315,8 +324,9 @@ p { text-wrap: pretty; }
   top: 0;
 }
 
-/* MapLibre overrides */
-.maplibregl-popup-content {
+/* MapLibre overrides. Its own stylesheet now loads with the map chunk (see
+   FacilityMap.tsx), after this file, so these carry :root for specificity. */
+:root .maplibregl-popup-content {
   background: rgb(var(--paper-raised));
   color: rgb(var(--ink));
   box-shadow: var(--shadow-lift);
@@ -326,31 +336,31 @@ p { text-wrap: pretty; }
   border: 1px solid rgb(var(--rule-rgb) / var(--rule-a));
   max-width: 320px;
 }
-.maplibregl-popup-tip {
+:root .maplibregl-popup-tip {
   border-top-color: rgb(var(--paper-raised)) !important;
   border-bottom-color: rgb(var(--paper-raised)) !important;
 }
-.maplibregl-popup-close-button { color: rgb(var(--ink-muted)); font-size: 1.125rem; padding-right: .5rem; }
-.maplibregl-ctrl-group {
+:root .maplibregl-popup-close-button { color: rgb(var(--ink-muted)); font-size: 1.125rem; padding-right: .5rem; }
+:root .maplibregl-ctrl-group {
   background: rgb(var(--paper-raised)) !important;
   border: 1px solid rgb(var(--rule-rgb) / var(--rule-a)) !important;
   border-radius: 4px !important;
   box-shadow: var(--shadow-raise) !important;
 }
-.maplibregl-ctrl-group button { color: rgb(var(--ink)); }
-.maplibregl-ctrl-group button + button { border-top-color: rgb(var(--rule-rgb) / var(--rule-a)) !important; }
-.maplibregl-ctrl-icon { filter: var(--map-ctrl-filter, none); }
+:root .maplibregl-ctrl-group button { color: rgb(var(--ink)); }
+:root .maplibregl-ctrl-group button + button { border-top-color: rgb(var(--rule-rgb) / var(--rule-a)) !important; }
+:root .maplibregl-ctrl-icon { filter: var(--map-ctrl-filter, none); }
 :root[data-theme='dark'] .maplibregl-ctrl-icon { filter: invert(1) hue-rotate(180deg); }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) .maplibregl-ctrl-icon { filter: invert(1) hue-rotate(180deg); }
 }
-.maplibregl-ctrl-attrib {
+:root .maplibregl-ctrl-attrib {
   background: color-mix(in srgb, rgb(var(--paper-raised)) 80%, transparent) !important;
   color: rgb(var(--ink-muted));
   font-size: 10px !important;
   padding: 2px 6px !important;
 }
-.maplibregl-ctrl-attrib a { color: rgb(var(--ink-soft)); }
+:root .maplibregl-ctrl-attrib a { color: rgb(var(--ink-soft)); }
 
 /* ── Logotype write-on ─────────────────────────────────────────────────────
    History: the first version intersected two mask layers and animated
@@ -389,9 +399,9 @@ p { text-wrap: pretty; }
   position: absolute;
   top: -8%;
   bottom: -8%;
-  left: -2.5rem;
-  width: 5rem;
-  background: radial-gradient(closest-side, rgb(var(--sodium) / 0.55), rgb(var(--sodium) / 0));
+  left: -1.25rem;
+  width: 2.5rem;
+  background: radial-gradient(closest-side, rgb(var(--sodium) / 0.4), rgb(var(--sodium) / 0));
   filter: blur(2px);
 }
 

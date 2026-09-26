@@ -78,7 +78,7 @@ export default async function HomePage() {
              people arrive with — "when?" — answerable right here. */}
       <section className="band-night overflow-hidden">
         <Container width="wide">
-          <div className="pb-16 pt-8 sm:pb-24 sm:pt-12">
+          <div className="pb-16 pt-8 sm:pb-24 sm:pt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
               <Eyebrow className="!text-accent">For families facing federal prison</Eyebrow>
               <Eyebrow className="tabular">
@@ -86,13 +86,13 @@ export default async function HomePage() {
               </Eyebrow>
             </div>
 
-            <div className="mt-8 text-ink sm:mt-10">
+            <div className="mx-auto mt-8 max-w-[60rem] text-ink sm:mt-10">
               <LogoDisplay animate />
             </div>
 
-            <div className="mt-10 grid gap-12 border-t border-rule pt-10 sm:mt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+            <div className="mt-10 grid gap-12 border-t border-rule pt-10 sm:mt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
               <div>
-                <h1 className="text-4xl text-ink sm:text-5xl">
+                <h1 className="text-4xl text-ink sm:text-5xl lg:text-[3.75rem] xl:text-[4.5rem]">
                   Know the date.{' '}
                   <em className="serif-italic block text-accent">Prepare for the days.</em>
                 </h1>
@@ -133,18 +133,18 @@ export default async function HomePage() {
               <li key={p.href} data-reveal={String(i + 1)} className="bg-paper">
                 <Link
                   href={p.href}
-                  className="group relative flex h-full flex-col p-7 transition-colors duration-300 hover:bg-paper-raised sm:p-8"
+                  className="group relative flex h-full flex-col p-6 transition-colors duration-300 hover:bg-paper-raised sm:p-8"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="numeral text-5xl text-ink-faint/50 transition-colors duration-300 group-hover:text-accent">
+                    <span className="numeral text-4xl text-ink-faint transition-colors duration-300 group-hover:text-accent sm:text-5xl">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <TallyMark count={i + 1} className="h-7 w-9 text-ink-faint transition-colors group-hover:text-accent" />
                   </div>
-                  <p className="eyebrow mt-10">{p.kicker}</p>
+                  <p className="eyebrow mt-6 sm:mt-10">{p.kicker}</p>
                   <h3 className="mt-2 text-3xl text-ink">{p.title}</h3>
                   <p className="mt-4 text-sm leading-relaxed text-ink-muted">{p.body}</p>
-                  <span className="mt-auto inline-flex items-center gap-2 pt-8 text-sm font-semibold text-ink">
+                  <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-ink sm:pt-8">
                     {p.cta}
                     <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
                   </span>

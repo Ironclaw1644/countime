@@ -1,5 +1,7 @@
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
+import { PullQuote } from '@/components/ui/PullQuote';
+import { scripture } from '@/data/scripture';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { ButtonLink } from '@/components/ui/Button';
@@ -16,7 +18,7 @@ export const metadata = pageMetadata({
 export default function AboutPage() {
   return (
     <>
-      <Section className="pt-12 pb-12 sm:pt-20">
+      <Section className="band-night overflow-hidden pt-12 pb-16 sm:pt-20 sm:pb-20">
         <Container width="narrow">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
             <Icon icon={faHandshake} className="text-accent" />
@@ -103,6 +105,11 @@ export default function AboutPage() {
           </p>
         </Container>
       </Section>
+      <section className="py-16 sm:py-20 print:hidden">
+        <Container>
+          <PullQuote verse={scripture('james-5-16')} />
+        </Container>
+      </section>
     </>
   );
 }

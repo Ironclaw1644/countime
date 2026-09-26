@@ -117,7 +117,7 @@ const FAQS = [
 export default function CalculatorPage() {
   return (
     <>
-      <section className="band-night overflow-hidden pb-14 pt-10 sm:pb-20 sm:pt-14 print:pb-4">
+      <section className="band-night overflow-hidden pb-10 pt-8 sm:pb-12 sm:pt-10 print:pb-4">
         <Container width="wide">
           <Breadcrumbs
             className="print:hidden"
@@ -126,24 +126,24 @@ export default function CalculatorPage() {
               { name: 'Release calculator', path: '/calculator' },
             ]}
           />
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end">
+          <div className="mt-6 grid gap-8 lg:grid-cols-[1.7fr_1fr] lg:items-end">
             <div>
               <Eyebrow className="!text-accent">Free · no sign-up · every rule cited</Eyebrow>
-              <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
+              <h1 className="mt-3 max-w-4xl text-4xl text-ink">
                 First Step Act <em className="serif-italic text-accent">release date</em> calculator
               </h1>
-              <p className="mt-6 max-w-prose text-lg leading-relaxed text-ink-soft">
+              <p className="mt-4 hidden max-w-prose leading-relaxed text-ink-soft sm:block">
                 Good conduct time, FSA time credits, RDAP and halfway-house or home
                 confinement dates, laid out on one timeline — computed the way the
                 Bureau of Prisons’ own worked examples compute them.
               </p>
             </div>
-            <figure className="border-l border-accent/60 pl-5 print:hidden">
-              <blockquote className="serif-italic text-2xl leading-snug text-ink">&ldquo;{VERSE.text}&rdquo;</blockquote>
+            <figure className="hidden border-l border-accent/60 pl-5 lg:block print:hidden">
+              <blockquote className="serif-italic text-xl leading-snug text-ink">&ldquo;{VERSE.text}&rdquo;</blockquote>
               <figcaption className="eyebrow mt-3">{VERSE.ref}</figcaption>
             </figure>
           </div>
-          <p className="mt-10 max-w-4xl border border-rule bg-paper-raised/60 px-5 py-4 text-sm leading-relaxed text-ink-soft">
+          <p className="mt-6 max-w-4xl border-l-2 border-accent pl-4 text-xs leading-relaxed text-ink-soft sm:text-sm">
             <strong className="text-ink">An estimate, not legal advice.</strong> The Bureau of Prisons computes the
             official dates, and they move with jail credit, discipline, programming, assessments and placement
             decisions. Check any date that matters with the unit team or a lawyer.
@@ -151,7 +151,7 @@ export default function CalculatorPage() {
         </Container>
       </section>
 
-      <section className="py-14 sm:py-20" aria-label="Calculator">
+      <section className="py-10 sm:py-14" aria-label="Calculator">
         <Container width="wide">
           <Suspense fallback={<div className="h-[60rem]" aria-hidden />}>
             <Calculator />
@@ -180,7 +180,7 @@ export default function CalculatorPage() {
                     <p className="mt-2 max-w-prose text-sm leading-relaxed text-ink-soft">{m.body}</p>
                     <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
                       {m.cite.map((c) => (
-                        <a key={c} href={`#rule-${c}`} className="text-accent underline-offset-4 hover:underline">
+                        <a key={c} href={`#rule-${c}`} className="inline-block py-1 text-accent underline-offset-4 hover:underline">
                           {SOURCES[c].cite}
                         </a>
                       ))}
@@ -205,7 +205,7 @@ export default function CalculatorPage() {
                 {u.cite.length > 0 && (
                   <p className="mt-3 flex flex-wrap gap-x-4 text-xs">
                     {u.cite.map((c) => (
-                      <a key={c} href={`#rule-${c}`} className="text-accent hover:underline">
+                      <a key={c} href={`#rule-${c}`} className="inline-block py-1 text-accent hover:underline">
                         {SOURCES[c].cite}
                       </a>
                     ))}

@@ -1,4 +1,6 @@
 import { pageMetadata } from '@/lib/seo';
+import { PullQuote } from '@/components/ui/PullQuote';
+import { scripture } from '@/data/scripture';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { ButtonLink } from '@/components/ui/Button';
@@ -70,7 +72,7 @@ const LINKS = [
 export default function ResourcesPage() {
   return (
     <>
-      <Section className="pt-12 pb-10 sm:pt-20">
+      <Section className="band-night overflow-hidden pt-12 pb-14 sm:pt-20 sm:pb-16">
         <Container width="narrow">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-rule bg-paper-raised/70 px-3 py-1 text-[11px] text-ink-muted shadow-raise">
             <Icon icon={faCircleQuestion} className="text-accent" />
@@ -160,6 +162,11 @@ export default function ResourcesPage() {
           </div>
         </Container>
       </Section>
+      <section className="py-16 sm:py-20 print:hidden">
+        <Container>
+          <PullQuote verse={scripture('romans-12-4-8')} />
+        </Container>
+      </section>
     </>
   );
 }

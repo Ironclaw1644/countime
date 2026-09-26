@@ -26,7 +26,7 @@ export default function GuidesPage() {
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
             <div>
               <Eyebrow className="!text-accent">Guides</Eyebrow>
-              <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
+              <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
                 The rules, <em className="serif-italic text-accent">in plain words.</em>
               </h1>
             </div>
@@ -46,7 +46,7 @@ export default function GuidesPage() {
               <li key={g.slug} data-reveal={String((i % 4) + 1)} className="bg-paper">
                 <Link href={`/guides/${g.slug}`} className="group flex h-full flex-col p-8 transition-colors hover:bg-paper-raised sm:p-10">
                   <div className="flex items-center justify-between">
-                    <span className="numeral text-5xl text-ink-faint/60 transition-colors group-hover:text-accent">
+                    <span className="numeral text-5xl text-ink-faint transition-colors group-hover:text-accent">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <TallyMark count={(i % 5) + 1} className="h-7 w-9 text-ink-faint group-hover:text-accent" />

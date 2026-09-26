@@ -108,7 +108,7 @@ export default async function FacilityProfilePage({
             <p className="eyebrow !text-accent">
               {TYPE_LABEL[facility.type]} · {STATE_NAME[facility.state] ?? facility.state}
             </p>
-            <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
+            <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
               {facility.name}
             </h1>
             <p className="mt-5 inline-flex items-center gap-2 text-lg text-ink-soft">

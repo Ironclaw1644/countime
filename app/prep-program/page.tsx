@@ -5,6 +5,7 @@ import { Section } from '@/components/ui/Section';
 import { Icon } from '@/components/ui/Icon';
 import { ButtonLink } from '@/components/ui/Button';
 import { PullQuote } from '@/components/ui/PullQuote';
+import { scripture } from '@/data/scripture';
 import { EmailCaptureForm } from '@/components/EmailCaptureForm';
 import { isStripeConfigured } from '@/lib/stripe';
 import {
@@ -81,7 +82,7 @@ export default function PrepProgramPage() {
   return (
     <>
       {/* Hero */}
-      <Section className="pt-12 pb-10 sm:pt-20 sm:pb-12">
+      <Section className="band-night overflow-hidden pt-12 pb-10 sm:pt-20 sm:pb-12">
         <Container width="default">
           <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:items-start">
             <div>
@@ -394,6 +395,11 @@ export default function PrepProgramPage() {
           </p>
         </Container>
       </Section>
+      <section className="py-16 sm:py-20 print:hidden">
+        <Container>
+          <PullQuote verse={scripture('deuteronomy-31-8')} />
+        </Container>
+      </section>
     </>
   );
 }

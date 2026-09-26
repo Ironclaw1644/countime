@@ -1,8 +1,8 @@
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
+import { PageHero } from '@/components/layout/PageHero';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
-import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Chip } from '@/components/ui/Chip';
 import { getAllFacilities, STATUS_LABEL } from '@/lib/facilities';
 import type { Facility } from '@/types/facility';
@@ -44,23 +44,35 @@ export default function UpdatesPage() {
   }
 
   return (
-    <Section className="pb-24 pt-14 sm:pt-20">
+    <>
+    <PageHero
+      eyebrow="Facility updates"
+      title="What changed,"
+      italic="and when."
+      crumbs={[{ name: 'Facility updates', path: '/updates' }]}
+      lede={
+        <>
+          <p>
+            The Bureau closes, suspends and repurposes camps faster than most directories keep up with. Every change
+            below is recorded against the Bureau&rsquo;s own announcement or facility directory, so you can check it
+            yourself.
+          </p>
+          <p className="mt-3 text-sm text-ink-muted">
+            For policy and First Step Act headlines, see{' '}
+            <Link href="/news" className="text-accent underline underline-offset-4">
+              the news page
+            </Link>
+            .
+          </p>
+        </>
+      }
+    />
+    <Section className="pb-24 pt-10">
       <Container width="default">
-        <div className="max-w-2xl">
-          <Eyebrow className="text-accent">Facility updates</Eyebrow>
-          <h1 className="rule-under mt-4 text-3xl text-ink">What changed, and when.</h1>
-          <p className="mt-6 leading-relaxed text-ink-soft">
-            The Bureau closes, suspends and repurposes camps faster than most
-            directories keep up with. Every change below is recorded against the
-            Bureau&rsquo;s own announcement or facility directory, so you can
-            check it yourself.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-ink-muted">
-            Facilities that have closed keep their page on this site rather than
-            disappearing — people search for them by name for years afterwards,
-            and a dated answer is more useful than a missing one.
-          </p>
-        </div>
+        <p className="max-w-prose text-sm leading-relaxed text-ink-muted">
+          Facilities that have closed keep their page on this site rather than disappearing — people search for them
+          by name for years afterwards, and a dated answer is more useful than a missing one.
+        </p>
 
         <div className="mt-14 space-y-14">
           {[...groups.entries()].map(([month, items]) => (
@@ -125,5 +137,6 @@ export default function UpdatesPage() {
         </p>
       </Container>
     </Section>
+    </>
   );
 }

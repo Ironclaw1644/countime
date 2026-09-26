@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import { pageMetadata } from '@/lib/seo';
+import { JsonLd, pageMetadata } from '@/lib/seo';
+import { SITE_URL } from '@/lib/site';
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { Icon } from '@/components/ui/Icon';
 import {
-  faArrowLeft,
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -50,15 +51,23 @@ export default async function InsideTermPage({
   return (
     <Section className="pt-10 pb-24 sm:pt-14 sm:pb-32">
       <Container width="narrow">
-        <div className="mb-6">
-          <Link
-            href="/the-inside"
-            className="inline-flex items-center gap-1.5 text-[12px] text-ink-muted transition-colors hover:text-ink"
-          >
-            <Icon icon={faArrowLeft} className="text-[10px]" />
-            Back to The Inside
-          </Link>
-        </div>
+        <Breadcrumbs
+          className="mb-8"
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'The Inside', path: '/the-inside' },
+            { name: term.title, path: `/the-inside/${term.id}` },
+          ]}
+        />
+        <JsonLd
+          data={{
+            '@type': 'DefinedTerm',
+            name: term.title,
+            description: term.shortDefinition,
+            url: `${SITE_URL}/the-inside/${term.id}`,
+            inDefinedTermSet: { '@type': 'DefinedTermSet', name: 'The Inside', url: `${SITE_URL}/the-inside` },
+          }}
+        />
 
         <p className="eyebrow text-[11px] text-ink-muted">{term.category}</p>
         <h1 className="font-display mt-2 text-balance text-3xl leading-[1.05] tracking-[-0.02em] text-ink ">
