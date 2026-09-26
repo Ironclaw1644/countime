@@ -2,22 +2,38 @@
 
 import { useEffect, useId, useMemo, useState, useSyncExternalStore } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
   calculate,
   DEFAULT_INPUT,
   fromSearchParams,
+  priorCustodyDays,
   rdapCapFor,
   toSearchParams,
   type CalcInput,
   type CalcResult,
+  type FtcRule,
   type Risk,
+  type StartMode,
 } from '@/lib/fsa/calc';
-import { SOURCES, type SourceId } from '@/lib/fsa/rules';
+import { RULES, SOURCES, type SourceId } from '@/lib/fsa/rules';
 import { Timeline } from './Timeline';
+import { RULE_GUIDE_HREF } from '@/components/news/RuleCallout';
 import { cn } from '@/lib/cn';
 
 export const fmtDate = (iso: string, opts: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', year: 'numeric' }) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { ...opts, timeZone: 'UTC' });
+
+/** "1 year, 6 months" — only the parts that aren't zero. */
+const ymd = (y: number, m: number, d: number) =>
+  [
+    [y, 'year'],
+    [m, 'month'],
+    [d, 'day'],
+  ]
+    .filter(([n]) => (n as number) > 0)
+    .map(([n, u]) => `${n} ${u}${n === 1 ? '' : 's'}`)
+    .join(', ') || '0 days';
 
 const RISKS: { v: Risk; label: string }[] = [
   { v: 'minimum', label: 'Minimum' },
@@ -68,35 +84,98 @@ export function Calculator() {
         onSubmit={(e) => e.preventDefault()}
         aria-label="Sentence details"
       >
-        <Fieldset n="01" legend="The sentence">
-          <Field label="Date the sentence began" hint="Self-surrender date, or the day taken into custody to serve it.">
+        <Fieldset legend="Your sentence">
+          <Field label="How much time did you get?" sub="The prison term the judge gave you" group>
+            <div className="grid grid-cols-3 gap-3">
+              <UnitField unit="years" value={input.years} max={60} onChange={(v) => update({ years: v })} />
+              <UnitField unit="months" value={input.months} max={11} onChange={(v) => update({ months: v })} />
+              <UnitField unit="days" value={input.days} max={30} onChange={(v) => update({ days: v })} optional />
+            </div>
+          </Field>
+          <Field label="When were you sentenced?">
             <input
               type="date"
-              value={input.start}
+              value={input.sentenced}
               min="2018-12-21"
               max="2060-12-31"
-              onChange={(e) => e.target.value && update({ start: e.target.value })}
+              onChange={(e) => e.target.value && update({ sentenced: e.target.value })}
               className="input"
             />
           </Field>
-          <div className="grid grid-cols-3 gap-3">
-            <NumberField label="Years" value={input.years} min={0} max={60} onChange={(v) => update({ years: v })} />
-            <NumberField label="Months" value={input.months} min={0} max={11} onChange={(v) => update({ months: v })} />
-            <NumberField label="Days" value={input.days} min={0} max={30} onChange={(v) => update({ days: v })} />
-          </div>
-          <NumberField
-            label="Jail credit (days)"
-            hint="Days in custody before the sentence began that the court or BOP credits — § 3585(b)."
-            value={input.jailCreditDays}
-            min={0}
-            max={3650}
-            onChange={(v) => update({ jailCreditDays: v })}
-          />
+          <Field label="Were you locked up when you were sentenced?" group>
+            <Segmented
+              name="how"
+              value={input.startMode}
+              options={[
+                { v: 'custody', label: 'Yes, I stayed in custody' },
+                { v: 'surrender', label: 'No, I report on my own' },
+              ]}
+              onChange={(v) => update({ startMode: v as StartMode })}
+            />
+          </Field>
+          {input.startMode === 'custody' ? (
+            <Field
+              label="When did you get to your prison?"
+              hint={`The BOP prison you were designated to, not county jail or a holding center. Not there yet? Leave it blank and we’ll use BOP’s average: ${RULES.avgDaysSentencingToArrival} days after sentencing.`}
+            >
+              <span className="flex gap-2">
+                <input
+                  type="date"
+                  value={input.arrived}
+                  min={input.sentenced}
+                  max="2060-12-31"
+                  onChange={(e) => update({ arrived: e.target.value })}
+                  className="input"
+                />
+                {input.arrived && (
+                  <button
+                    type="button"
+                    onClick={() => update({ arrived: '' })}
+                    className="shrink-0 rounded-[3px] border border-rule-strong px-3 text-xs text-ink-muted hover:text-ink"
+                  >
+                    Clear
+                  </button>
+                )}
+              </span>
+            </Field>
+          ) : (
+            <Field label="What day do you report to prison?" hint="Your self-surrender date. Your sentence starts that day.">
+              <input
+                type="date"
+                value={input.surrender}
+                min={input.sentenced}
+                max="2060-12-31"
+                onChange={(e) => e.target.value && update({ surrender: e.target.value })}
+                className="input"
+              />
+            </Field>
+          )}
+          <PriorCustody input={input} update={update} />
         </Fieldset>
 
-        <Fieldset n="02" legend="First Step Act">
+        <Fieldset legend="First Step Act">
+          {input.startMode === 'custody' && (
+            <Field
+              label="When do your credits start?"
+              hint="A new BOP rule took effect September 30, 2026. Under it, credits can start the day your sentence starts, not the day you get to your prison."
+              group
+            >
+              <Segmented
+                name="rule"
+                value={input.rule}
+                options={[
+                  { v: 'new', label: 'New rule: from sentencing' },
+                  { v: 'old', label: 'Old rule: from arrival' },
+                ]}
+                onChange={(v) => update({ rule: v as FtcRule })}
+              />
+              <Link href={RULE_GUIDE_HREF} className="mt-2 inline-block text-xs text-accent underline underline-offset-4">
+                What the Sept. 30 rule changed
+              </Link>
+            </Field>
+          )}
           <Field
-            label="Can they earn time credits?"
+            label="Can you earn time credits?"
             hint="No if the offense is on the excluded list, or there is a final order of removal."
             group
           >
@@ -113,7 +192,7 @@ export function Calculator() {
               Check the list of excluded offenses
             </a>
           </Field>
-          <Field label="PATTERN risk level" hint="Ask the unit team for the level on record." group>
+          <Field label="What’s your risk level?" sub="PATTERN score" hint="Your unit team can tell you the level on record." group>
             <Segmented
               name="risk"
               value={input.risk}
@@ -121,7 +200,7 @@ export function Calculator() {
               onChange={(v) => update({ risk: v as Risk })}
             />
           </Field>
-          <Field label="Does the judgment include supervised release?" group>
+          <Field label="Does your judgment include supervised release?" group>
             <Segmented
               name="sr"
               value={input.supervisedRelease ? 'yes' : 'no'}
@@ -134,7 +213,7 @@ export function Calculator() {
           </Field>
         </Fieldset>
 
-        <Fieldset n="03" legend="Programs & placement">
+        <Fieldset legend="Programs and placement">
           <Toggle
             label="Completes RDAP"
             hint={`Drug program early release — up to ${rdapCapFor(result.sentenceMonths)} months for this sentence length.`}
@@ -161,7 +240,7 @@ export function Calculator() {
             onChange={(v) => update({ scaMonths: v })}
           />
           <Toggle
-            label="Has a diploma or GED (or is working toward one)"
+            label="Have a diploma or GED (or working toward one)"
             hint="Without one, good conduct time is 42 days a year instead of 54."
             checked={input.diploma}
             onChange={(v) => update({ diploma: v })}
@@ -185,12 +264,12 @@ export function Calculator() {
               onChange={(v) => update({ participation: v / 100 })}
             />
             <NumberField
-              label="Days before earning starts"
-              hint="e.g. days in transit before arrival, if BOP doesn’t credit them (see the Sept. 30, 2026 rule below)."
-              value={input.earningDelayDays}
+              label="Exact days of jail credit"
+              hint="If you have BOP’s sentence computation, enter its prior-custody day count here. It replaces the years and months above. 0 = use those."
+              value={input.priorExactDays}
               min={0}
-              max={365}
-              onChange={(v) => update({ earningDelayDays: v })}
+              max={7300}
+              onChange={(v) => update({ priorExactDays: v })}
             />
             <NumberField
               label="30-day periods at 10 before 15 applies"
@@ -253,8 +332,8 @@ function Results({ result: r }: { result: CalcResult }) {
     <section aria-label="Estimate">
       <div className="band-night overflow-hidden rounded-sm px-6 py-8 sm:px-10 sm:py-10">
         <p className="eyebrow !text-accent">{hasPre ? 'Earliest move home (RRC or home confinement)' : 'Projected release'}</p>
-        <p className="numeral mt-4 text-[clamp(3rem,2rem+5vw,6rem)] uppercase text-ink">
-          {fmtDate(heroDate, { month: 'short', day: 'numeric' })}
+        <p className="numeral mt-4 text-[clamp(2.75rem,1.9rem+4.2vw,5.25rem)] text-ink">
+          {fmtDate(heroDate, { month: 'short', day: 'numeric' })},
           <span className="ml-3 text-ink-faint">{heroDate.slice(0, 4)}</span>
         </p>
         {daysUntil !== null && daysUntil > 0 && (
@@ -283,9 +362,14 @@ function Results({ result: r }: { result: CalcResult }) {
         <table className="mt-4 w-full border-t border-rule text-sm">
           <caption className="sr-only">Step-by-step calculation</caption>
           <tbody>
-            <Row label="Sentence imposed" value={`${r.termDays.toLocaleString()} days`} sub={`${r.input.years}y ${r.input.months}m ${r.input.days}d from ${fmtDate(r.input.start)}`} cite={['usc-3585']} />
-            {r.input.jailCreditDays > 0 && (
-              <Row label="Jail credit" value={`− ${r.input.jailCreditDays} days`} cite={['usc-3585']} />
+            <Row label="Sentence imposed" value={`${r.termDays.toLocaleString()} days`} sub={`${ymd(r.input.years, r.input.months, r.input.days)}, starting ${fmtDate(r.commenced)}`} cite={['usc-3585']} />
+            {r.priorCustodyDays > 0 && (
+              <Row
+                label="Time locked up before sentencing"
+                value={`− ${r.priorCustodyDays.toLocaleString()} days`}
+                sub={r.input.priorExactDays > 0 ? 'Exact count you entered' : `${ymd(r.input.priorYears, r.input.priorMonths, r.input.priorDays)}, counted back from ${fmtDate(r.input.sentenced)}`}
+                cite={['usc-3585']}
+              />
             )}
             <Row label="Full term" value={fmtDate(r.fullTerm)} strong />
             <Row
@@ -309,8 +393,8 @@ function Results({ result: r }: { result: CalcResult }) {
               <Row
                 label="FSA time credits earned"
                 value={`${r.ftc.earnedByRelease.toLocaleString()} days`}
-                sub={r.ftc.canApply ? 'By the day they’re applied — 10 per 30 days served, 15 after the first seven periods' : `${r.ftc.ratePer30} per 30 days served`}
-                cite={['usc-3632d4', 'ps-5410']}
+                sub={`Earned from ${fmtDate(r.earningFrom)}. ${r.ftc.canApply ? '10 per 30 days, then 15 after the first seven periods.' : `${r.ftc.ratePer30} per 30 days.`}`}
+                cite={r.earningFrom < r.arrival ? ['usc-3632d4', 'ps-5410', 'fr-2026-17752'] : ['usc-3632d4', 'ps-5410']}
               />
             )}
             {r.ftc.appliedToSupervisedRelease > 0 && (
@@ -333,6 +417,7 @@ function Results({ result: r }: { result: CalcResult }) {
           </tbody>
         </table>
 
+        <RuleCompare result={r} />
         {r.ftc.blocker && (
           <p className="mt-6 border-l-2 border-state-warn pl-4 text-sm leading-relaxed text-ink-soft">{r.ftc.blocker}</p>
         )}
@@ -400,7 +485,7 @@ function Big({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <dt className="text-xs text-ink-muted">{label}</dt>
-      <dd className="numeral mt-1.5 text-3xl text-ink">{value}</dd>
+      <dd className="numeral mt-1.5 text-2xl text-ink">{value}</dd>
     </div>
   );
 }
@@ -436,14 +521,11 @@ function Row({ label, value, sub, cite, strong }: { label: string; value: string
 
 // ── Form controls ─────────────────────────────────────────────────────────
 
-function Fieldset({ n, legend, children }: { n: string; legend: string; children: React.ReactNode }) {
+function Fieldset({ legend, children }: { legend: string; children: React.ReactNode }) {
   return (
     <fieldset className="mb-8 border-t border-rule pt-5">
       <legend className="contents">
-        <span className="flex items-baseline gap-3">
-          <span className="numeral text-lg text-accent">{n}</span>
-          <span className="font-display text-2xl text-ink">{legend}</span>
-        </span>
+        <span className="block font-display text-2xl font-semibold tracking-[-0.02em] text-ink">{legend}</span>
       </legend>
       <div className="mt-5 space-y-5">{children}</div>
     </fieldset>
@@ -452,11 +534,14 @@ function Fieldset({ n, legend, children }: { n: string; legend: string; children
 
 function Field({
   label,
+  sub,
   hint,
   group = false,
   children,
 }: {
   label: string;
+  /** The legal or official name, under the plain-language question. */
+  sub?: string;
   hint?: string;
   /** For radio groups: a labelled group instead of a <label>, which can't nest. */
   group?: boolean;
@@ -465,9 +550,10 @@ function Field({
   const id = useId();
   const head = (
     <>
-      <span id={id} className="block text-sm font-medium text-ink">
+      <span id={id} className="block text-[0.9375rem] font-semibold text-ink">
         {label}
       </span>
+      {sub && <span className="block text-2xs font-medium uppercase tracking-[0.12em] text-ink-faint">{sub}</span>}
       {hint && <span className="mt-0.5 block text-xs leading-relaxed text-ink-muted">{hint}</span>}
     </>
   );
@@ -510,9 +596,120 @@ function NumberField({
         min={min}
         max={max}
         onChange={(e) => onChange(Math.min(max, Math.max(min, Number(e.target.value) || 0)))}
-        className="input numeral text-xl"
+        className="input tabular text-lg"
       />
     </Field>
+  );
+}
+
+/** A number box with its unit written inside it: [ 5  years ]. */
+function UnitField({
+  unit,
+  value,
+  max,
+  optional = false,
+  onChange,
+}: {
+  unit: string;
+  value: number;
+  max: number;
+  optional?: boolean;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="relative block">
+        <input
+          type="number"
+          inputMode="numeric"
+          value={Number.isFinite(value) ? value : 0}
+          min={0}
+          max={max}
+          onChange={(e) => onChange(Math.min(max, Math.max(0, Math.floor(Number(e.target.value) || 0))))}
+          onFocus={(e) => e.target.select()}
+          className="input tabular pr-[4.25rem] text-lg"
+          aria-label={unit}
+        />
+        <span aria-hidden className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-ink-muted">
+          {unit}
+        </span>
+      </span>
+      {optional && <span className="mt-1 block text-2xs text-ink-faint">optional</span>}
+    </label>
+  );
+}
+
+/** Time in custody before sentencing, asked the way people remember it. */
+function PriorCustody({ input, update }: { input: CalcInput; update: (p: Partial<CalcInput>) => void }) {
+  const days = priorCustodyDays(input.sentenced, input.priorYears, input.priorMonths, input.priorDays);
+  const any = input.priorYears + input.priorMonths + input.priorDays > 0;
+  return (
+    <div role="group" aria-labelledby="prior-h">
+      <span id="prior-h" className="block text-[0.9375rem] font-semibold text-ink">
+        How much time were you locked up before your federal sentencing?
+      </span>
+      <span className="block text-2xs font-medium uppercase tracking-[0.12em] text-ink-faint">
+        Prior custody credit · 18 U.S.C. § 3585(b)
+      </span>
+      <div className="mt-2 grid grid-cols-3 gap-3">
+        <UnitField unit="years" value={input.priorYears} max={20} onChange={(v) => update({ priorYears: v })} />
+        <UnitField unit="months" value={input.priorMonths} max={11} onChange={(v) => update({ priorMonths: v })} />
+        <UnitField unit="days" value={input.priorDays} max={30} onChange={(v) => update({ priorDays: v })} optional />
+      </div>
+      {any && input.priorExactDays === 0 && (
+        <p className="mt-2 text-xs text-ink-soft">
+          That’s <strong className="tabular font-semibold text-ink">{days.toLocaleString()} days</strong>, counted back
+          on the calendar from your sentencing date.
+        </p>
+      )}
+      {input.priorExactDays > 0 && (
+        <p className="mt-2 text-xs text-ink-soft">
+          Using your exact count of <strong className="tabular font-semibold text-ink">{input.priorExactDays.toLocaleString()} days</strong> (under “Fine-tune”).
+        </p>
+      )}
+      <p className="mt-2 text-xs leading-relaxed text-ink-muted">
+        County jail, U.S. Marshals holding, or state custody after your arrest for this case all count. Time that was
+        already counted toward another sentence, like a state sentence, usually doesn’t count again.{' '}
+        <a href="#rule-usc-3585" className="text-accent underline underline-offset-4">
+          Read § 3585(b)
+        </a>
+      </p>
+    </div>
+  );
+}
+
+/** Old rule vs new rule, shown only when the start of credits actually differs. */
+function RuleCompare({ result: r }: { result: CalcResult }) {
+  if (!r.compare) return null;
+  const newIsPrimary = r.input.rule === 'new';
+  const newDate = newIsPrimary ? r.earliestPrerelease : r.compare.earliestPrerelease;
+  const oldDate = newIsPrimary ? r.compare.earliestPrerelease : r.earliestPrerelease;
+  const gain = r.compare.newRuleGainDays;
+  return (
+    <div className="mt-6 border border-accent/40 bg-accent/[0.06] p-5 text-sm leading-relaxed">
+      <p className="font-semibold text-ink">Sept. 30, 2026 rule vs. the old rule</p>
+      {gain > 0 ? (
+        <p className="mt-1.5 text-ink-soft">
+          Counting credits from {fmtDate(r.commenced)} instead of {fmtDate(r.arrival)}
+          {r.arrivalAssumed ? ' (estimated arrival)' : ''} moves your earliest date{' '}
+          <strong className="text-ink">{gain} days</strong> sooner:{' '}
+          <span className="tabular whitespace-nowrap">{fmtDate(newDate, { month: 'short', day: 'numeric', year: 'numeric' })}</span> under the new
+          rule, <span className="tabular whitespace-nowrap">{fmtDate(oldDate, { month: 'short', day: 'numeric', year: 'numeric' })}</span> under the old one.
+        </p>
+      ) : (
+        <p className="mt-1.5 text-ink-soft">
+          Both rules give the same dates here. The extra credits from before you got to prison don’t move anything,
+          usually because the 12-month limit or the length of the sentence is the limit.
+        </p>
+      )}
+      <p className="mt-2 text-xs text-ink-muted">
+        You still have to be in your assigned programs to earn, and the rule doesn’t say whether it covers time
+        before September 30, 2026.{' '}
+        <Link href={RULE_GUIDE_HREF} className="text-accent underline underline-offset-4">
+          What’s settled and what isn’t
+        </Link>
+      </p>
+    </div>
   );
 }
 

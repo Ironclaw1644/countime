@@ -15,14 +15,25 @@ type Seg = { key: string; label: string; from: string; to: string; className: st
  * same at 390px as at 1440px, and prints.
  */
 export function Timeline({ result: r }: { result: CalcResult }) {
-  const start = r.input.start;
+  const start = r.commenced;
   const end = r.fullTerm;
   const total = Math.max(1, days(start, end));
   const pre = r.earliestPrerelease < r.projectedRelease ? r.earliestPrerelease : r.projectedRelease;
   const ftcPre = r.ftc.prereleaseDate ?? r.projectedRelease;
 
+  // Remanded at sentencing: the stretch in county jail or Marshals holding
+  // before reaching the designated prison.
+  const arrived = r.arrival < pre ? r.arrival : pre;
+
   const segs: Seg[] = [
-    { key: 'inside', label: 'In a BOP facility', from: start, to: pre, className: 'bg-ink' },
+    {
+      key: 'transit',
+      label: r.arrivalAssumed ? 'Waiting to be moved to prison (estimated)' : 'Waiting to be moved to prison',
+      from: start,
+      to: arrived,
+      className: 'bg-tone-holding',
+    },
+    { key: 'inside', label: 'In a BOP prison', from: arrived, to: pre, className: 'bg-ink' },
     { key: 'sca', label: 'Second Chance Act placement (assumed)', from: pre, to: ftcPre < pre ? pre : ftcPre, className: 'bg-sodium-deep' },
     { key: 'ftc-pre', label: 'Halfway house or home confinement — FSA credits', from: ftcPre, to: r.projectedRelease, className: 'bg-accent' },
     { key: 'sr', label: 'Supervised release starts early — FSA credits', from: r.projectedRelease, to: r.afterRdap, className: 'bg-state-open', pattern: true },
@@ -44,7 +55,7 @@ export function Timeline({ result: r }: { result: CalcResult }) {
             .map((y) => {
               const x = (days(start, `${y}-01-01`) / total) * 100;
               return (
-                <span key={y} className="numeral absolute top-0 -translate-x-1/2 text-xs text-ink-faint" style={{ left: `${x}%` }}>
+                <span key={y} className="tabular absolute top-0 -translate-x-1/2 text-xs text-ink-faint" style={{ left: `${x}%` }}>
                   {y}
                 </span>
               );
@@ -69,7 +80,7 @@ export function Timeline({ result: r }: { result: CalcResult }) {
           ))}
         </div>
         <div className="mt-2 flex justify-between text-xs text-ink-muted">
-          <span>Begins {short(start)}</span>
+          <span>Sentence begins {short(start)}</span>
           <span>Full term {short(end)}</span>
         </div>
       </div>

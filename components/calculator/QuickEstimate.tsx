@@ -8,8 +8,9 @@ const fmt = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
 /**
- * The home page's "when?" card: three inputs, two dates, one link into the
- * full calculator carrying the same numbers.
+ * The home page's "when?" card: the sentence, the sentencing date and time
+ * locked up before it; two dates out; one link into the full calculator
+ * carrying the same numbers.
  */
 export function QuickEstimate() {
   const [input, setInput] = useState<CalcInput>(DEFAULT_INPUT);
@@ -23,61 +24,51 @@ export function QuickEstimate() {
         <p className="eyebrow !text-accent">Quick estimate</p>
         <span className="text-2xs uppercase tracking-wider text-ink-faint">First Step Act</span>
       </div>
-      <div className="mt-5 grid grid-cols-2 gap-3">
-        <label className="col-span-2 block">
-          <span className="text-xs text-ink-muted">Sentence begins</span>
+      <div className="mt-5 space-y-4">
+        <div>
+          <span className="text-sm font-semibold text-ink">How much time did you get?</span>
+          <div className="mt-1.5 grid grid-cols-2 gap-3">
+            <Unit unit="years" value={input.years} max={60} onChange={(v) => set({ years: v })} />
+            <Unit unit="months" value={input.months} max={11} onChange={(v) => set({ months: v })} />
+          </div>
+        </div>
+        <label className="block">
+          <span className="text-sm font-semibold text-ink">When were you sentenced?</span>
           <input
             type="date"
-            className="input mt-1"
-            value={input.start}
-            onChange={(e) => e.target.value && set({ start: e.target.value })}
+            className="input mt-1.5"
+            value={input.sentenced}
+            onChange={(e) => e.target.value && set({ sentenced: e.target.value })}
           />
         </label>
-        <label className="block">
-          <span className="text-xs text-ink-muted">Years</span>
-          <input
-            type="number"
-            inputMode="numeric"
-            min={0}
-            max={60}
-            className="input numeral mt-1 text-xl"
-            value={input.years}
-            onChange={(e) => set({ years: Math.max(0, Math.min(60, Number(e.target.value) || 0)) })}
-          />
-        </label>
-        <label className="block">
-          <span className="text-xs text-ink-muted">Months</span>
-          <input
-            type="number"
-            inputMode="numeric"
-            min={0}
-            max={11}
-            className="input numeral mt-1 text-xl"
-            value={input.months}
-            onChange={(e) => set({ months: Math.max(0, Math.min(11, Number(e.target.value) || 0)) })}
-          />
-        </label>
+        <div>
+          <span className="text-sm font-semibold text-ink">Locked up before sentencing?</span>
+          <div className="mt-1.5 grid grid-cols-2 gap-3">
+            <Unit unit="years" value={input.priorYears} max={20} onChange={(v) => set({ priorYears: v })} />
+            <Unit unit="months" value={input.priorMonths} max={11} onChange={(v) => set({ priorMonths: v })} />
+          </div>
+        </div>
       </div>
 
       <dl className="mt-6 space-y-4 border-t border-rule pt-5">
         {hasPre && (
           <div className="flex items-baseline justify-between gap-4">
             <dt className="text-sm text-ink-soft">Home confinement / RRC from</dt>
-            <dd className="numeral text-2xl text-accent">{fmt(r.earliestPrerelease)}</dd>
+            <dd className="numeral text-xl text-accent">{fmt(r.earliestPrerelease)}</dd>
           </div>
         )}
         <div className="flex items-baseline justify-between gap-4">
           <dt className="text-sm text-ink-soft">{r.ftc.appliedToSupervisedRelease > 0 ? 'Supervised release' : 'Release'}</dt>
-          <dd className="numeral text-2xl text-ink">{fmt(r.projectedRelease)}</dd>
+          <dd className="numeral text-xl text-ink">{fmt(r.projectedRelease)}</dd>
         </div>
         <div className="flex items-baseline justify-between gap-4">
           <dt className="text-sm text-ink-muted">Full term</dt>
-          <dd className="numeral text-lg text-ink-faint line-through decoration-1">{fmt(r.fullTerm)}</dd>
+          <dd className="tabular text-base text-ink-faint line-through decoration-1">{fmt(r.fullTerm)}</dd>
         </div>
       </dl>
       <p className="mt-4 text-xs leading-relaxed text-ink-muted">
-        Assumes low risk, supervised release, and time credits from day one. An estimate — the Bureau computes the
-        official date.
+        Assumes you were in custody at sentencing, low risk, supervised release, and credits from the day your
+        sentence starts (the Sept. 30, 2026 rule). An estimate. BOP computes the official date.
       </p>
       <Link
         href={`/calculator?${toSearchParams(input).toString()}`}
@@ -86,5 +77,26 @@ export function QuickEstimate() {
         See the full timeline <span aria-hidden>→</span>
       </Link>
     </div>
+  );
+}
+
+function Unit({ unit, value, max, onChange }: { unit: string; value: number; max: number; onChange: (v: number) => void }) {
+  return (
+    <span className="relative block">
+      <input
+        type="number"
+        inputMode="numeric"
+        min={0}
+        max={max}
+        aria-label={unit}
+        className="input tabular pr-16 text-lg"
+        value={value}
+        onFocus={(e) => e.target.select()}
+        onChange={(e) => onChange(Math.max(0, Math.min(max, Math.floor(Number(e.target.value) || 0))))}
+      />
+      <span aria-hidden className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-ink-muted">
+        {unit}
+      </span>
+    </span>
   );
 }
