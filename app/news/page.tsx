@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   title: 'First Step Act news — Bureau of Prisons updates, time credits & reentry',
   ogTitle: 'First Step Act & Bureau of Prisons news',
   description:
-    'The latest First Step Act, FSA time credit, home confinement and Bureau of Prisons news, gathered hourly from BOP and DOJ press releases and major outlets — headlines and links only.',
+    'The latest First Step Act, FSA time credit, home confinement and Bureau of Prisons news, gathered hourly from BOP and DOJ press releases and major outlets. Headlines and links only.',
   path: '/news',
 });
 
@@ -46,8 +46,8 @@ export default async function NewsPage() {
             </div>
             <div className="text-ink-soft">
               <p className="max-w-prose text-lg leading-relaxed">
-                Time credits, home confinement, camp closures and Bureau of Prisons
-                policy — gathered from the Bureau&rsquo;s own press releases, the
+                Headlines on time credits, home confinement, camp closures and Bureau
+                of Prisons policy, from the Bureau&rsquo;s own press releases, the
                 Justice Department and major outlets.
               </p>
               <p className="mt-3 text-xs text-ink-muted">
@@ -76,11 +76,11 @@ export default async function NewsPage() {
             <div>
               {items.length === 0 ? (
                 <div className="border border-rule bg-paper-raised p-8">
-                  <h2 className="text-2xl text-ink">The feeds didn&rsquo;t answer just now.</h2>
+                  <h2 className="text-2xl text-ink">The news feeds didn&rsquo;t load.</h2>
                   <p className="mt-3 max-w-prose text-ink-soft">
                     We gather this page from public news feeds, and none of them
                     responded on the last try. It will refresh on its own within the
-                    hour. Meanwhile, the official sources are one click away:
+                    hour. In the meantime, here are the official sources:
                   </p>
                   <ul className="mt-5 space-y-2">
                     {OFFICIAL_LINKS.map((l) => (
@@ -113,7 +113,7 @@ export default async function NewsPage() {
 
             <aside className="space-y-12 lg:sticky lg:top-24 lg:self-start">
               <div>
-                <h2 className="eyebrow">Understand the headlines</h2>
+                <h2 className="eyebrow">Background guides</h2>
                 <ul className="mt-4 border-t border-rule">
                   {GUIDES.map((g) => (
                     <li key={g.slug} className="border-b border-rule">
@@ -130,7 +130,7 @@ export default async function NewsPage() {
               <div className="border border-rule bg-paper-raised p-6">
                 <p className="eyebrow !text-accent">Calculator</p>
                 <p className="mt-3 font-display text-2xl leading-tight text-ink">
-                  What do the new credits mean for one sentence?
+                  See how the credits apply to one sentence.
                 </p>
                 <Link
                   href="/calculator"

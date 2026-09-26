@@ -9,9 +9,9 @@ import { getAllInsideTerms, getInsideTermCategories } from '@/lib/inside-terms';
 
 export const metadata = pageMetadata({
   title: 'The Inside — a plain-English glossary of federal prison life',
-  ogTitle: 'The Inside: the words nobody explains beforehand',
+  ogTitle: 'The Inside: a glossary of federal prison life',
   description:
-    'A plain-English field guide to the quirks, jargon and unwritten rules of doing federal time — counts, recall, shots, commissary, R&D — for the people on the outside trying to understand.',
+    'A plain-English field guide to the quirks, jargon, and unwritten rules of doing federal time — written for the people on the outside who are trying to understand.',
   path: '/the-inside',
 });
 
@@ -27,9 +27,9 @@ export default function TheInsidePage() {
         crumbs={[{ name: 'The Inside', path: '/the-inside' }]}
         lede={
           <p>
-            Federal prison runs on a vocabulary nobody hands you a glossary for. This is that glossary —
-            definitions and the why behind them, for the people on the outside trying to understand what their
-            person is describing.
+            Federal prison runs on a vocabulary and a set of habits that nobody hands you a glossary for. This
+            is that glossary — definitions and the why behind them, written for the people on the outside who
+            are trying to understand what their person is describing.
           </p>
         }
       />

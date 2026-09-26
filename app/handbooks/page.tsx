@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
   title: 'Federal prison A&O handbooks — every BOP camp’s Admission & Orientation handbook',
   ogTitle: 'The official A&O handbook library',
   description:
-    'The official Admission & Orientation (A&O) handbook for every federal prison camp, satellite camp and medical center that publishes one — each link checked against bop.gov.',
+    'The official Admission & Orientation (A&O) handbook for every federal prison camp, satellite camp and medical center that has one. Each link is checked against bop.gov.',
   path: '/handbooks',
 });
 
@@ -30,9 +30,10 @@ export default function HandbooksPage() {
         crumbs={[{ name: 'Handbooks', path: '/handbooks' }]}
         lede={
           <p>
-            Each facility hands new arrivals an <em>Admission &amp; Orientation</em> handbook in their first
-            week — the rules, the routines, the small things that turn into big things. Every link was checked
-            against bop.gov; facilities with no published handbook are left out rather than linked to a dead page.
+            Each Bureau of Prisons facility hands new arrivals an <em>Admission &amp; Orientation</em> handbook
+            in their first week — the rules, the routines, the small things that turn into big things if you
+            don&rsquo;t know about them. Every link here was checked against bop.gov; facilities the Bureau
+            publishes no handbook for are left out rather than linked to a dead page.
           </p>
         }
       />

@@ -19,7 +19,7 @@ export const metadata = pageMetadata({
   title: 'Federal self-surrender checklist — what to do 90, 60, 30 and 7 days out',
   ogTitle: 'The self-surrender prep checklist',
   description:
-    'A free, printable 90/60/30/7/day-of checklist for federal self-surrender, sourced to the Bureau of Prisons where it matters — for the person reporting and their family.',
+    'The 90/60/30/7/day-of checklist for federal self-surrender. Calm, sourced, and free. Built for white-collar defendants and their families.',
   path: '/checklist',
 });
 

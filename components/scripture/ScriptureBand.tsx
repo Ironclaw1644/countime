@@ -9,7 +9,7 @@ import { cn } from '@/lib/cn';
 const INTERVAL = 9000;
 
 /**
- * "Words for the road" — the scripture Countime shares from Graystone Prison
+ * The scripture Countime shares from Graystone Prison
  * Ministry, one verse at a time on a night band.
  *
  * Auto-advances every nine seconds, but never under reduced motion, never
@@ -18,7 +18,7 @@ const INTERVAL = 9000;
  */
 export function ScriptureBand({
   verses = SCRIPTURE,
-  eyebrow = 'Words for the road',
+  eyebrow = 'Scripture',
   className,
 }: {
   verses?: Scripture[];

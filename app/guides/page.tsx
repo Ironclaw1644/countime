@@ -11,9 +11,9 @@ import { SITE_URL } from '@/lib/site';
 
 export const metadata = pageMetadata({
   title: 'Guides — First Step Act credits, PATTERN, RDAP, home confinement & self-surrender',
-  ogTitle: 'The rules, in plain words',
+  ogTitle: 'Guides to the federal prison rules',
   description:
-    'Plain-language guides to First Step Act time credits, PATTERN risk levels, RDAP, halfway house vs. home confinement, and self-surrender — every statement linked to its source.',
+    'Plain-language guides to First Step Act time credits, PATTERN risk levels, RDAP, halfway house vs. home confinement, and self-surrender. Every statement links to its source.',
   path: '/guides',
 });
 

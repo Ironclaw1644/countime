@@ -163,7 +163,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
 
             {related.length > 0 && (
               <nav aria-label="Related guides" className="mt-16">
-                <p className="eyebrow">Keep reading</p>
+                <p className="eyebrow">Related guides</p>
                 <ul className="mt-4 border-t border-rule">
                   {related.map((r) => (
                     <li key={r!.slug} className="border-b border-rule">

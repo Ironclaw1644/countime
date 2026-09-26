@@ -31,9 +31,8 @@ export function SiteFooter() {
               <Logo height={34} />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-soft">
-              A calm companion for families facing federal prison — the dates,
-              the places, the paperwork and the words, checked against the
-              Bureau of Prisons&rsquo; own sources.
+              A quiet companion for families navigating sentencing to a federal prison camp.
+              Built so you can plan with care, not panic.
             </p>
             <Link
               href="/calculator"
@@ -57,7 +56,7 @@ export function SiteFooter() {
             title="Learn"
             items={[
               ...GUIDES.map((g) => ({ href: `/guides/${g.slug}`, label: g.shortTitle })),
-              { href: '/the-inside', label: 'The Inside — glossary' },
+              { href: '/the-inside', label: 'The Inside (glossary)' },
               { href: '/news', label: 'First Step Act news' },
               { href: '/updates', label: 'Facility closures & changes' },
             ]}
@@ -75,11 +74,12 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-col gap-4 border-t border-rule pt-6 text-xs leading-relaxed text-ink-muted lg:flex-row lg:items-start lg:justify-between">
           <p>© {new Date().getFullYear()} Countime. Built with care for families in transition.</p>
           <p className="max-w-3xl lg:text-right">
-            Countime is not a law firm and nothing here is legal advice. Release-date
-            estimates are estimates; the Bureau of Prisons computes the official date.
-            Facility data and handbooks come from the Federal Bureau of Prisons (public
-            domain) — verify details with the facility before travelling. Scripture
-            quotations shared with gratitude from Graystone Prison Ministry.
+            Countime is not a law firm and nothing here is legal advice. Release dates
+            on this site are estimates; the Bureau of Prisons computes the official date.
+            Facility data and Admission &amp; Orientation handbooks are sourced from the
+            Federal Bureau of Prisons (public domain). Verify details directly with the
+            facility before traveling. Scripture quotations are shared with thanks from
+            Graystone Prison Ministry.
           </p>
         </div>
       </Container>

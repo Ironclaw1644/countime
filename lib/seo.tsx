@@ -157,7 +157,7 @@ export function calculatorLd(): Ld {
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     description:
-      'Estimate a federal release date with good conduct time, First Step Act time credits, RDAP and Second Chance Act prerelease custody — every rule cited to the statute or regulation it comes from.',
+      'Estimate a federal release date with good conduct time, First Step Act time credits, RDAP and Second Chance Act prerelease custody. Each rule is cited to the statute or regulation it comes from.',
     publisher: { '@id': `${SITE_URL}/#organization` },
   };
 }

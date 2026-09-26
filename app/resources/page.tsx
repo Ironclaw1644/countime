@@ -15,7 +15,7 @@ import {
 export const metadata = pageMetadata({
   title: 'Official resources for families — BOP, probation and reentry links',
   description:
-    'A short, plain-English glossary and the official links families use most when preparing for federal prison camp.',
+    'A short, plain-English glossary and links for families preparing for federal prison camp.',
   path: '/resources',
 });
 

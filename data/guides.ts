@@ -164,18 +164,18 @@ export const GUIDES: Guide[] = [
     title: 'How First Step Act time credits work',
     shortTitle: 'How FSA time credits work',
     description:
-      'Who earns FSA time credits, how many, when they start, and how the Bureau of Prisons applies them to supervised release and home confinement — with the statute for every step.',
+      'Who earns FSA time credits, how many, when they start, and how the Bureau of Prisons applies them to supervised release and home confinement. Each step is cited to the statute.',
     readingTime: 7,
     published: '2026-09-26',
     updated: '2026-09-26',
     lede:
-      'Time credits are the First Step Act’s main lever on a release date. They are earned for taking part in programs, and they are applied in two places: an earlier start to supervised release, and an earlier move to a halfway house or home confinement.',
+      'Time credits are the main way the First Step Act moves a release date. They are earned by taking part in programs, and they are applied in two places: an earlier start to supervised release, and an earlier move to a halfway house or home confinement.',
     sections: [
       {
         heading: 'How many credits, and for what',
         blocks: [
           {
-            p: 'A person earns 10 days of credit for every 30 days of successful participation in evidence-based recidivism reduction programs or productive activities. Someone the Bureau rates minimum or low risk, who has not increased their risk over two consecutive assessments, earns an additional 5 days for every 30 — 15 in all.',
+            p: 'A person earns 10 days of credit for every 30 days of successful participation in evidence-based recidivism reduction programs or productive activities. Someone the Bureau rates minimum or low risk, who has not increased their risk over two consecutive assessments, earns an additional 5 days for every 30, for 15 in all.',
             cite: ['usc-3632d4', 'cfr-523-42'],
           },
           {
@@ -183,11 +183,11 @@ export const GUIDES: Guide[] = [
             cite: ['ps-5410'],
           },
           {
-            p: 'The Bureau’s own guide says everyone starts at the 10-day rate and, in its worked examples, moves to 15 after the seventh 30-day block — once the assessments have confirmed a minimum or low risk level.',
+            p: 'The Bureau’s own guide says everyone starts at the 10-day rate and, in its worked examples, moves to 15 after the seventh 30-day block, once the assessments have confirmed a minimum or low risk level.',
             cite: ['bop-handout'],
           },
           {
-            note: 'Earning pauses while a person is “opted out” of recommended programming, in disciplinary segregation, or away from the institution for a full day — an outside medical trip, for example.',
+            note: 'Earning pauses while a person is “opted out” of recommended programming, in disciplinary segregation, or away from the institution for a full day (an outside medical trip, for example).',
             cite: ['ps-5410'],
           },
         ],
@@ -200,7 +200,7 @@ export const GUIDES: Guide[] = [
             cite: ['usc-3585', 'usc-3632d4'],
           },
           {
-            p: 'Until September 29, 2026 the regulation said earning began only on arrival at the designated facility. An interim rule effective September 30, 2026 removes that limit, after two federal appeals courts held it conflicted with the statute. People who self-surrender are unaffected — for them, commencement and arrival are the same day. People remanded at sentencing may now earn during transit, though the Bureau says they still have to be in assigned programming.',
+            p: 'Until September 29, 2026 the regulation said earning began only on arrival at the designated facility. An interim rule effective September 30, 2026 removes that limit, after the First Circuit and a number of federal district courts held it conflicted with the statute. People who self-surrender are unaffected. For them, commencement and arrival are the same day. People remanded at sentencing may now earn during transit, though the Bureau says they still have to be in assigned programming.',
             cite: ['fr-2026-17752'],
           },
         ],
@@ -209,11 +209,11 @@ export const GUIDES: Guide[] = [
         heading: 'Where the credits go',
         blocks: [
           {
-            p: 'Credits are applied once the credits earned equal the time left on the term. At that point, if the judgment includes supervised release, up to 12 months of them can start supervised release early. Everything beyond that moves the person to prerelease custody — a halfway house or home confinement — sooner.',
+            p: 'Credits are applied once the credits earned equal the time left on the term. At that point, if the judgment includes supervised release, up to 12 months of them can start supervised release early. The rest move the person to prerelease custody (a halfway house or home confinement) sooner.',
             cite: ['usc-3624g', 'cfr-523-44', 'bop-handout'],
           },
           {
-            p: 'Without a term of supervised release, no credits can move the release date itself; they all go toward prerelease custody.',
+            p: 'Without a term of supervised release, credits cannot move the release date itself. They all go toward prerelease custody.',
             cite: ['cfr-523-44'],
           },
           {
@@ -234,7 +234,7 @@ export const GUIDES: Guide[] = [
             cite: ['usc-3632d4d', 'bop-faq', 'ps-5410'],
           },
           {
-            p: 'Credits are applied only for people rated minimum or low risk in their last two assessments — or medium- and high-risk people whose warden approves a petition. The Bureau gives medium- and high-risk people no projected FSA release date.',
+            p: 'Credits are applied only for people rated minimum or low risk in their last two assessments, or for medium- and high-risk people whose warden approves a petition. The Bureau gives medium- and high-risk people no projected FSA release date.',
             cite: ['usc-3624g', 'cfr-523-44', 'ps-5410'],
           },
         ],
@@ -243,7 +243,7 @@ export const GUIDES: Guide[] = [
         heading: 'What is still unsettled',
         blocks: [
           {
-            p: 'The Supreme Court has agreed to decide whether people can use a federal habeas petition to challenge how their credits were applied to halfway-house or home-confinement placement (Maxwell v. Dinis, No. 25-5930). The case is about how such claims reach court, not about the arithmetic — but it is worth watching.',
+            p: 'The Supreme Court has agreed to decide whether people can use a federal habeas petition to challenge how their credits were applied to halfway-house or home-confinement placement (Maxwell v. Dinis, No. 25-5930). The case is about how these claims get to court, not how credits are counted.',
             cite: ['scotus-25-5930'],
           },
         ],
@@ -260,7 +260,7 @@ export const GUIDES: Guide[] = [
       },
       {
         q: 'Can you earn FSA credits while waiting to be transferred after sentencing?',
-        a: 'From September 30, 2026, the regulation says credits can be earned once the sentence commences — which includes being received in custody awaiting transport — if the person is in assigned programming (91 FR 55743).',
+        a: 'From September 30, 2026, the regulation says credits can be earned once the sentence commences (which includes being received in custody awaiting transport), if the person is in assigned programming (91 FR 55740).',
       },
     ],
     related: ['pattern-risk-levels-explained', 'home-confinement-vs-halfway-house'],
@@ -275,13 +275,13 @@ export const GUIDES: Guide[] = [
     published: '2026-09-26',
     updated: '2026-09-26',
     lede:
-      'PATTERN is the Bureau of Prisons’ recidivism risk tool. Its four levels — minimum, low, medium and high — decide how fast First Step Act credits are earned and whether they are applied at all.',
+      'PATTERN is the Bureau of Prisons’ recidivism risk tool. Its four levels (minimum, low, medium and high) decide how fast First Step Act credits are earned and whether they are applied at all.',
     sections: [
       {
         heading: 'What PATTERN is',
         blocks: [
           {
-            p: 'The First Step Act required a risk-and-needs system that classifies each person as minimum, low, medium or high risk of recidivism. The Bureau’s tool for this is PATTERN — the Prisoner Assessment Tool Targeting Estimated Risk and Needs — currently version 1.3, designed to measure change during incarceration and let people lower their scores at reassessment.',
+            p: 'The First Step Act required a risk-and-needs system that classifies each person as minimum, low, medium or high risk of recidivism. The Bureau’s tool for this is PATTERN (the Prisoner Assessment Tool Targeting Estimated Risk and Needs). The current version is 1.3. It is designed to measure change during incarceration and let people lower their scores at reassessment.',
             cite: ['bop-pattern', 'bop-annual-2024'],
           },
         ],
@@ -290,7 +290,7 @@ export const GUIDES: Guide[] = [
         heading: 'The cut points',
         blocks: [
           {
-            p: 'PATTERN produces two scores — general and violent recidivism — with separate scales for men and women. The Bureau publishes these cut points for version 1.3:',
+            p: 'PATTERN produces two scores, one for general and one for violent recidivism, with separate scales for men and women. The Bureau publishes these cut points for version 1.3:',
             cite: ['bop-cutpoints'],
           },
           {
@@ -303,7 +303,7 @@ export const GUIDES: Guide[] = [
             cite: ['bop-cutpoints'],
           },
           {
-            note: 'The published table doesn’t say how the general and violent scores combine into one level, so Countime doesn’t try to compute a PATTERN level — ask the unit team for the level on record.',
+            note: 'The published table doesn’t say how the general and violent scores combine into one level, so Countime doesn’t try to compute a PATTERN level. Ask the unit team for the level on record.',
           },
         ],
       },
@@ -315,7 +315,7 @@ export const GUIDES: Guide[] = [
             cite: ['usc-3632d4', 'cfr-523-42'],
           },
           {
-            p: 'More importantly, credits are applied to prerelease custody only for people rated minimum or low in their last two assessments (or whose warden approves a petition), and to early supervised release only for people rated minimum or low in their last assessment.',
+            p: 'The level also decides whether credits are applied. They go to prerelease custody only for people rated minimum or low in their last two assessments (or whose warden approves a petition), and to early supervised release only for people rated minimum or low in their last assessment.',
             cite: ['usc-3624g', 'cfr-523-44'],
           },
           {
@@ -356,13 +356,13 @@ export const GUIDES: Guide[] = [
     published: '2026-09-26',
     updated: '2026-09-26',
     lede:
-      'Most federal sentences end in the community, not in a prison: first a halfway house or home confinement, then release. Two laws decide how long that stretch can be — the Second Chance Act and the First Step Act.',
+      'Most federal sentences end in the community, not in a prison. First comes a halfway house or home confinement, then release. Two laws decide how long that stretch can be: the Second Chance Act and the First Step Act.',
     sections: [
       {
         heading: 'What each one is',
         blocks: [
           {
-            p: 'A residential reentry center (RRC) — “halfway house” — is a contracted facility that provides a structured, supervised place to live near release, with help finding work and managing money. People there remain in federal custody.',
+            p: 'A residential reentry center (RRC), or “halfway house,” is a contracted facility that provides a structured, supervised place to live near release, with help finding work and managing money. People there remain in federal custody.',
             cite: ['bop-rrc'],
           },
           {
@@ -379,7 +379,7 @@ export const GUIDES: Guide[] = [
         heading: 'The Second Chance Act limits',
         blocks: [
           {
-            p: 'The Bureau must, “to the extent practicable,” let people spend a portion of the final months of the term — not more than 12 months — in conditions that prepare them for reentry, which may include a halfway house.',
+            p: 'The Bureau must, “to the extent practicable,” let people spend a portion of the final months of the term, not more than 12 months, in conditions that prepare them for reentry, which may include a halfway house.',
             cite: ['usc-3624c'],
           },
           {
@@ -437,7 +437,7 @@ export const GUIDES: Guide[] = [
         heading: 'The reduction',
         blocks: [
           {
-            p: 'For someone convicted of a nonviolent offense who completes the program, the Bureau may reduce the time left to serve — by no more than one year.',
+            p: 'For someone convicted of a nonviolent offense who completes the program, the Bureau may reduce the time left to serve by no more than one year.',
             cite: ['usc-3621e', 'cfr-550-55'],
           },
           {
@@ -463,7 +463,7 @@ export const GUIDES: Guide[] = [
             cite: ['cfr-550-56'],
           },
           {
-            p: 'When RDAP and time credits both apply, the Bureau takes the RDAP reduction first, then applies credits — but it must leave time for at least the 120-day community-based component, and will cut the credits applied to supervised release if needed.',
+            p: 'When RDAP and time credits both apply, the Bureau takes the RDAP reduction first, then applies credits. It must leave time for at least the 120-day community-based component, and will cut the credits applied to supervised release if needed.',
             cite: ['ps-5410'],
           },
         ],
@@ -486,7 +486,7 @@ export const GUIDES: Guide[] = [
     title: 'What to do before self-surrender',
     shortTitle: 'Before self-surrender',
     description:
-      'How the surrender date and facility are set, what the Bureau lets you bring, and what happens to everything else — straight from Bureau of Prisons policy.',
+      'How the surrender date and facility are set, what the Bureau lets you bring, and what happens to everything else, from Bureau of Prisons policy.',
     readingTime: 5,
     published: '2026-09-26',
     updated: '2026-09-26',
@@ -501,7 +501,7 @@ export const GUIDES: Guide[] = [
             cite: ['bop-designations'],
           },
           {
-            p: 'When the court orders voluntary surrender, the U.S. Marshals Service gives the surrender date and the institution — or directs the person to surrender to the Marshals instead. Questions about surrendering at an institution go to that institution.',
+            p: 'When the court orders voluntary surrender, the U.S. Marshals Service gives the surrender date and the institution, or directs the person to surrender to the Marshals instead. Questions about surrendering at an institution go to that institution.',
             cite: ['bop-voluntary-surrender'],
           },
           {
@@ -520,7 +520,7 @@ export const GUIDES: Guide[] = [
           {
             list: [
               'a plain wedding band (no stones or intricate markings)',
-              'earrings, for women only — one pair, no stones, declared value under $100',
+              'earrings, for women only (one pair, no stones, declared value under $100)',
               'medical or orthopedic devices',
               'legal documents',
               'religious items approved by the warden (medallions and chains under $100)',

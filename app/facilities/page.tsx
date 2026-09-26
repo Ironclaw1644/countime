@@ -18,7 +18,7 @@ import type { Facility } from '@/types/facility';
 
 export const metadata = pageMetadata({
   title: 'Federal prison camp map & directory — every BOP minimum-security facility',
-  ogTitle: 'Every federal prison camp, on one map',
+  ogTitle: 'Every federal prison camp on one map',
   description:
     'Interactive map and state-by-state directory of every federal prison camp, satellite camp, medical center and holding facility — address, phone, RDAP, self-surrender and the official A&O handbook for each.',
   path: '/facilities',
@@ -46,13 +46,13 @@ export default function FacilitiesPage() {
             <div>
               <Eyebrow className="!text-accent">Map &amp; directory</Eyebrow>
               <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
-                Every federal camp, on one map.
+                Every federal prison camp on one map
               </h1>
             </div>
             <p className="max-w-prose text-lg leading-relaxed text-ink-soft">
               {live.length}{' '}minimum-security camps, medical centers and holding
               facilities, checked against the Bureau of Prisons&rsquo; own directory
-              and population report — including the ones that have closed, so a
+              and population report. Camps that have closed are still listed, so a
               search by name still gets an answer.
             </p>
           </div>

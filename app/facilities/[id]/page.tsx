@@ -66,7 +66,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: `${f.name} — ${f.city}, ${f.state}: address, phone, handbook & programs`,
     ogTitle: `${f.name} · ${f.city}, ${STATE_NAME[f.state] ?? f.state}`,
-    description: `${TYPE_LABEL[f.type]} in ${f.city}, ${STATE_NAME[f.state] ?? f.state}${f.status !== 'OPEN' ? ` (${STATUS_LABEL[f.status].toLowerCase()})` : ''}. Address, phone, security level, RDAP, self-surrender, commissary, programs${handbook} — checked against BOP records.`,
+    description: `${TYPE_LABEL[f.type]} in ${f.city}, ${STATE_NAME[f.state] ?? f.state}${f.status !== 'OPEN' ? ` (${STATUS_LABEL[f.status].toLowerCase()})` : ''}. Address, phone, security level, RDAP, self-surrender, commissary, programs${handbook}. Checked against BOP records.`,
     path: `/facilities/${f.id}`,
   });
 }
@@ -482,7 +482,7 @@ export default async function FacilityProfilePage({
                 When could someone at {facility.name} come home?
               </p>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                Good conduct time, First Step Act credits and halfway-house dates on one timeline — every rule cited.
+                Good conduct time, First Step Act credits and halfway-house dates on one timeline, with each rule cited.
               </p>
               <Link
                 href="/calculator"
