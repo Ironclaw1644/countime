@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "fetch:handbooks": "tsx scripts/fetch-handbooks.ts",
     "validate:facilities": "tsx scripts/validate-facilities.ts && tsx scripts/sync-bop.ts",
     "sync:bop": "tsx scripts/sync-bop.ts",
-    "submit:indexnow": "tsx scripts/submit-indexnow.ts"
+    "submit:indexnow": "tsx scripts/submit-indexnow.ts",
+    "verify:fsa-calc": "tsx scripts/verify-fsa-calc.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
