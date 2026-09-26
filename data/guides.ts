@@ -153,12 +153,143 @@ export type Guide = {
   published: string;
   updated: string;
   lede: string;
+  /** Short facts shown under the lede, e.g. a rule's citation and dates. */
+  keyFacts?: { label: string; value: string }[];
   sections: { heading: string; blocks: Block[] }[];
   faqs: { q: string; a: string }[];
   related: string[];
 };
 
 export const GUIDES: Guide[] = [
+  {
+    slug: 'fsa-credits-from-sentencing-2026-rule',
+    title: 'The September 30, 2026 rule: FSA credits from the day your sentence starts',
+    shortTitle: 'The Sept. 30, 2026 credit rule',
+    description:
+      'A Bureau of Prisons rule effective September 30, 2026 lets First Step Act time credits start when your federal sentence starts, not when you reach your prison. What changed, who it helps, and what is still unsettled.',
+    readingTime: 6,
+    published: '2026-09-26',
+    updated: '2026-09-26',
+    lede:
+      'Starting September 30, 2026, the Bureau of Prisons’ regulation says you begin earning First Step Act time credits once your federal sentence starts. Before, it said earning began only when you arrived at the prison BOP sent you to. If you stayed locked up after sentencing, that can add weeks or months of earning time.',
+    keyFacts: [
+      { label: 'Takes effect', value: 'September 30, 2026' },
+      { label: 'Published', value: 'August 31, 2026 · 91 FR 55740' },
+      { label: 'Type', value: 'Interim final rule (BOP-1183-I)' },
+      { label: 'Changes', value: '28 CFR 523.42(a) and 523.44(a)(3)' },
+    ],
+    sections: [
+      {
+        heading: 'What changed',
+        blocks: [
+          {
+            p: 'The Bureau of Prisons published an interim final rule in the Federal Register on August 31, 2026 (91 FR 55740, FR Doc. 2026-17752). It takes effect September 30, 2026.',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'It rewrites one sentence of the time-credit regulation, 28 CFR 523.42(a). The old version said earning begins after the term of imprisonment commences, and then defined that as “the date the inmate arrives or voluntarily surrenders at the designated Bureau facility where the sentence will be served.” The new version drops that definition. It now reads: “An eligible inmate begins earning FSA Time Credits after the inmate’s term of imprisonment commences.”',
+            cite: ['cfr-523-42', 'fr-2026-17752'],
+          },
+          {
+            p: 'That leaves the ordinary federal rule for when a sentence starts: the day you’re received in custody waiting to be taken to the prison where you’ll serve it, or the day you arrive there on your own.',
+            cite: ['usc-3585', 'fr-2026-17752'],
+          },
+        ],
+      },
+      {
+        heading: 'Why BOP changed it',
+        blocks: [
+          {
+            p: 'BOP says the old wording didn’t match the First Step Act. The rule points to a 2026 First Circuit decision, Miles v. Bowers, which found the old definition “plainly conflicts with the text of the FSA,” and to federal district courts that reached the same result.',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'The statute itself only rules out credits for programs finished “during official detention prior to the date that the prisoner’s sentence commences.” It says nothing about arriving at a particular prison.',
+            cite: ['usc-3632d4'],
+          },
+        ],
+      },
+      {
+        heading: 'Who it helps',
+        blocks: [
+          {
+            p: 'People who were kept in custody at sentencing and then held in a county jail, a regional jail or a federal detention center while waiting to be moved. BOP looked at sentences that started in 2023 through 2025 and found an average of 66 days from sentencing to arrival at the designated prison. It estimates that works out to about 24 days of credits on average.',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'If you self-surrender at your prison, nothing changes for you. Your sentence starts the day you arrive, so earning already started that day.',
+            cite: ['usc-3585', 'fr-2026-17752'],
+          },
+          {
+            p: 'Credits still do the same two things: start supervised release up to 12 months early, and move you to a halfway house or home confinement sooner. The rule doesn’t touch the earning rates, the list of offenses that can’t earn credits, or the risk-level requirements.',
+            cite: ['usc-3624g', 'usc-3632d4', 'fr-2026-17752'],
+          },
+        ],
+      },
+      {
+        heading: 'You still have to be in programs',
+        blocks: [
+          {
+            p: 'Starting earlier isn’t automatic. In BOP’s words, the change “does not mean that every eligible inmate will automatically begin earning Time Credits immediately after their sentence is imposed.” You still have to complete the programs or productive activities assigned to you based on your needs assessment.',
+            cite: ['fr-2026-17752', 'cfr-523-42'],
+          },
+          {
+            note: 'BOP says the change “allows inmates awaiting transportation to their designated facilities to begin FSA-approved programming.” The rule doesn’t say which programs county jails or Marshals holding facilities will offer, or how that time will be tracked. When you get to your prison, ask your case manager how your time before arrival was counted.',
+            cite: ['fr-2026-17752'],
+          },
+        ],
+      },
+      {
+        heading: 'What isn’t settled yet',
+        blocks: [
+          {
+            p: 'Time before September 30, 2026. The rule doesn’t say whether BOP will go back and count earning time for people whose sentences started before it took effect. The Countime calculator shows your date both ways when it makes a difference.',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'It’s an interim rule. BOP put it in place without advance notice and comment, and took comments through September 30, 2026. A final rule could change the wording.',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'State custody. If you were serving state time and were brought to federal court on a writ, your federal sentence may not start at sentencing. The rule repeats the test courts use: “A federal sentence commences when the defendant is received by the Attorney General for service of his federal sentence.”',
+            cite: ['fr-2026-17752'],
+          },
+          {
+            p: 'The Supreme Court case. Maxwell v. Dinis (No. 25-5930) is set for argument November 2, 2026. It asks whether a claim about applying First Step Act credits toward a halfway house or home confinement can be brought in a federal habeas petition under 28 U.S.C. § 2241. It isn’t about when credits start. It is about how people can take BOP’s credit decisions to court.',
+            cite: ['scotus-25-5930'],
+          },
+        ],
+      },
+      {
+        heading: 'The other change in the rule',
+        blocks: [
+          {
+            p: 'The same rule adds a sentence to 28 CFR 523.44(a)(3): credits can be applied for people transferred to BOP under a treaty to serve a sentence imposed in another country, once the U.S. Parole Commission has set an equivalent U.S. Code sentence under 18 U.S.C. § 4106A. BOP says that was already its practice.',
+            cite: ['fr-2026-17752'],
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: 'When does the new First Step Act credit rule take effect?',
+        a: 'September 30, 2026. BOP published it on August 31, 2026 as an interim final rule (91 FR 55740).',
+      },
+      {
+        q: 'Do I get First Step Act credits for county jail time before I was sentenced?',
+        a: 'No. Time locked up before your federal sentence starts can come off the sentence itself (18 U.S.C. § 3585(b)), but the First Step Act rules out credits for programs finished before the sentence commences (18 U.S.C. § 3632(d)(4)(B)(ii)). The new rule covers the time after sentencing while you wait to be moved.',
+      },
+      {
+        q: 'Does the rule help me if I was sentenced before September 30, 2026?',
+        a: 'The rule doesn’t say. It takes effect September 30, 2026 and is silent about earlier time. Ask your unit team how your credits were counted, and use the calculator to see your date both ways.',
+      },
+      {
+        q: 'I self-surrendered. Does this change anything for me?',
+        a: 'No. When you self-surrender, your sentence starts the day you arrive at your prison, so your earning start date is the same under both versions of the rule.',
+      },
+    ],
+    related: ['how-first-step-act-time-credits-work', 'pattern-risk-levels-explained'],
+  },
   {
     slug: 'how-first-step-act-time-credits-work',
     title: 'How First Step Act time credits work',

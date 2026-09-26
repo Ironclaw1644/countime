@@ -60,8 +60,18 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             ]}
           />
           <Eyebrow className="mt-10 !text-accent">Guide · {guide.readingTime} min read</Eyebrow>
-          <h1 className="mt-4 max-w-4xl text-4xl text-ink lg:text-[4.25rem]">{guide.title}</h1>
+          <h1 className="mt-4 max-w-4xl text-4xl text-ink lg:text-[3.5rem]">{guide.title}</h1>
           <p className="mt-8 max-w-3xl text-xl leading-relaxed text-ink-soft">{guide.lede}</p>
+          {guide.keyFacts && (
+            <dl className="mt-10 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-sm border border-accent/40 bg-accent/30 md:grid-cols-4">
+              {guide.keyFacts.map((f) => (
+                <div key={f.label} className="bg-paper px-4 py-3.5">
+                  <dt className="eyebrow !text-accent">{f.label}</dt>
+                  <dd className="mt-1 text-sm font-semibold leading-snug text-ink">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           <p className="mt-8 text-xs text-ink-muted">
             Updated <time dateTime={guide.updated}>{fmt(guide.updated)}</time> · Every statement is linked to the
             law or Bureau of Prisons document it comes from.
@@ -98,7 +108,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 className="mt-10 block border border-rule bg-paper-raised p-5 transition-colors hover:border-accent"
               >
                 <span className="eyebrow !text-accent">Calculator</span>
-                <span className="mt-2 block font-display text-xl leading-snug text-ink">
+                <span className="mt-2 block font-display text-lg font-semibold leading-snug tracking-[-0.02em] text-ink">
                   See these rules applied to one sentence →
                 </span>
               </Link>
@@ -108,10 +118,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <div className="max-w-prose">
             {guide.sections.map((s, i) => (
               <section key={s.heading} id={`s${i + 1}`} className="scroll-mt-24 [&+&]:mt-14">
-                <h2 className="flex items-baseline gap-4 text-3xl text-ink">
-                  <span className="numeral text-2xl text-accent">{String(i + 1).padStart(2, '0')}</span>
-                  {s.heading}
-                </h2>
+                <h2 className="text-3xl text-ink">{s.heading}</h2>
                 <div className="mt-6 space-y-5 text-[1.0625rem] leading-[1.75] text-ink-soft">
                   {s.blocks.map((b, j) => (
                     <BlockView key={j} block={b} num={num} />
@@ -136,7 +143,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                   const src = GUIDE_SOURCES[id];
                   return (
                     <li key={id} id={`src-${id}`} className="grid grid-cols-[2rem_1fr] gap-2 text-sm">
-                      <span className="numeral text-lg text-accent">{num(id)}</span>
+                      <span className="tabular font-semibold text-accent">{num(id)}</span>
                       <span>
                         <a
                           href={src.url}
@@ -168,7 +175,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                   {related.map((r) => (
                     <li key={r!.slug} className="border-b border-rule">
                       <Link href={`/guides/${r!.slug}`} className="group flex items-center justify-between gap-4 py-5">
-                        <span className="font-display text-2xl text-ink transition-colors group-hover:text-accent">
+                        <span className="font-display text-xl font-semibold tracking-[-0.02em] text-ink transition-colors group-hover:text-accent">
                           {r!.title}
                         </span>
                         <TallyMark count={3} className="h-5 w-6 text-ink-faint group-hover:text-accent" />
@@ -201,7 +208,7 @@ function Cites({ ids, num }: { ids?: GuideSourceId[]; num: (id: GuideSourceId) =
           key={id}
           href={`#src-${id}`}
           aria-label={`Source ${num(id)}: ${GUIDE_SOURCES[id].cite}`}
-          className="numeral px-0.5 text-[0.8rem] text-accent no-underline hover:underline"
+          className="tabular px-0.5 text-[0.8rem] font-semibold text-accent no-underline hover:underline"
         >
           {num(id)}
           {i < ids.length - 1 ? ',' : ''}

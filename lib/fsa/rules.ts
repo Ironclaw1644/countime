@@ -83,7 +83,7 @@ export const SOURCES: Record<SourceId, Source> = {
     title: 'First Step Act time credits',
     url: 'https://www.law.cornell.edu/uscode/text/18/3632',
     quote:
-      'A prisoner shall earn 10 days of time credits for every 30 days of successful participation … A prisoner determined by the Bureau of Prisons to be at a minimum or low risk for recidivating, who, over 2 consecutive assessments, has not increased their risk of recidivism, shall earn an additional 5 days of time credits for every 30 days of successful participation',
+      'A prisoner shall earn 10 days of time credits for every 30 days of successful participation … A prisoner determined by the Bureau of Prisons to be at a minimum or low risk for recidivating, who, over 2 consecutive assessments, has not increased their risk of recidivism, shall earn an additional 5 days of time credits for every 30 days of successful participation … A prisoner may not earn time credits under this paragraph for an evidence-based recidivism reduction program that the prisoner successfully completed— … (ii) during official detention prior to the date that the prisoner’s sentence commences under section 3585(a).',
   },
   'usc-3632d4d': {
     id: 'usc-3632d4d',

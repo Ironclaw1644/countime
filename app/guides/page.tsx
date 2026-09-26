@@ -46,12 +46,12 @@ export default function GuidesPage() {
               <li key={g.slug} data-reveal={String((i % 4) + 1)} className="bg-paper">
                 <Link href={`/guides/${g.slug}`} className="group flex h-full flex-col p-8 transition-colors hover:bg-paper-raised sm:p-10">
                   <div className="flex items-center justify-between">
-                    <span className="numeral text-5xl text-ink-faint transition-colors group-hover:text-accent">
+                    <span className="tabular text-sm text-ink-faint transition-colors group-hover:text-accent">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <TallyMark count={(i % 5) + 1} className="h-7 w-9 text-ink-faint group-hover:text-accent" />
                   </div>
-                  <h2 className="mt-8 text-3xl text-ink">{g.title}</h2>
+                  <h2 className="mt-6 text-2xl text-ink">{g.title}</h2>
                   <p className="mt-4 text-sm leading-relaxed text-ink-muted">{g.description}</p>
                   <span className="mt-auto pt-8 text-sm font-semibold text-ink">
                     Read · {g.readingTime} min <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">→</span>
