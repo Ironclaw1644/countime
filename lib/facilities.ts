@@ -22,6 +22,31 @@ export function isHoldingFacility(f: Facility): boolean {
   return HOLDING_TYPES.includes(f.type);
 }
 
+/**
+ * The prison a camp sits beside, ready to display.
+ *
+ * Countime only carries camp pages, so for all but a couple of camps the
+ * parent institution has no page here — linking to `/facilities/<parent>`
+ * sent 62 of 64 camp pages to a 404. When the parent is one of the few we do
+ * carry, link inside; otherwise show its name and point at the Bureau's own
+ * page for it, which is what `bopUrl` already is.
+ *
+ * Every camp in the data is named "<parent> Camp", so the parent's name comes
+ * off the camp's own name rather than being guessed.
+ */
+export function parentFacilityLink(
+  f: Facility,
+): { name: string; href: string; external: boolean } | null {
+  if (!f.parentFacility) return null;
+
+  const onSite = getFacilityById(f.parentFacility);
+  if (onSite) return { name: onSite.name, href: `/facilities/${onSite.id}`, external: false };
+
+  const name = f.name.replace(/ Camp$/, '');
+  if (name === f.name || !f.bopUrl) return null;
+  return { name, href: f.bopUrl, external: true };
+}
+
 /** Closed facilities are kept in the data so their pages still answer searches. */
 export function isClosed(f: Facility): boolean {
   return f.status === 'CLOSED';

@@ -23,6 +23,7 @@ import {
   getAllFacilities,
   getFacilityById,
   isHoldingFacility,
+  parentFacilityLink,
   STATUS_LABEL,
   TYPE_LABEL,
   STATE_NAME,
@@ -78,6 +79,7 @@ export default async function FacilityProfilePage({
   const { id } = await params;
   const facility = getFacilityById(id);
   if (!facility) notFound();
+  const parent = parentFacilityLink(facility);
 
   const isHolding = isHoldingFacility(facility);
   const commissary = getCommissaryFor(facility);
@@ -215,14 +217,23 @@ export default async function FacilityProfilePage({
                       ~{facility.totalPopulation}
                     </Field>
                   )}
-                  {facility.parentFacility && (
+                  {parent && (
                     <Field label="Parent facility">
-                      <Link
-                        href={`/facilities/${facility.parentFacility}`}
-                        className="hover:text-accent-hover"
-                      >
-                        {facility.parentFacility}
-                      </Link>
+                      {parent.external ? (
+                        <a
+                          href={parent.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-accent-hover"
+                        >
+                          {parent.name}{' '}
+                          <Icon icon={faArrowUpRightFromSquare} className="text-[0.7em]" />
+                        </a>
+                      ) : (
+                        <Link href={parent.href} className="hover:text-accent-hover">
+                          {parent.name}
+                        </Link>
+                      )}
                     </Field>
                   )}
                 </dl>
