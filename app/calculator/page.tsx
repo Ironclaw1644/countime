@@ -259,7 +259,7 @@ export default function CalculatorPage() {
           <details className="group">
             <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 [&::-webkit-details-marker]:hidden">
               <span>
-                <span className="eyebrow block !text-accent">18 U.S.C. § 3632(d)(4)(D)</span>
+                <span className="block text-sm font-semibold text-accent">18 U.S.C. § 3632(d)(4)(D)</span>
                 <span id="excluded-h" className="mt-3 block font-display text-3xl text-ink">
                   The {INELIGIBLE_OFFENSES.length} offenses that cannot earn time credits
                 </span>

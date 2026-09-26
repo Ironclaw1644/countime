@@ -85,7 +85,7 @@ export function Calculator() {
         aria-label="Sentence details"
       >
         <Fieldset legend="Your sentence">
-          <Field label="How much time did you get?" sub="The prison term the judge gave you" group>
+          <Field label="How much time did you get?" sub="Term of imprisonment imposed" group>
             <div className="grid grid-cols-3 gap-3">
               <UnitField unit="years" value={input.years} max={60} onChange={(v) => update({ years: v })} />
               <UnitField unit="months" value={input.months} max={11} onChange={(v) => update({ months: v })} />
@@ -553,7 +553,7 @@ function Field({
       <span id={id} className="block text-[0.9375rem] font-semibold text-ink">
         {label}
       </span>
-      {sub && <span className="block text-2xs font-medium uppercase tracking-[0.12em] text-ink-faint">{sub}</span>}
+      {sub && <span className="mt-0.5 block text-xs text-ink-faint">{sub}</span>}
       {hint && <span className="mt-0.5 block text-xs leading-relaxed text-ink-muted">{hint}</span>}
     </>
   );
@@ -648,9 +648,7 @@ function PriorCustody({ input, update }: { input: CalcInput; update: (p: Partial
       <span id="prior-h" className="block text-[0.9375rem] font-semibold text-ink">
         How much time were you locked up before your federal sentencing?
       </span>
-      <span className="block text-2xs font-medium uppercase tracking-[0.12em] text-ink-faint">
-        Prior custody credit · 18 U.S.C. § 3585(b)
-      </span>
+      <span className="mt-0.5 block text-xs text-ink-faint">Prior custody credit, 18 U.S.C. § 3585(b)</span>
       <div className="mt-2 grid grid-cols-3 gap-3">
         <UnitField unit="years" value={input.priorYears} max={20} onChange={(v) => update({ priorYears: v })} />
         <UnitField unit="months" value={input.priorMonths} max={11} onChange={(v) => update({ priorMonths: v })} />

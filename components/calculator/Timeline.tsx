@@ -35,8 +35,8 @@ export function Timeline({ result: r }: { result: CalcResult }) {
     },
     { key: 'inside', label: 'In a BOP prison', from: arrived, to: pre, className: 'bg-ink' },
     { key: 'sca', label: 'Second Chance Act placement (assumed)', from: pre, to: ftcPre < pre ? pre : ftcPre, className: 'bg-sodium-deep' },
-    { key: 'ftc-pre', label: 'Halfway house or home confinement — FSA credits', from: ftcPre, to: r.projectedRelease, className: 'bg-accent' },
-    { key: 'sr', label: 'Supervised release starts early — FSA credits', from: r.projectedRelease, to: r.afterRdap, className: 'bg-state-open', pattern: true },
+    { key: 'ftc-pre', label: 'Halfway house or home confinement (FSA credits)', from: ftcPre, to: r.projectedRelease, className: 'bg-accent' },
+    { key: 'sr', label: 'Supervised release starts early (FSA credits)', from: r.projectedRelease, to: r.afterRdap, className: 'bg-state-open', pattern: true },
     { key: 'rdap', label: 'RDAP early release', from: r.afterRdap, to: r.statutoryRelease, className: 'bg-tone-rdap', pattern: true },
     { key: 'gct', label: 'Good conduct time', from: r.statutoryRelease, to: end, className: 'bg-ink-faint', pattern: true },
   ].filter((s) => days(s.from, s.to) > 0);
