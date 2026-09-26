@@ -1,0 +1,6 @@
+# Local-only folders: never upload
+.revamp-shots
+.revamp-research
+.revamp-tools
+.claude
+.env*
