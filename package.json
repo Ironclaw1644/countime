@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "fetch:handbooks": "tsx scripts/fetch-handbooks.ts",
     "validate:facilities": "tsx scripts/validate-facilities.ts && tsx scripts/sync-bop.ts",
-    "sync:bop": "tsx scripts/sync-bop.ts"
+    "sync:bop": "tsx scripts/sync-bop.ts",
+    "submit:indexnow": "tsx scripts/submit-indexnow.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
