@@ -174,8 +174,8 @@ export const GUIDES: Guide[] = [
       'Starting September 30, 2026, the Bureau of Prisons’ regulation says you begin earning First Step Act time credits once your federal sentence starts. Before, it said earning began only when you arrived at the prison BOP sent you to. If you stayed locked up after sentencing, that can add weeks or months of earning time.',
     keyFacts: [
       { label: 'Takes effect', value: 'September 30, 2026' },
-      { label: 'Published', value: 'August 31, 2026 · 91 FR 55740' },
-      { label: 'Type', value: 'Interim final rule (BOP-1183-I)' },
+      { label: 'Published', value: 'Aug. 31, 2026, 91 FR 55740' },
+      { label: 'Type', value: 'Interim final rule' },
       { label: 'Changes', value: '28 CFR 523.42(a) and 523.44(a)(3)' },
     ],
     sections: [

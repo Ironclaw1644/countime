@@ -60,8 +60,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             ]}
           />
           <Eyebrow className="mt-10 !text-accent">Guide · {guide.readingTime} min read</Eyebrow>
-          <h1 className="mt-4 max-w-4xl text-4xl text-ink lg:text-[3.5rem]">{guide.title}</h1>
-          <p className="mt-8 max-w-3xl text-xl leading-relaxed text-ink-soft">{guide.lede}</p>
+          <h1 className="mt-4 max-w-4xl text-[2.25rem] text-ink sm:text-4xl lg:text-[3.5rem]">{guide.title}</h1>
+          <p className="mt-8 max-w-3xl text-lg leading-relaxed text-ink-soft sm:text-xl">{guide.lede}</p>
           {guide.keyFacts && (
             <dl className="mt-10 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-sm border border-accent/40 bg-accent/30 md:grid-cols-4">
               {guide.keyFacts.map((f) => (
