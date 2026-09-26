@@ -131,7 +131,8 @@ export function EmailCaptureForm({
     >
       <div
         className={cn(
-          'flex items-center gap-2 rounded border border-rule-strong bg-paper px-4 py-2.5',
+          // Stacks on narrow screens so the address field never collapses to a few characters.
+          'flex flex-wrap items-center gap-2 rounded border border-rule-strong bg-paper px-4 py-2.5 sm:flex-nowrap',
           'focus-within:border-accent focus-within:bg-paper-raised',
         )}
       >
@@ -148,13 +149,13 @@ export function EmailCaptureForm({
             if (error) setError(null);
           }}
           aria-label="Email address"
-          className={inputBase}
+          className={cn(inputBase, 'min-w-0 flex-1 basis-40 py-1')}
         />
         <button
           type="submit"
           disabled={busy}
           className={cn(
-            'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded bg-accent px-4 py-2 text-xs font-medium text-accent-on transition-colors',
+            'inline-flex w-full shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded bg-accent px-4 py-2.5 text-xs font-medium text-accent-on transition-colors sm:w-auto',
             'hover:bg-accent-hover disabled:opacity-60',
           )}
         >

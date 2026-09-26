@@ -374,7 +374,7 @@ function MobileResultBar({ result: r }: { result: CalcResult }) {
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
       className={cn(
-        'band-night fixed inset-x-3 bottom-3 z-30 flex items-center justify-between gap-4 rounded-full px-5 py-3 shadow-lift transition-all duration-300 lg:hidden print:hidden',
+        'band-night fixed inset-x-3 bottom-3 z-30 flex overflow-hidden items-center justify-between gap-4 rounded-full px-5 py-3 shadow-lift transition-all duration-300 lg:hidden print:hidden',
         hidden ? 'pointer-events-none translate-y-6 opacity-0' : 'opacity-100',
       )}
     >

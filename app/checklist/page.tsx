@@ -74,7 +74,7 @@ export default function ChecklistPage() {
       </Section>
 
       {/* Print toolbar — visible in screen mode */}
-      <Section className="py-2 print:hidden">
+      <Section className="pb-2 pt-10 print:hidden">
         <Container width="narrow">
           <ChecklistPrintToolbar
             version={SURRENDER_CHECKLIST.version}
