@@ -15,7 +15,7 @@ export default async function OgImage({ params }: { params: Promise<{ id: string
   return renderOg({
     eyebrow: f ? TYPE_LABEL[f.type] : 'Facility',
     title: f?.name ?? 'Federal facility',
-    italic: f ? `${f.city}, ${STATE_NAME[f.state] ?? f.state}` : undefined,
+    second: f ? `${f.city}, ${STATE_NAME[f.state] ?? f.state}` : undefined,
     footer: 'Address · handbook · programs · countime.net',
   });
 }

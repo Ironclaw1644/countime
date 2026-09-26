@@ -78,7 +78,7 @@ export function ScriptureBand({
           aria-roledescription="slide"
           aria-label={`${i + 1} of ${verses.length}`}
         >
-          <blockquote className="serif-italic text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] leading-[1.12] text-ink">
+          <blockquote className="quote-text text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] leading-[1.12] text-ink">
             <span aria-hidden className="mr-1 text-accent">&ldquo;</span>
             {v.text}
             <span aria-hidden className="text-accent">&rdquo;</span>

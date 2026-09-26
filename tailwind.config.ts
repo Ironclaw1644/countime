@@ -55,7 +55,7 @@ const config: Config = {
         DEFAULT: 'var(--rule)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {

@@ -23,14 +23,14 @@ export default function NotFound() {
               404
             </p>
             <h1 className="-mt-6 text-4xl text-ink lg:text-[4.25rem]">
-              This page has gone <em className="serif-italic text-accent">missing.</em>
+              This page has gone missing.
             </h1>
             <p className="mt-6 max-w-prose text-lg leading-relaxed text-ink-soft">
               Links shift over time — especially when the Bureau of Prisons renames a facility code. Every page below
               links straight to the official sources.
             </p>
             <figure className="mt-10 border-l border-accent/60 pl-5">
-              <blockquote className="serif-italic text-2xl leading-snug text-ink">&ldquo;{VERSE.text}&rdquo;</blockquote>
+              <blockquote className="quote-text text-2xl leading-snug text-ink">&ldquo;{VERSE.text}&rdquo;</blockquote>
               <figcaption className="eyebrow mt-3">{VERSE.ref} · We&rsquo;ll help you find your way.</figcaption>
             </figure>
           </div>

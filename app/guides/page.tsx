@@ -27,7 +27,7 @@ export default function GuidesPage() {
             <div>
               <Eyebrow className="!text-accent">Guides</Eyebrow>
               <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
-                The rules, <em className="serif-italic text-accent">in plain words.</em>
+                Guides to the federal prison rules
               </h1>
             </div>
             <p className="max-w-prose text-lg leading-relaxed text-ink-soft">

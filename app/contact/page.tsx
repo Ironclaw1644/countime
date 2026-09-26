@@ -16,8 +16,7 @@ export default function ContactPage() {
     <>
     <PageHero
       eyebrow="Contact"
-      title="Get in"
-      italic="touch."
+      title="Get in touch."
       crumbs={[{ name: 'Contact', path: '/contact' }]}
       lede={
         <p>

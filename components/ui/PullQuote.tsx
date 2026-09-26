@@ -2,7 +2,7 @@ import { cn } from '@/lib/cn';
 import type { Scripture } from '@/data/scripture';
 
 /**
- * A single quotation set large in the serif italic — used for the scripture
+ * A single quotation set large in the display face — used for the scripture
  * interstitials between sections. Pass `verse` for scripture (the reference
  * becomes the attribution) or `children` + `attribution` for anything else.
  */
@@ -26,7 +26,7 @@ export function PullQuote({
       data-reveal
       className={cn('max-w-4xl', align === 'center' ? 'mx-auto text-center' : 'text-left', className)}
     >
-      <blockquote className="serif-italic text-3xl leading-[1.15] text-ink sm:text-4xl">
+      <blockquote className="quote-text text-3xl leading-[1.15] text-ink sm:text-4xl">
         <span aria-hidden className="text-accent">&ldquo;</span>
         {text}
         <span aria-hidden className="text-accent">&rdquo;</span>

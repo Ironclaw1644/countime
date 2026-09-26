@@ -5,5 +5,5 @@ export const size = OG_SIZE;
 export const contentType = 'image/png';
 
 export default function OgImage() {
-  return renderOg({ eyebrow: 'Guides', title: 'The rules,', italic: 'in plain words.' });
+  return renderOg({ eyebrow: 'Guides', title: 'Guides to the federal prison rules' });
 }

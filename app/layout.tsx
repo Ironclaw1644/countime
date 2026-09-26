@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Bricolage_Grotesque, Instrument_Serif } from 'next/font/google';
+import { Bricolage_Grotesque, Inter } from 'next/font/google';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { ThemeScript } from '@/components/layout/ThemeScript';
@@ -9,22 +9,18 @@ import { JsonLd, organizationLd, websiteLd } from '@/lib/seo';
 import '@/lib/fontawesome';
 import './globals.css';
 
-// Instrument Serif for headlines and scripture — a sharp, bookish serif that
-// sits well beside the hand-lettered logotype. Bricolage Grotesque carries body
-// copy and UI, and at its narrowest width (wdth 75) sets the condensed numerals
-// the calculator and ledger rows are built from — one variable file doing the
-// work of two families.
-const display = Instrument_Serif({
+// Bricolage Grotesque against the hand-lettered logotype: a warm, slightly
+// idiosyncratic grotesque playing off an elegant script, rather than another
+// book serif. Inter carries body copy, where plainness is the point.
+const display = Bricolage_Grotesque({
   subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
+  axes: ['opsz'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const sans = Bricolage_Grotesque({
+const sans = Inter({
   subsets: ['latin'],
-  axes: ['opsz', 'wdth'],
   variable: '--font-sans',
   display: 'swap',
 });

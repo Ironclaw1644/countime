@@ -8,7 +8,7 @@ export default function OgImage() {
   return renderOg({
     eyebrow: 'Free · every rule cited',
     title: 'When could they come home?',
-    italic: 'The First Step Act calculator.',
+    second: 'The First Step Act calculator.',
     footer: 'Good conduct time · FSA credits · RDAP · home confinement',
   });
 }

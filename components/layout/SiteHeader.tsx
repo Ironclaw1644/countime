@@ -157,7 +157,7 @@ export function SiteHeader() {
             </ol>
           </nav>
           <figure className="mt-auto pt-10">
-            <blockquote className="serif-italic text-2xl leading-snug text-ink">
+            <blockquote className="quote-text text-2xl leading-snug text-ink">
               &ldquo;{DRAWER_VERSE.text}&rdquo;
             </blockquote>
             <figcaption className="eyebrow mt-3">{DRAWER_VERSE.ref}</figcaption>

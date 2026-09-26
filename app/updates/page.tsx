@@ -47,8 +47,7 @@ export default function UpdatesPage() {
     <>
     <PageHero
       eyebrow="Facility updates"
-      title="What changed,"
-      italic="and when."
+      title="What changed, and when."
       crumbs={[{ name: 'Facility updates', path: '/updates' }]}
       lede={
         <>

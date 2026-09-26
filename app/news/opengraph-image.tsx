@@ -7,8 +7,7 @@ export const contentType = 'image/png';
 export default function OgImage() {
   return renderOg({
     eyebrow: 'Updated hourly',
-    title: 'First Step Act',
-    italic: 'news.',
+    title: 'First Step Act news',
     footer: 'BOP · DOJ · the press — headlines and links',
   });
 }

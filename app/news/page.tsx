@@ -41,7 +41,7 @@ export default async function NewsPage() {
             <div>
               <Eyebrow className="!text-accent">Updated hourly</Eyebrow>
               <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
-                First Step Act <em className="serif-italic text-accent">news.</em>
+                First Step Act news
               </h1>
             </div>
             <div className="text-ink-soft">

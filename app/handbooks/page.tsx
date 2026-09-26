@@ -26,8 +26,7 @@ export default function HandbooksPage() {
     <>
       <PageHero
         eyebrow="Handbook library"
-        title="Every handbook the Bureau publishes,"
-        italic="gathered in one place."
+        title="Every handbook the Bureau publishes, gathered for the people who love them."
         crumbs={[{ name: 'Handbooks', path: '/handbooks' }]}
         lede={
           <p>

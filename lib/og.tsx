@@ -5,7 +5,7 @@ import { join } from 'node:path';
 /**
  * One social-card design for every page: the night ground, a sodium glow,
  * the cream logotype small in the corner, and the page's own headline set
- * large in Instrument Serif. Fonts and the logotype are read from disk, so a
+ * large in Bricolage Grotesque, the site's display face. Fonts and the logotype are read from disk, so a
  * card can't break on a network blip.
  */
 export const OG_SIZE = { width: 1200, height: 630 };
@@ -19,23 +19,21 @@ const RULE = 'rgba(243,233,219,0.14)';
 export async function renderOg({
   eyebrow,
   title,
-  italic,
+  second,
   footer = 'countime.net',
 }: {
   eyebrow: string;
   title: string;
-  /** Optional second line, set in the italic and the sodium colour. */
-  italic?: string;
+  /** Optional second line, in the sodium colour. */
+  second?: string;
   footer?: string;
 }) {
-  const [logo, serif, serifItalic, sans] = await Promise.all([
+  const [logo, sans] = await Promise.all([
     readFile(join(process.cwd(), 'app/_og/logotype-cream.png')),
-    readFile(join(process.cwd(), 'app/_fonts/InstrumentSerif-Regular.ttf')),
-    readFile(join(process.cwd(), 'app/_fonts/InstrumentSerif-Italic.ttf')),
     readFile(join(process.cwd(), 'app/_fonts/BricolageGrotesque-SemiBold.ttf')),
   ]);
   const logoSrc = `data:image/png;base64,${logo.toString('base64')}`;
-  const size = title.length > 60 ? 64 : title.length > 36 ? 76 : 92;
+  const size = title.length > 60 ? 58 : title.length > 36 ? 68 : 82;
 
   return new ImageResponse(
     (
@@ -63,12 +61,12 @@ export async function renderOg({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', fontFamily: 'Instrument Serif', fontSize: size, lineHeight: 1.02, letterSpacing: '-0.01em', maxWidth: 1040 }}>
+          <div style={{ display: 'flex', fontSize: size, lineHeight: 1.04, letterSpacing: '-0.03em', maxWidth: 1040 }}>
             {title}
           </div>
-          {italic && (
-            <div style={{ display: 'flex', fontFamily: 'Instrument Serif Italic', fontSize: size, lineHeight: 1.05, color: SODIUM, marginTop: 6 }}>
-              {italic}
+          {second && (
+            <div style={{ display: 'flex', fontSize: size, lineHeight: 1.04, letterSpacing: '-0.03em', color: SODIUM, marginTop: 6 }}>
+              {second}
             </div>
           )}
         </div>
@@ -99,8 +97,6 @@ export async function renderOg({
     {
       ...OG_SIZE,
       fonts: [
-        { name: 'Instrument Serif', data: serif, style: 'normal', weight: 400 },
-        { name: 'Instrument Serif Italic', data: serifItalic, style: 'italic', weight: 400 },
         { name: 'Bricolage', data: sans, style: 'normal', weight: 600 },
       ],
     },

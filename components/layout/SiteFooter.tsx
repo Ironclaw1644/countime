@@ -18,7 +18,7 @@ export function SiteFooter() {
         <figure className="max-w-5xl">
           <TallyMark className="h-8 w-12 text-accent" />
           <blockquote className="mt-6 font-display text-4xl leading-[1.02] text-ink sm:text-5xl">
-            &ldquo;I was in prison and <em className="serif-italic text-accent">you came to me.</em>&rdquo;
+            &ldquo;I was in prison and <span className="text-accent">you came to me.</span>&rdquo;
           </blockquote>
           <figcaption className="eyebrow mt-5">{CLOSING.ref}</figcaption>
         </figure>

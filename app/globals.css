@@ -61,8 +61,8 @@
   --shadow-raise: 0 1px 2px rgb(22 19 15 / 0.05), 0 10px 30px -18px rgb(22 19 15 / 0.28);
   --shadow-lift:  0 2px 6px rgb(22 19 15 / 0.07), 0 28px 56px -28px rgb(22 19 15 / 0.32);
 
-  /* Fluid type. Body steps stay modest; the two display steps are where the
-     revamp spends its drama — giant serif headlines and condensed numerals. */
+  /* Fluid type. Body steps stay modest; the display steps carry the
+     headlines and the big dates. */
   --step--2: clamp(0.6875rem, 0.68rem + 0.05vw, 0.75rem);
   --step--1: clamp(0.8125rem, 0.79rem + 0.11vw, 0.875rem);
   --step-0:  clamp(1rem, 0.98rem + 0.12vw, 1.0625rem);
@@ -242,23 +242,26 @@ main, header, footer { position: relative; z-index: 1; }
 
 h1, h2, h3, h4 {
   @apply font-display;
-  font-weight: 400;
-  letter-spacing: -0.012em;
-  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.04;
   text-wrap: balance;
 }
-h3, h4 { letter-spacing: -0.005em; line-height: 1.12; }
+h3, h4 { letter-spacing: -0.018em; line-height: 1.12; }
 
-/* Headlines are set in Instrument Serif; its italic carries emphasis and all
-   scripture. The condensed numerals are Bricolage at its narrowest width. */
-.serif-italic { font-family: var(--font-display), Georgia, serif; font-style: italic; }
+/* Scripture and quotations: the display face at a regular weight, upright. */
+.quote-text {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+/* Big figures — dates, counts, results: plain lining, tabular sans. */
 .numeral {
-  font-family: var(--font-sans), system-ui, sans-serif;
-  font-variation-settings: 'wdth' 75, 'opsz' 96;
-  font-weight: 700;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
   font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.02em;
-  line-height: 0.86;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 p { text-wrap: pretty; }
@@ -272,8 +275,7 @@ p { text-wrap: pretty; }
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: var(--step--2);
   font-weight: 600;
-  font-variation-settings: 'wdth' 88;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgb(var(--ink-muted));
 }

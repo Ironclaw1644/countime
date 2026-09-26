@@ -4,19 +4,17 @@ import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 
 /**
  * The night-band page opener shared by the inner pages: breadcrumbs, an
- * eyebrow, a serif headline with an optional italic tail in sodium, and a lede.
+ * eyebrow, the headline, and a lede.
  */
 export function PageHero({
   eyebrow,
   title,
-  italic,
   lede,
   crumbs,
   children,
 }: {
   eyebrow: string;
   title: string;
-  italic?: string;
   lede?: React.ReactNode;
   crumbs: { name: string; path: string }[];
   children?: React.ReactNode;
@@ -30,12 +28,6 @@ export function PageHero({
             <Eyebrow className="!text-accent">{eyebrow}</Eyebrow>
             <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
               {title}
-              {italic && (
-                <>
-                  {' '}
-                  <em className="serif-italic text-accent">{italic}</em>
-                </>
-              )}
             </h1>
           </div>
           {lede && <div className="max-w-prose text-lg leading-relaxed text-ink-soft">{lede}</div>}

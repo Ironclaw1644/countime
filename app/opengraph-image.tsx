@@ -1,14 +1,14 @@
 import { renderOg, OG_SIZE } from '@/lib/og';
 
-export const alt = 'Countime — know the date, prepare for the days';
+export const alt = 'Countime — First Step Act calculator and federal prison camp guide';
 export const size = OG_SIZE;
 export const contentType = 'image/png';
 
 export default function OgImage() {
   return renderOg({
     eyebrow: 'For families facing federal prison',
-    title: 'Know the date.',
-    italic: 'Prepare for the days.',
+    title: 'How long will they actually serve?',
+    second: 'Work out the date, then get ready for it.',
     footer: 'First Step Act calculator · facility map · handbooks · countime.net',
   });
 }

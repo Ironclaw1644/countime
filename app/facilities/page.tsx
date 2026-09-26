@@ -46,7 +46,7 @@ export default function FacilitiesPage() {
             <div>
               <Eyebrow className="!text-accent">Map &amp; directory</Eyebrow>
               <h1 className="mt-4 text-4xl text-ink lg:text-[4.25rem]">
-                Every federal camp, <em className="serif-italic text-accent">on one map.</em>
+                Every federal camp, on one map.
               </h1>
             </div>
             <p className="max-w-prose text-lg leading-relaxed text-ink-soft">

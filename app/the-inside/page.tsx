@@ -23,8 +23,7 @@ export default function TheInsidePage() {
     <>
       <PageHero
         eyebrow="The Inside"
-        title="The things you only learn"
-        italic="once you’re in."
+        title="The things you only learn once you’re in."
         crumbs={[{ name: 'The Inside', path: '/the-inside' }]}
         lede={
           <p>
