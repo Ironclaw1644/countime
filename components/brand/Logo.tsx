@@ -156,8 +156,8 @@ export function LogoDisplay({
       className={cn('write-stage', className)}
       style={{ aspectRatio: String(ASPECT) }}
     >
-      <span aria-hidden className="block h-full w-full bg-current" style={ink} />
-      <span aria-hidden className="write-veil" />
+      <span aria-hidden className="write-ink block h-full w-full bg-current" style={ink} />
+      <span aria-hidden className="write-nib" />
     </span>
   );
 }

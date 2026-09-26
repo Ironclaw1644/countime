@@ -2,67 +2,83 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/brand/Logo';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { cn } from '@/lib/cn';
+import { NAV } from '@/lib/nav';
+import { scripture } from '@/data/scripture';
 
-const NAV = [
-  { href: '/#map', label: 'Map' },
-  { href: '/handbooks', label: 'Handbooks' },
-  { href: '/the-inside', label: 'The Inside' },
-  { href: '/checklist', label: 'Checklist' },
-  { href: '/updates', label: 'Updates' },
-  { href: '/about', label: 'About' },
-];
+const DRAWER_VERSE = scripture('matthew-25-36-visit');
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Close the sheet whenever the route changes (adjusting state during render
+  // rather than in an effect, per React's guidance for derived resets).
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
-    const onClick = (e: MouseEvent) => {
-      if (!panelRef.current?.contains(e.target as Node)) setOpen(false);
-    };
     document.addEventListener('keydown', onKey);
-    document.addEventListener('mousedown', onClick);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.removeEventListener('mousedown', onClick);
+      document.body.style.overflow = prev;
     };
   }, [open]);
 
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper/85 backdrop-blur-md">
+    <header
+      className={cn(
+        'sticky top-0 z-40 border-b transition-[background-color,box-shadow,border-color] duration-300',
+        scrolled || open
+          ? 'border-rule bg-paper/90 shadow-[0_8px_30px_-24px_rgb(0_0_0/0.5)] backdrop-blur-md'
+          : 'border-transparent bg-paper/70 backdrop-blur-sm',
+      )}
+    >
       <Container width="wide">
-        <div className="flex h-16 items-center justify-between gap-6 sm:h-[4.5rem]">
+        <div className="flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
           <Link
             href="/"
             className="text-ink transition-opacity duration-200 hover:opacity-70"
             aria-label="Countime — home"
           >
-            <Logo height={30} className="sm:!h-[34px] sm:!w-[112px]" />
+            <Logo height={30} className="lg:!h-[34px] lg:!w-[112px]" />
           </Link>
 
-          <nav aria-label="Primary" className="hidden md:block">
-            <ul className="flex items-center gap-7">
-              {NAV.map((item) => {
-                const active =
-                  item.href.startsWith('/#')
-                    ? pathname === '/'
-                    : pathname.startsWith(item.href);
+          <nav aria-label="Primary" className="hidden lg:block">
+            <ul className="flex items-center gap-6 xl:gap-8">
+              {NAV.filter((n) => !n.cta).map((item) => {
+                const active = isActive(item.href);
                 return (
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'relative py-1 text-xs tracking-[0.1em] uppercase transition-colors duration-200',
-                        'after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left',
-                        'after:scale-x-0 after:bg-current after:transition-transform after:duration-300',
+                        'relative py-1 text-[0.8125rem] font-medium transition-colors duration-200',
+                        'after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:origin-left after:rounded-full',
+                        'after:scale-x-0 after:bg-accent after:transition-transform after:duration-300',
                         'hover:after:scale-x-100',
                         active ? 'text-ink after:scale-x-100' : 'text-ink-muted hover:text-ink',
                       )}
@@ -75,47 +91,80 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-1">
-            <ThemeToggle className="flex h-9 w-9 items-center justify-center rounded text-ink-muted transition-colors hover:bg-paper-sunk hover:text-ink" />
-
-            <div className="relative md:hidden" ref={panelRef}>
-              <button
-                type="button"
-                onClick={() => setOpen((v) => !v)}
-                aria-expanded={open}
-                aria-controls="mobile-nav"
-                aria-label={open ? 'Close menu' : 'Open menu'}
-                className="flex h-9 w-9 items-center justify-center rounded text-ink transition-colors hover:bg-paper-sunk"
-              >
-                <svg viewBox="0 0 16 16" className="h-4 w-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                  {open ? <path d="M3.5 3.5 12.5 12.5M12.5 3.5 3.5 12.5" /> : <path d="M2 4.5h12M2 11.5h12" />}
-                </svg>
-              </button>
-
-              {open && (
-                <div
-                  id="mobile-nav"
-                  className="absolute right-0 top-11 w-56 border border-rule bg-paper-raised py-1 shadow-lift"
-                >
-                  <ul className="flex flex-col">
-                    {NAV.map((item) => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          onClick={() => setOpen(false)}
-                          className="block px-4 py-2.5 text-sm text-ink-soft transition-colors hover:bg-paper-sunk hover:text-ink"
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+          <div className="flex items-center gap-1.5">
+            <Link
+              href="/calculator"
+              aria-current={isActive('/calculator') ? 'page' : undefined}
+              className={cn(
+                'group hidden items-center gap-2 rounded-full border border-ink/80 py-2 pl-3 pr-4 text-[0.8125rem] font-semibold transition-colors duration-300 sm:inline-flex',
+                isActive('/calculator') ? 'bg-ink text-paper' : 'text-ink hover:bg-ink hover:text-paper',
               )}
-            </div>
+            >
+              <span aria-hidden className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sodium opacity-60 motion-reduce:hidden" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-sodium" />
+              </span>
+              Release calculator
+            </Link>
+            <ThemeToggle className="flex h-11 w-11 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-paper-sunk hover:text-ink" />
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              className="flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-paper-sunk lg:hidden"
+            >
+              <svg viewBox="0 0 20 20" className="h-5 w-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden>
+                {open ? (
+                  <path d="M4.5 4.5 15.5 15.5M15.5 4.5 4.5 15.5" />
+                ) : (
+                  <>
+                    <path d="M3 6.5h14" />
+                    <path d="M3 13.5h9" />
+                  </>
+                )}
+              </svg>
+            </button>
           </div>
         </div>
       </Container>
+
+      {/* Mobile sheet: full-height night, big serif links, a verse at the foot. */}
+      <div
+        id="mobile-nav"
+        hidden={!open}
+        className="band-night fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto lg:hidden"
+      >
+        <Container width="wide" className="flex min-h-full flex-col py-6">
+          <nav aria-label="Mobile">
+            <ol>
+              {NAV.map((item, i) => (
+                <li key={item.href} className="border-b border-rule">
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                    className="group flex items-baseline gap-4 py-3.5"
+                  >
+                    <span className="numeral w-7 text-sm text-ink-faint">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="font-display text-3xl text-ink transition-colors group-hover:text-accent">
+                      {item.label}
+                    </span>
+                    {item.note && <span className="eyebrow ml-auto !text-accent">{item.note}</span>}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          <figure className="mt-auto pt-10">
+            <blockquote className="serif-italic text-2xl leading-snug text-ink">
+              &ldquo;{DRAWER_VERSE.text}&rdquo;
+            </blockquote>
+            <figcaption className="eyebrow mt-3">{DRAWER_VERSE.ref}</figcaption>
+          </figure>
+        </Container>
+      </div>
     </header>
   );
 }

@@ -1,24 +1,43 @@
 import { cn } from '@/lib/cn';
+import type { Scripture } from '@/data/scripture';
 
+/**
+ * A single quotation set large in the serif italic — used for the scripture
+ * interstitials between sections. Pass `verse` for scripture (the reference
+ * becomes the attribution) or `children` + `attribution` for anything else.
+ */
 export function PullQuote({
   children,
+  verse,
   attribution,
+  align = 'center',
   className,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  verse?: Scripture;
   attribution?: string;
+  align?: 'center' | 'left';
   className?: string;
 }) {
+  const text = verse ? verse.text : children;
+  const cite = verse ? verse.ref : attribution;
   return (
-    <figure className={cn('mx-auto max-w-3xl text-center', className)}>
-      <blockquote className="font-display italic text-3xl sm:text-4xl md:text-3xl text-ink leading-[1.15] tracking-tightest">
-        <span className="text-accent/70 font-display select-none">&ldquo;</span>
-        {children}
-        <span className="text-accent/70 font-display select-none">&rdquo;</span>
+    <figure
+      data-reveal
+      className={cn('max-w-4xl', align === 'center' ? 'mx-auto text-center' : 'text-left', className)}
+    >
+      <blockquote className="serif-italic text-3xl leading-[1.15] text-ink sm:text-4xl">
+        <span aria-hidden className="text-accent">&ldquo;</span>
+        {text}
+        <span aria-hidden className="text-accent">&rdquo;</span>
       </blockquote>
-      {attribution && (
-        <figcaption className="mt-5 small-caps text-xs text-ink-muted">
-          — {attribution}
+      {cite && (
+        <figcaption
+          className={cn('mt-6 flex items-center gap-4', align === 'center' && 'justify-center')}
+        >
+          <span aria-hidden className="h-px w-8 bg-accent" />
+          <span className="eyebrow">{cite}</span>
+          {align === 'center' && <span aria-hidden className="h-px w-8 bg-accent" />}
         </figcaption>
       )}
     </figure>

@@ -37,6 +37,15 @@ const config: Config = {
           holding: 'rgb(var(--tone-holding) / <alpha-value>)',
           rdap: 'rgb(var(--tone-rdap) / <alpha-value>)',
         },
+        night: {
+          DEFAULT: 'rgb(var(--night) / <alpha-value>)',
+          raised: 'rgb(var(--night-raised) / <alpha-value>)',
+          ink: 'rgb(var(--night-ink) / <alpha-value>)',
+        },
+        sodium: {
+          DEFAULT: 'rgb(var(--sodium) / <alpha-value>)',
+          deep: 'rgb(var(--sodium-deep) / <alpha-value>)',
+        },
         rule: {
           DEFAULT: 'rgb(var(--rule-rgb) / var(--rule-a))',
           strong: 'rgb(var(--rule-rgb) / var(--rule-strong-a))',
@@ -46,7 +55,7 @@ const config: Config = {
         DEFAULT: 'var(--rule)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
@@ -58,6 +67,7 @@ const config: Config = {
         '2xl': 'var(--step-3)',
         '3xl': 'var(--step-4)',
         '4xl': 'var(--step-5)',
+        '5xl': 'var(--step-6)',
       },
       boxShadow: {
         raise: 'var(--shadow-raise)',
