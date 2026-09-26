@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
@@ -25,10 +26,12 @@ export async function generateMetadata({
   const { id } = await params;
   const t = getInsideTermById(id);
   if (!t) return { title: 'Term not found' };
-  return {
-    title: `${t.title} — The Inside`,
+  return pageMetadata({
+    title: `${t.title} — what it means in federal prison`,
+    ogTitle: `${t.title} · The Inside`,
     description: t.shortDefinition,
-  };
+    path: `/the-inside/${t.id}`,
+  });
 }
 
 export default async function InsideTermPage({

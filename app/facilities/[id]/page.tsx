@@ -6,7 +6,6 @@ import { Section } from '@/components/ui/Section';
 import { ButtonLink } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import {
-  faArrowLeft,
   faArrowUpRightFromSquare,
   faBuildingShield,
   faDownload,
@@ -25,6 +24,8 @@ import {
   getFacilityById,
   isHoldingFacility,
   STATUS_LABEL,
+  TYPE_LABEL,
+  STATE_NAME,
 } from '@/lib/facilities';
 import {
   getCommissaryFor,
@@ -35,19 +36,10 @@ import {
   classesAreTypical,
 } from '@/lib/facility-defaults';
 import type { Facility } from '@/types/facility';
-
-const TYPE_LABEL: Record<Facility['type'], string> = {
-  FPC: 'Federal Prison Camp',
-  SCP: 'Satellite Prison Camp',
-  FMC: 'Federal Medical Center',
-  MCFP: 'Medical Center for Federal Prisoners',
-  'FCI-CAMP': 'FCI Camp',
-  'MIN-OTHER': 'Minimum-security Facility',
-  FDC: 'Federal Detention Center',
-  MCC: 'Metropolitan Correctional Center',
-  MDC: 'Metropolitan Detention Center',
-  FTC: 'Federal Transfer Center',
-};
+import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import { JsonLd, pageMetadata } from '@/lib/seo';
+import { SITE_URL } from '@/lib/site';
+import { distanceMiles } from '@/lib/geo';
 
 const SECURITY_LABEL: Record<Facility['securityLevel'], string> = {
   MINIMUM: 'Minimum',
@@ -69,10 +61,13 @@ export async function generateMetadata({
   const { id } = await params;
   const f = getFacilityById(id);
   if (!f) return { title: 'Facility not found' };
-  return {
-    title: `${f.name} — facility profile`,
-    description: `${TYPE_LABEL[f.type]} in ${f.city}, ${f.state}. Address, programs, commissary, amenities, classes, and the official BOP A&O handbook.`,
-  };
+  const handbook = f.handbookUrl ? ' and the official A&O handbook' : '';
+  return pageMetadata({
+    title: `${f.name} — ${f.city}, ${f.state}: address, phone, handbook & programs`,
+    ogTitle: `${f.name} · ${f.city}, ${STATE_NAME[f.state] ?? f.state}`,
+    description: `${TYPE_LABEL[f.type]} in ${f.city}, ${STATE_NAME[f.state] ?? f.state}${f.status !== 'OPEN' ? ` (${STATUS_LABEL[f.status].toLowerCase()})` : ''}. Address, phone, security level, RDAP, self-surrender, commissary, programs${handbook} — checked against BOP records.`,
+    path: `/facilities/${f.id}`,
+  });
 }
 
 export default async function FacilityProfilePage({
@@ -91,29 +86,32 @@ export default async function FacilityProfilePage({
   const commissaryTypical = commissaryIsTypical(facility);
   const amenitiesTypical = amenitiesAreTypical(facility);
   const classesTypical = classesAreTypical(facility);
+  const nearby = getAllFacilities()
+    .filter((f) => f.id !== facility.id)
+    .map((f) => ({ f, miles: distanceMiles(facility, f) }))
+    .sort((a, b) => a.miles - b.miles)
+    .slice(0, 5);
 
   return (
     <>
-      <Section className="pt-10 pb-6 sm:pt-14">
+      <Section className="band-night overflow-hidden pb-12 pt-10 sm:pb-16 sm:pt-14">
         <Container>
-          <div className="mb-6">
-            <Link
-              href="/#map"
-              className="inline-flex items-center gap-1.5 text-[12px] text-ink-muted transition-colors hover:text-ink"
-            >
-              <Icon icon={faArrowLeft} className="text-[10px]" />
-              Back to map
-            </Link>
-          </div>
+          <Breadcrumbs
+            items={[
+              { name: 'Home', path: '/' },
+              { name: 'Facilities', path: '/facilities' },
+              { name: facility.name, path: `/facilities/${facility.id}` },
+            ]}
+          />
 
-          <div className="max-w-3xl">
-            <p className="eyebrow text-[11px] text-ink-muted">
-              {TYPE_LABEL[facility.type]}
+          <div className="mt-10 max-w-4xl">
+            <p className="eyebrow !text-accent">
+              {TYPE_LABEL[facility.type]} · {STATE_NAME[facility.state] ?? facility.state}
             </p>
-            <h1 className="mt-3 text-3xl text-ink">
+            <h1 className="mt-4 text-4xl text-ink sm:text-5xl">
               {facility.name}
             </h1>
-            <p className="mt-4 inline-flex items-center gap-2 text-[15px] text-ink-soft">
+            <p className="mt-5 inline-flex items-center gap-2 text-lg text-ink-soft">
               <Icon icon={faLocationDot} className="text-accent" />
               {facility.city}, {facility.state}
             </p>
@@ -441,6 +439,70 @@ export default async function FacilityProfilePage({
           </div>
         </Container>
       </Section>
+
+      <Section className="border-t border-rule py-14 sm:py-20">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+            <div>
+              <h2 className="eyebrow">Nearby facilities</h2>
+              <ul className="mt-4 border-t border-rule">
+                {nearby.map(({ f, miles }) => (
+                  <li key={f.id} className="border-b border-rule">
+                    <Link href={`/facilities/${f.id}`} className="group flex items-baseline justify-between gap-4 py-4">
+                      <span>
+                        <span className="font-display text-xl text-ink transition-colors group-hover:text-accent">{f.name}</span>
+                        <span className="block text-xs text-ink-muted">
+                          {TYPE_LABEL[f.type]} · {f.city}, {f.state}
+                          {f.status !== 'OPEN' ? ` · ${STATUS_LABEL[f.status]}` : ''}
+                        </span>
+                      </span>
+                      <span className="numeral shrink-0 text-lg text-ink-faint">{Math.round(miles)} mi</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/facilities" className="mt-5 inline-block text-sm font-semibold text-accent hover:text-accent-hover">
+                All facilities by state →
+              </Link>
+            </div>
+            <div className="band-night self-start p-7 sm:p-9">
+              <p className="eyebrow !text-accent">Release calculator</p>
+              <p className="mt-3 font-display text-3xl leading-tight text-ink">
+                When could someone at {facility.name} come home?
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                Good conduct time, First Step Act credits and halfway-house dates on one timeline — every rule cited.
+              </p>
+              <Link
+                href="/calculator"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-on transition-colors hover:bg-accent-hover"
+              >
+                Estimate a date <span aria-hidden>→</span>
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <JsonLd
+        data={{
+          '@type': 'GovernmentBuilding',
+          '@id': `${SITE_URL}/facilities/${facility.id}#place`,
+          name: facility.name,
+          url: `${SITE_URL}/facilities/${facility.id}`,
+          telephone: facility.phone,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: facility.address,
+            addressLocality: facility.city,
+            addressRegion: facility.state,
+            postalCode: facility.zip,
+            addressCountry: 'US',
+          },
+          geo: { '@type': 'GeoCoordinates', latitude: facility.lat, longitude: facility.lng },
+          sameAs: facility.bopUrl,
+        }}
+      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -7,11 +7,13 @@ import { Chip } from '@/components/ui/Chip';
 import { getAllFacilities, STATUS_LABEL } from '@/lib/facilities';
 import type { Facility } from '@/types/facility';
 
-export const metadata: Metadata = {
-  title: 'Facility updates',
+export const metadata = pageMetadata({
+  title: 'Federal prison camp closures & changes — dated log with BOP sources',
+  ogTitle: 'What changed, and when',
   description:
     'A dated log of federal prison camp closures, conversions and Bureau of Prisons announcements — with the source for each one.',
-};
+  path: '/updates',
+});
 
 const TONE = {
   CLOSED: 'closed',

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { ButtonLink } from '@/components/ui/Button';
@@ -10,11 +10,12 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'Resources',
+export const metadata = pageMetadata({
+  title: 'Official resources for families — BOP, probation and reentry links',
   description:
-    'A short, plain-English glossary and links for families preparing for federal prison camp.',
-};
+    'A short, plain-English glossary and the official links families use most when preparing for federal prison camp.',
+  path: '/resources',
+});
 
 const FAQS = [
   {

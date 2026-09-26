@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -13,11 +13,13 @@ import {
   faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'Self-Surrender Prep Checklist — Countime',
+export const metadata = pageMetadata({
+  title: 'Federal self-surrender checklist — what to do 90, 60, 30 and 7 days out',
+  ogTitle: 'The self-surrender prep checklist',
   description:
-    'The 90/60/30/7/day-of checklist for federal self-surrender. Calm, sourced, and free. Built for white-collar defendants and their families.',
-};
+    'A free, printable 90/60/30/7/day-of checklist for federal self-surrender, sourced to the Bureau of Prisons where it matters — for the person reporting and their family.',
+  path: '/checklist',
+});
 
 const TONE_BG: Record<string, string> = {
   sage: 'bg-accent/12 text-accent',

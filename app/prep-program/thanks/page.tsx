@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -10,10 +10,12 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'Thank you — Countime',
+export const metadata = pageMetadata({
+  title: 'Thank you',
   description: 'Thanks for joining the Countime Surrender Prep Companion.',
-};
+  path: '/prep-program/thanks',
+  noindex: true,
+});
 
 interface SearchParams {
   searchParams: Promise<{ mode?: string; session_id?: string }>;

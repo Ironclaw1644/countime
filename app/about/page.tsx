@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -6,11 +6,12 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { faArrowRight, faHandshake } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'About',
+export const metadata = pageMetadata({
+  title: 'About Countime',
   description:
-    'Countime is a quiet companion for white-collar offenders and the people who love them, built to demystify federal prison camps.',
-};
+    'Countime is a calm companion for families facing federal prison — the dates, the places, the paperwork and the words, checked against the Bureau of Prisons’ own sources.',
+  path: '/about',
+});
 
 export default function AboutPage() {
   return (

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -23,11 +23,12 @@ import {
   faClock,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'The Surrender Prep Companion — Countime',
+export const metadata = pageMetadata({
+  title: 'The Surrender Prep Companion — a guided 90-day self-surrender program',
   description:
     'A guided 90-day program for federal self-surrender. Progress-tracked checklist, 12 deep-dive guides, templates, a 45-email sequence, and live Q&As with a vetted advisor.',
-};
+  path: '/prep-program',
+});
 
 const INCLUDES = [
   {

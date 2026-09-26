@@ -2,12 +2,17 @@ import type { MetadataRoute } from 'next';
 import { getAllFacilities } from '@/lib/facilities';
 import { getAllInsideTerms } from '@/lib/inside-terms';
 import { SITE_URL } from '@/lib/site';
+import { GUIDES } from '@/data/guides';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticRoutes = [
     { path: '', priority: 1 },
+    { path: '/calculator', priority: 1 },
+    { path: '/facilities', priority: 0.9 },
+    { path: '/news', priority: 0.8 },
+    { path: '/guides', priority: 0.8 },
     { path: '/handbooks', priority: 0.9 },
     { path: '/the-inside', priority: 0.8 },
     { path: '/checklist', priority: 0.9 },
@@ -25,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const facilities = getAllFacilities().map((f) => ({
     url: `${SITE_URL}/facilities/${f.id}`,
-    lastModified: now,
+    lastModified: f.dataLastVerified ? new Date(f.dataLastVerified) : now,
     changeFrequency: 'monthly' as const,
     // Closed facilities still deserve a page — people search them by name —
     // but they shouldn't outrank places someone could actually be sent.
@@ -39,5 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...facilities, ...terms];
+  const guides = GUIDES.map((g) => ({
+    url: `${SITE_URL}/guides/${g.slug}`,
+    lastModified: new Date(`${g.updated}T00:00:00Z`),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...guides, ...facilities, ...terms];
 }

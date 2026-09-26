@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { ContactForm } from '@/components/ContactForm';
 
-export const metadata: Metadata = {
-  title: 'Contact',
+export const metadata = pageMetadata({
+  title: 'Contact Countime',
   description:
     'Send a correction, ask a question about self-surrender, or get in touch with Countime.',
-};
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return (

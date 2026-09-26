@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
@@ -11,10 +11,12 @@ import {
   faBook,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const metadata: Metadata = {
-  title: 'Your checklist is ready — Countime',
+export const metadata = pageMetadata({
+  title: 'Your checklist is ready',
   description: 'Thanks for joining the Countime list. Your self-surrender prep checklist is ready.',
-};
+  path: '/checklist/thanks',
+  noindex: true,
+});
 
 export default function ChecklistThanksPage() {
   return (

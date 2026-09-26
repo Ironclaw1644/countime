@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { Icon } from '@/components/ui/Icon';
@@ -6,11 +6,13 @@ import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { InsideLibrary } from '@/components/inside/InsideLibrary';
 import { getAllInsideTerms, getInsideTermCategories } from '@/lib/inside-terms';
 
-export const metadata: Metadata = {
-  title: 'The Inside',
+export const metadata = pageMetadata({
+  title: 'The Inside — a plain-English glossary of federal prison life',
+  ogTitle: 'The Inside: the words nobody explains beforehand',
   description:
-    'A plain-English field guide to the quirks, jargon, and unwritten rules of doing federal time — written for the people on the outside who are trying to understand.',
-};
+    'A plain-English field guide to the quirks, jargon and unwritten rules of doing federal time — counts, recall, shots, commissary, R&D — for the people on the outside trying to understand.',
+  path: '/the-inside',
+});
 
 export default function TheInsidePage() {
   const terms = getAllInsideTerms();

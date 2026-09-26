@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { Container } from '@/components/ui/Container';
 import { Section } from '@/components/ui/Section';
 import { HandbookLibrary } from '@/components/handbooks/HandbookLibrary';
@@ -6,11 +6,13 @@ import { Icon } from '@/components/ui/Icon';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 import { getAllFacilities } from '@/lib/facilities';
 
-export const metadata: Metadata = {
-  title: 'Handbook library',
+export const metadata = pageMetadata({
+  title: 'Federal prison A&O handbooks — every BOP camp’s Admission & Orientation handbook',
+  ogTitle: 'The official A&O handbook library',
   description:
-    'Download the official Admission & Orientation handbook for every Federal Prison Camp, Federal Medical Center, and satellite camp in one place.',
-};
+    'The official Admission & Orientation (A&O) handbook for every federal prison camp, satellite camp and medical center that publishes one — each link checked against bop.gov.',
+  path: '/handbooks',
+});
 
 export default function HandbooksPage() {
   // Only facilities BOP actually publishes a handbook for. Guessing the URL
