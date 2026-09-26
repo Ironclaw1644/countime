@@ -389,23 +389,14 @@ function project(input: CalcInput, rule: FtcRule): Omit<CalcResult, 'compare'> {
   }
   if (priorDays > 0) {
     notes.push(
-      `Time locked up before sentencing (${priorDays.toLocaleString('en-US')} days) comes off the sentence day for day, as long as it wasn’t already counted toward another sentence (§ 3585(b)). It doesn’t earn First Step Act credits — those only start once the federal sentence does (§ 3632(d)(4)(B)(ii)).`,
+      `Time locked up before sentencing (${priorDays.toLocaleString('en-US')} days) comes off the sentence day for day, as long as it wasn’t already counted toward another sentence (§ 3585(b)). It doesn’t earn First Step Act credits. Those only start once the federal sentence does (§ 3632(d)(4)(B)(ii)).`,
     );
   }
-  const effective = parseDate(RULES.ftcRuleEffective);
-  if (input.fsaEligible && rule === 'new' && earningDelayDays === 0 && diffDays(arrivalDate, start) > 0) {
-    notes.push(
-      'Credits here start the day the sentence began, not the day of arrival at the prison. The Sept. 30, 2026 rule says people waiting to be moved can start programming, but they still have to complete the programs or activities they’ve been assigned — being held in a county jail doesn’t earn credits on its own.',
-    );
-    if (start < effective) {
-      notes.push(
-        'Some of the time before arrival falls before September 30, 2026, when the new rule took effect. The rule doesn’t say whether BOP will go back and count days from before then. Switch to the old rule to see the date if it doesn’t.',
-      );
-    }
-  }
+  // The Sept. 30, 2026 rule's caveats (programming still required; silence
+  // on earlier time) are shown beside the old-vs-new comparison on the page.
   if (input.startMode === 'custody' && arrivalAssumed) {
     notes.push(
-      `Arrival date not given, so we assumed ${RULES.avgDaysSentencingToArrival} days from sentencing to arriving at the prison — BOP’s own average for 2023–2025.`,
+      `No arrival date given, so we assumed ${RULES.avgDaysSentencingToArrival} days from sentencing to reaching the prison. That’s BOP’s own average for 2023–2025.`,
     );
   }
   if (input.rdap && canApply) {
